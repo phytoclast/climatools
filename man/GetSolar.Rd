@@ -23,3 +23,6 @@ Estimated solar radiation reaching the earth's surface. Based on a linear regres
 \description{
 Estimate solar radiation reaching the earth's surface
 }
+\examples{
+GetSolar(GetSolarRad(GetDayNumber(6), 43), 210, 25, 15, 100)
+}

@@ -15,3 +15,6 @@ Numbers of days in the month (for average year, 28.25-31).
 \description{
 Get number of days in month.
 }
+\examples{
+GetNumberDay(6)
+}

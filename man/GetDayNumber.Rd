@@ -15,3 +15,6 @@ Day of the year at mid month (16-350).
 \description{
 Get mean day of the year number by month
 }
+\examples{
+GetDayNumber(6)
+}

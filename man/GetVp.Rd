@@ -20,3 +20,6 @@ Based on a linear regression using 10 minute WorldClim 2.0 data vapor pressure e
 \description{
 Estimate mean vapor pressure
 }
+\examples{
+GetVp(100,25,15)
+}

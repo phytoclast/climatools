@@ -12,10 +12,13 @@ GetSolarRad(DayNumber, Lat)
 \item{Lat}{Latitude (-90 - 90)}
 }
 \value{
-Daily solar radiation reaching the top of earth's atmosphere based on a formula used in Walter et al 2000.
+Daily solar radiation reaching the top of earth's atmosphere based on a formula used in Walter et al (2000).
 }
 \description{
 Get solar radiation reaching the top of earth's atmosphere
+}
+\examples{
+GetSolarRad(GetDayNumber(6), 43)
 }
 \references{
 Walter, I.A., Allen, R.G., Elliott, R., Jensen, M.E., Itenfisu, D., Mecham, B., Howell, T.A., Snyder, R., Brown, P., Echings, S. and Spofford, T., 2000. ASCE's standardized reference evapotranspiration equation. In Watershed management and operations management 2000 (pp. 1-11).
