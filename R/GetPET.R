@@ -155,6 +155,14 @@ GetTransGrow <- function(th, tl) {#Adjust to reduction in transpiration due to c
   return(G)}
 
 
+#' Get declination
+#'
+#' @param DayNumber Day of the year
+#'
+#' @return Angle of declination of the earth relative to the sun for that time of year.
+#' @export
+#'
+#' @examples GetDcl(GetDayNumber(6))
 GetDcl <- function(DayNumber){0.409*sin(2*3.141592*DayNumber/365-1.39)}
 
 
