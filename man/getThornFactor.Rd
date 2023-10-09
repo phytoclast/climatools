@@ -15,3 +15,8 @@ Monthly temperature derived parameter for the parameter for the Thornthwaite equ
 \description{
 Monthly temperature derived 'I' parameter for the Thornthwaite equation
 }
+\examples{
+t.12months=generateTemp(-5,21) #monthly temperatures for a whole 12 month period
+getThornFactor(t.12months)
+
+}

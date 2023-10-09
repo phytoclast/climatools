@@ -12,7 +12,7 @@ GetSolarRad(DayNumber, Lat)
 \item{Lat}{Latitude (-90 - 90)}
 }
 \value{
-Daily solar radiation reaching the top of earth's atmosphere based on a formula used in Walter et al (2000).
+Daily solar radiation (\eqn{MJ m^{-2} day^{-1}}) reaching the top of earth's atmosphere based on a formula used in Walter et al (2000).
 }
 \description{
 Get solar radiation reaching the top of earth's atmosphere

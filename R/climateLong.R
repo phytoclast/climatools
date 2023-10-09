@@ -1,5 +1,25 @@
 
 #rearrange a data set that has consecutive monthly columns  into a single column for each of precipitation, mean daily high, low, and mean temperature. Specify prefix for column that represents each property, assuming each column name follow with a two digit month. May either specify High and low temperature or mean and low temperature and the rest of the temperature attributes will be calculated.
+#' Move monthly columns to single column for each parameter
+#'
+#' @param x data frame containing relatively standard monthly climate data, ideally after selecting only one station of interest.
+#' @param name give the name of the column containing station identifier
+#' @param lat give the name of the column with latitude
+#' @param lon give the name of the column with longitude
+#' @param elev give the name of the column with elevation
+#' @param year give the name of the column with year (optional if for multi year time series)
+#' @param p.select prefix indicating precipitation columns (each monthly column identified by two digits after this prefix)
+#' @param t.select prefix indicating mean temperature columns (each monthly column identified by two digits after this prefix)
+#' @param th.select prefix indicating high temperature columns (each monthly column identified by two digits after this prefix)
+#' @param tl.select prefix indicating low temperature columns (each monthly column identified by two digits after this prefix)
+#'
+#' @return Data frame with standardize names for columns and each month in a separate row.
+#' @export
+#'
+#' @examples df <- climatools::Norms2010
+#' @examples selected <- subset(df, Station_ID %in% 'USW00094860')
+#' @examples ntab <- climateLong(selected, name <- 'Station_Name',lat = "Latitude",lon = "Longitude", elev = "Elevation", p.select = 'pp', year='Year_')
+#' @examples head(ntab)
 climateLong <- function(x, name = 'name',lat = "lat", lon = "lon", elev = "elev", year = 'year',p.select = 'p', t.select = 't',th.select = 'th', tl.select = 'tl'){
   #assemble the header data for a given station
   if(name %in% colnames(x)){name = x[1,name]}

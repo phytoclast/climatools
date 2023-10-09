@@ -1,11 +1,34 @@
 #this generates a 12 month temperature curve from January and July temperatures based on simple sine wave.
+#' Generate mean temperature monthly time series
+#'
+#' @param t01 January temperature (degrees Celsius)
+#' @param t07 July temperature (degrees Celsius)
+#'
+#' @return Monthly time series of mean temperatures for 12 month period.
+#' This function is useful to explore artificial climatic scenarios. Temperatures follow a simple sine wave with January and July as the coldest and warmest months (or the inverse for the southern hemisphere). A real climate may show some slight asymmetry between warm months and cold months, and be shifted in phase by a month or more, but this curve is very close to the most frequent pattern.
+#' @export
+#'
+#' @examples generateTemp(-5,21)
 generateTemp <- function(t01,t07){
   mon=c(1,2,3,4,5,6,7,8,9,10,11,12)
   t=round((t01-t07)/2*cos((mon-1)/12*2*3.141592)+(t01+t07)/2,1)
   return(t)}
 
 #this generates a generalized precipitation curve from a mean, maximum, minimum,  precipitation, and maximum and minimum months.
-generatePpt <- function(p.mean, p.max, p.min, m.max=6, m.min=2){
+#' Generate precipitation monthly time series
+#'
+#' @param p.mean mean monthly precipitation
+#' @param p.max highest monthly precipitation
+#' @param p.min lowest monthly precipitation
+#' @param m.max number of month with highest precipitation
+#' @param m.min number of month with lowest precipitation
+#'
+#' @return Monthly time series of precipitation for 12 month period.
+#' This function is useful to explore artificial climatic scenarios. Precipitation follows a simple sine wave pattern if highest and lowest months are 6 months apart, and the mean precipitation is halfway between the highest and lowest values. Patterns other than a sine way will occur when high and low values are extreme or deviate from being 6 months apart. Only targeted mean monthly precipitation remains true in the latter case.
+#' @export
+#'
+#' @examples generatePpt(p.mean=100, p.max=120, p.min=80, m.max=8, m.min=2)
+generatePpt <- function(p.mean, p.max, p.min, m.max=7, m.min=1){
   mon=c(1,2,3,4,5,6,7,8,9,10,11,12)
   shift1 <- mon-m.min
   shift2 <- mon-m.max

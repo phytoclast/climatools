@@ -52,13 +52,13 @@ GetVp  <- function(p,th,tl) {#Based on linear regression using 10 minute WorldCl
 
 #' Estimate solar radiation reaching the earth's surface
 #'
-#' @param Ra Calculated daily solar radiation hitting the earth's atmosphere (MJ m^-2^ d^-1^)
+#' @param Ra Calculated daily solar radiation hitting the earth's atmosphere (\eqn{MJ m^{-2} day^{-1}})
 #' @param Elev Elevation above sea level (m).
 #' @param th Mean daily high temperature (degrees Celsius)
 #' @param tl Mean daily low temperature (degrees Celsius)
 #' @param p Mean monthly precipitation (mm)
 #'
-#' @return Estimated solar radiation reaching the earth's surface. Based on a linear regression of 10 minute WorldClim 2.0 (Fick and Hijmans, 2017) solar radiation estimates.
+#' @return Estimated solar radiation (\eqn{MJ m^{-2} day^{-1}}) reaching the earth's surface. Based on a linear regression of 10 minute WorldClim 2.0 (Fick and Hijmans, 2017) solar radiation estimates.
 #'
 #' @references Fick, S.E. and Hijmans, R.J., 2017. WorldClim 2: new 1‐km spatial resolution climate surfaces for global land areas. International journal of climatology, 37(12), pp.4302-4315.
 #' @export
@@ -79,7 +79,7 @@ GetSolar <- function(Ra, Elev, th, tl, p) {#Based on linear regression using 10 
 #' @param DayNumber Day of the year (1-365)
 #' @param Lat Latitude (-90 - 90)
 #'
-#' @return Daily solar radiation reaching the top of earth's atmosphere based on a formula used in Walter et al (2000).
+#' @return Daily solar radiation (\eqn{MJ m^{-2} day^{-1}}) reaching the top of earth's atmosphere based on a formula used in Walter et al (2000).
 #'
 #' @references Walter, I.A., Allen, R.G., Elliott, R., Jensen, M.E., Itenfisu, D., Mecham, B., Howell, T.A., Snyder, R., Brown, P., Echings, S. and Spofford, T., 2000. ASCE's standardized reference evapotranspiration equation. In Watershed management and operations management 2000 (pp. 1-11).
 #' @export
@@ -120,7 +120,7 @@ GetDayLength<- function(DayNumber, Lat){
 #' @param tl Mean daily low temperature (degrees Celsius)
 #' @param p Mean monthly precipitation (mm)
 #'
-#' @return Net Daily Solar Radiation based on formulas used in Walter et al (2000).
+#' @return Net Daily Solar Radiation (\eqn{MJ m^{-2} day^{-1}}) based on formulas used in Walter et al (2000).
 #'
 #' @references Walter, I.A., Allen, R.G., Elliott, R., Jensen, M.E., Itenfisu, D., Mecham, B., Howell, T.A., Snyder, R., Brown, P., Echings, S. and Spofford, T., 2000. ASCE's standardized reference evapotranspiration equation. In Watershed management and operations management 2000 (pp. 1-11).
 #' @export
@@ -170,22 +170,32 @@ GetTransGrow <- function(th, tl) {#Adjust to reduction in transpiration due to c
 GetDcl <- function(DayNumber){0.409*sin(2*3.141592*DayNumber/365-1.39)}
 
 
-#' Estimate potential evapotranspiration
+#' Estimate daily potential evapotranspiration
 #'
 #' @param Ra Calculated daily solar radiation hitting the earth's atmosphere
 #' @param th Mean daily high temperature (degrees Celsius)
 #' @param tl Mean daily low temperature (degrees Celsius)
 #' @param p Mean monthly precipitation (mm)
 #'
-#' @return Daily potential evapotranspiration (mm).
+#' @return Daily potential evapotranspiration (mm/day).
 #' Adapted from formulas used in Walter et al (2000).
 #'
 #' @references Walter, I.A., Allen, R.G., Elliott, R., Jensen, M.E., Itenfisu, D., Mecham, B., Howell, T.A., Snyder, R., Brown, P., Echings, S. and Spofford, T., 2000. ASCE's standardized reference evapotranspiration equation. In Watershed management and operations management 2000 (pp. 1-11).
 
 #' @export
 #'
-#' @examples
-GetPET <- function(Ra, th, tl, p){
+#' @examples  mon <- 6 #June
+#' @examples  lat <- 43 #north temperate zone
+#' @examples  th <- 25; tl <- 15; p <- 100
+#' @examples  Ra <- GetSolarRad(GetDayNumber(mon),lat)
+#' @examples  e.daily <- GetPETdaily(Ra, th, tl, p)
+#' @examples  e.daily
+#' @examples  e.monthly <- e.daily*GetNumberDay(mon)
+#' @examples  e.monthly
+#' @examples  e.monthly.adjusted <- 0.85*GetTransGrow(th, tl)*e.monthly
+#' @examples  e.monthly.adjusted
+#'
+GetPETdaily <- function(Ra, th, tl, p){
   Vpmax = 0.6108*exp(17.27*th/(th+237.3)) #saturation vapor pressure kPa
   Vpmin = 0.6108*exp(17.27*tl/(tl+237.3)) #saturation vapor pressure kPa
   logp <- log(p+1)
@@ -198,20 +208,22 @@ GetPET <- function(Ra, th, tl, p){
   return(e)}
 
 
-#' Growing season adjusted potential evapotranspiration
+#' Monthly potential evapotranspiration
 #'
-#' @param Ra Calculated daily solar radiation hitting the earth's atmosphere
+#' @param Lat Latitude (-90 - 90)
+#' @param mon Month of the year number (1-12)
 #' @param th Mean daily high temperature (degrees Celsius)
 #' @param tl Mean daily low temperature (degrees Celsius)
 #' @param p Mean monthly precipitation (mm)
 #'
-#' @return Potential evapotranspiration (mm) adjusted for growing season.
-#' This is the product of GetTransGrow() and GetPET() functions multiplied by a "crop" coefficient of 0.85 yields average results of similar magnitude within the United States as the older Thornthwaite method where it (the Thornthwaite method) was originally calibrated.
+#' @return Potential evapotranspiration (mm/month) adjusted for growing season.
+#' This is the product of GetTransGrow() and GetPETDaily() functions multiplied by a "crop" coefficient of 0.85 and number of days per month, which yields average results of similar magnitude within the United States as the older Thornthwaite method where it (the Thornthwaite method) was originally calibrated.
 #' @export
 #'
-#' @examples
-GetPETgs <- function(Ra, th, tl, p){
-  e =  0.85*GetTransGrow(th, tl)*GetPET(Ra, th, tl, p) #0.85829 is crop coefficient to make comparable to Thornthwaite. Multiplied by growing season to zero out transpiration portion of evapotranspiration in freezing weather. Per day rate need to be multiplied by days per month to get monthly rate.
+#' @examples GetPET(mon = 6, lat = 43, th=25, tl=15, p=100)
+GetPET <- function(mon, lat, th, tl, p){
+  Ra=GetSolarRad(GetDayNumber(mon),lat)
+  e =  0.85*GetTransGrow(th, tl)*GetPETdaily(Ra, th, tl, p)*GetNumberDay(mon) #0.85829 is crop coefficient to make comparable to Thornthwaite. Multiplied by growing season to zero out transpiration portion of evapotranspiration in freezing weather. Per day rate need to be multiplied by days per month to get monthly rate.
   return(e)}
 
 #' Thornthwaite 12 monthly potential evapotranspiration
@@ -248,7 +260,9 @@ GetPETthorn <- function(mon, lat, t){#Thornthwaite
 #' @reference Lu, J., Sun, G., McNulty, S.G. and Amatya, D.M., 2005. A comparison of six potential evapotranspiration methods for regional use in the southeastern United States 1. JAWRA Journal of the American Water Resources Association, 41(3), pp.621-633.
 #' @export
 #'
-#' @examples
+#' @examples t.12months=generateTemp(-5,21) #monthly temperatures for a whole 12 month period
+#' @examples getThornFactor(t.12months)
+#'
 getThornFactor <- function(t){#Requires exactly 12 monthly mean temperatures
   I = sum((pmax(0,t)/5)^1.514)
   return(I)
@@ -264,7 +278,13 @@ getThornFactor <- function(t){#Requires exactly 12 monthly mean temperatures
 #' @reference Lu, J., Sun, G., McNulty, S.G. and Amatya, D.M., 2005. A comparison of six potential evapotranspiration methods for regional use in the southeastern United States 1. JAWRA Journal of the American Water Resources Association, 41(3), pp.621-633.
 #' @export
 #'
-#' @examples
+#' @examples mon <- 6 #June
+#' @examples lat <- 43 #north temperate zone
+#' @examples Dl <- GetDayLength(GetDayNumber(mon), lat) #day length
+#' @examples t.12months=generateTemp(-5,21) #monthly temperatures for a whole 12 month period
+#' @examples I = getThornFactor(t.12months) #'I' parameter
+#' @examples t = t.12months[6]#June temperature
+#' @examples GetPETthorn2(Dl,I, t)
 GetPETthorn2 <- function(Dl,I, t){#Thornthwaite for individual month
 
   a = 0.49239+1792*10^-5*I-771*10^-7*I^2+675*10^-9*I^3

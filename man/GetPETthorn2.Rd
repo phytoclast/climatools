@@ -19,3 +19,12 @@ Thornthwaite monthly potential evapotranspiration (mm)
 \description{
 Thornthwaite monthly potential evapotranspiration
 }
+\examples{
+mon <- 6 #June
+lat <- 43 #north temperate zone
+Dl <- GetDayLength(GetDayNumber(mon), lat) #day length
+t.12months=generateTemp(-5,21) #monthly temperatures for a whole 12 month period
+I = getThornFactor(t.12months) #'I' parameter
+t = t.12months[6]#June temperature
+GetPETthorn2(Dl,I, t)
+}

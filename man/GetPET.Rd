@@ -2,26 +2,28 @@
 % Please edit documentation in R/GetPET.R
 \name{GetPET}
 \alias{GetPET}
-\title{Estimate potential evapotranspiration}
+\title{Monthly potential evapotranspiration}
 \usage{
-GetPET(Ra, th, tl, p)
+GetPET(mon, lat, th, tl, p)
 }
 \arguments{
-\item{Ra}{Calculated daily solar radiation hitting the earth's atmosphere}
+\item{mon}{Month of the year number (1-12)}
 
 \item{th}{Mean daily high temperature (degrees Celsius)}
 
 \item{tl}{Mean daily low temperature (degrees Celsius)}
 
 \item{p}{Mean monthly precipitation (mm)}
+
+\item{Lat}{Latitude (-90 - 90)}
 }
 \value{
-Daily potential evapotranspiration (mm).
-Adapted from formulas used in Walter et al (2000).
+Potential evapotranspiration (mm/month) adjusted for growing season.
+This is the product of GetTransGrow() and GetPETDaily() functions multiplied by a "crop" coefficient of 0.85 and number of days per month, which yields average results of similar magnitude within the United States as the older Thornthwaite method where it (the Thornthwaite method) was originally calibrated.
 }
 \description{
-Estimate potential evapotranspiration
+Monthly potential evapotranspiration
 }
-\references{
-Walter, I.A., Allen, R.G., Elliott, R., Jensen, M.E., Itenfisu, D., Mecham, B., Howell, T.A., Snyder, R., Brown, P., Echings, S. and Spofford, T., 2000. ASCE's standardized reference evapotranspiration equation. In Watershed management and operations management 2000 (pp. 1-11).
+\examples{
+GetPET(mon = 6, lat = 43, th=25, tl=15, p=100)
 }

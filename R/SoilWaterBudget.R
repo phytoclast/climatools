@@ -1,3 +1,14 @@
+#' Soil water budget
+#'
+#' @param p Monthly precipitation (mm)
+#' @param e Monthly potential evapotranspiration (mm)
+#' @param awc Soil available  water holding capacity (mm)
+#'
+#' @return Dataframe with monthly time series of:
+#'
+#' @export
+#'
+#' @examples
 SoilWaterBudget <- function(p,e,awc){
   S_prev <- 0.5*awc
   s = p*0

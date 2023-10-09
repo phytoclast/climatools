@@ -18,7 +18,7 @@ GetNetSolar(Ra, Elev, th, tl, p)
 \item{p}{Mean monthly precipitation (mm)}
 }
 \value{
-Net Daily Solar Radiation based on formulas used in Walter et al (2000).
+Net Daily Solar Radiation (\eqn{MJ m^{-2} day^{-1}}) based on formulas used in Walter et al (2000).
 }
 \description{
 Get Net Solar Radiation
