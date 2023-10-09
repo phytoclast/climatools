@@ -49,4 +49,5 @@ df <- climatools::Norms2010
 selected <- subset(df, Station_ID \%in\% 'USW00094860')
 ntab <- climateLong(selected, name <- 'Station_Name',lat = "Latitude",lon = "Longitude", elev = "Elevation", p.select = 'pp', year='Year_')
 head(ntab)
+
 }

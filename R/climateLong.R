@@ -17,9 +17,10 @@
 #' @export
 #'
 #' @examples df <- climatools::Norms2010
-#' @examples selected <- subset(df, Station_ID %in% 'USW00094860')
-#' @examples ntab <- climateLong(selected, name <- 'Station_Name',lat = "Latitude",lon = "Longitude", elev = "Elevation", p.select = 'pp', year='Year_')
-#' @examples head(ntab)
+#' selected <- subset(df, Station_ID %in% 'USW00094860')
+#' ntab <- climateLong(selected, name <- 'Station_Name',lat = "Latitude",lon = "Longitude", elev = "Elevation", p.select = 'pp', year='Year_')
+#' head(ntab)
+#'
 climateLong <- function(x, name = 'name',lat = "lat", lon = "lon", elev = "elev", year = 'year',p.select = 'p', t.select = 't',th.select = 'th', tl.select = 'tl'){
   #assemble the header data for a given station
   if(name %in% colnames(x)){name = x[1,name]}

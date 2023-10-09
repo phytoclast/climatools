@@ -1,5 +1,67 @@
 #construct a monthly temperature and precipitation graph with options to show potential evapotranspiration and soil water use, and an option to show a simple bar graph or smoothed curves.
 
+#' Make a monthly climate graph
+#'
+#' @param t mean monthly temperature (degrees Celsius)
+#' @param p mean monthly preciptation (mm)
+#' @param th mean daily high temperature (degrees Celsius)
+#' @param tl mean daily low temperature (degrees Celsius)
+#' @param e potential evapotranspiration (mm) [optional]
+#' @param a actual evapotranspiration (mm) [optional]
+#' @param u surplus precipitation (mm) [optional]
+#' @param t80 80th percentile temperature  [optional](not yet implemented)
+#' @param t20 20th percentile temperature  [optional](not yet implemented)
+#' @param p80 80th percentile precipitation  [optional](not yet implemented)
+#' @param p20 20th percentile precipitation  [optional](not yet implemented)
+#' @param name name of the climate station
+#' @param bar TRUE/FALSE option to show bar graph (TRUE) or a smoothed curve.
+#'
+#' @return Climate graph
+#' @export
+#'
+#' @examples selected = subset(climatools::Norms2010, Station_ID %in% 'USW00023234')
+#' climtab <- climateLong(selected, name <- 'Station_Name',lat = "Latitude",lon = "Longitude", elev = "Elevation", p.select = 'pp', year='Year_')
+#' climtab <- climtab |> group_by(name, lat, lon, elev, mon) |> summarise(across(c("t","th","tl","p"),mean))
+#' climtab <- climtab |> mutate(e = GetPET(mon, lat, th, tl, p))
+#' budget = SoilWaterBudget(climtab$p, climtab$e, 150)
+#' climtab <- climtab |> mutate(s=budget$s,a=budget$a, u=budget$u, d=budget$d)
+#'
+#' makeClimplot(t=climtab$t,
+#' th=climtab$th,
+#' tl=climtab$tl,
+#' p=climtab$p,
+#' e=climtab$e,
+#' a=climtab$a,
+#' u=climtab$u,
+#' name=climtab$name,
+#' bar=F)
+#'
+#' makeClimplot(t=climtab$t,
+#' th=climtab$th,
+#' tl=climtab$tl,
+#' p=climtab$p,
+#' e=climtab$e,
+#'
+#' name=climtab$name,
+#' bar=F)
+#'
+#' makeClimplot(t=climtab$t,
+#' th=climtab$th,
+#' tl=climtab$tl,
+#' p=climtab$p,
+#'
+#' name=climtab$name,
+#' bar=F)
+#'
+#' makeClimplot(t=climtab$t,
+#' th=climtab$th,
+#' tl=climtab$tl,
+#' p=climtab$p,
+#' e=climtab$e,
+#'
+#' name=climtab$name,
+#' bar=T)
+#'
 makeClimplot = function(t,p,th=NULL,tl=NULL,e=NULL,a=NULL,u=NULL,t80=NULL,t20=NULL,p80=NULL,p20=NULL,name=NULL, bar=FALSE){
   mon=c(1,2,3,4,5,6,7,8,9,10,11,12)
   noE=F;noA=F
