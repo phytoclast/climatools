@@ -35,7 +35,8 @@ GetNumberDay <- function(mon){#get number days per month
 #' @param tl Mean daily low temperature (degrees Celsius)
 #'
 #' @return Mean vapor pressure for the day or month
-#' Based on a linear regression using 10 minute WorldClim 2.0 data vapor pressure estimates.
+#' Based on a linear regression using 10 minute WorldClim 2.0 (Fick and Hijmans, 2017) data vapor pressure estimates.
+#' @references Fick, S.E. and Hijmans, R.J., 2017. WorldClim 2: new 1‐km spatial resolution climate surfaces for global land areas. International journal of climatology, 37(12), pp.4302-4315.
 #' @export
 #'
 #' @examples GetVp(100,25,15)
@@ -51,13 +52,15 @@ GetVp  <- function(p,th,tl) {#Based on linear regression using 10 minute WorldCl
 
 #' Estimate solar radiation reaching the earth's surface
 #'
-#' @param Ra Calculated daily solar radiation hitting the earth's atmosphere
+#' @param Ra Calculated daily solar radiation hitting the earth's atmosphere (MJ m^-2^ d^-1^)
 #' @param Elev Elevation above sea level (m).
 #' @param th Mean daily high temperature (degrees Celsius)
 #' @param tl Mean daily low temperature (degrees Celsius)
 #' @param p Mean monthly precipitation (mm)
 #'
-#' @return Estimated solar radiation reaching the earth's surface. Based on a linear regression of 10 minute WorldClim 2.0 solar radiation estimates.
+#' @return Estimated solar radiation reaching the earth's surface. Based on a linear regression of 10 minute WorldClim 2.0 (Fick and Hijmans, 2017) solar radiation estimates.
+#'
+#' @references Fick, S.E. and Hijmans, R.J., 2017. WorldClim 2: new 1‐km spatial resolution climate surfaces for global land areas. International journal of climatology, 37(12), pp.4302-4315.
 #' @export
 #'
 #' @examples GetSolar(GetSolarRad(GetDayNumber(6), 43), 210, 25, 15, 100)
@@ -98,6 +101,7 @@ GetSolarRad <- function(DayNumber, Lat){
 #' @param Lat Latitude (-90 - 90)
 #'
 #' @return Number of hours of daylight in a day.
+#' @references Brock, T.D., 1981. Calculating solar radiation for ecological studies. Ecological modelling, 14(1-2), pp.1-19.
 #' @export
 #'
 #' @examples GetDayLength(GetDayNumber(6),43)
@@ -166,6 +170,21 @@ GetTransGrow <- function(th, tl) {#Adjust to reduction in transpiration due to c
 GetDcl <- function(DayNumber){0.409*sin(2*3.141592*DayNumber/365-1.39)}
 
 
+#' Estimate potential evapotranspiration
+#'
+#' @param Ra Calculated daily solar radiation hitting the earth's atmosphere
+#' @param th Mean daily high temperature (degrees Celsius)
+#' @param tl Mean daily low temperature (degrees Celsius)
+#' @param p Mean monthly precipitation (mm)
+#'
+#' @return Daily potential evapotranspiration (mm).
+#' Adapted from formulas used in Walter et al (2000).
+#'
+#' @references Walter, I.A., Allen, R.G., Elliott, R., Jensen, M.E., Itenfisu, D., Mecham, B., Howell, T.A., Snyder, R., Brown, P., Echings, S. and Spofford, T., 2000. ASCE's standardized reference evapotranspiration equation. In Watershed management and operations management 2000 (pp. 1-11).
+
+#' @export
+#'
+#' @examples
 GetPET <- function(Ra, th, tl, p){
   Vpmax = 0.6108*exp(17.27*th/(th+237.3)) #saturation vapor pressure kPa
   Vpmin = 0.6108*exp(17.27*tl/(tl+237.3)) #saturation vapor pressure kPa
@@ -179,6 +198,77 @@ GetPET <- function(Ra, th, tl, p){
   return(e)}
 
 
+#' Growing season adjusted potential evapotranspiration
+#'
+#' @param Ra Calculated daily solar radiation hitting the earth's atmosphere
+#' @param th Mean daily high temperature (degrees Celsius)
+#' @param tl Mean daily low temperature (degrees Celsius)
+#' @param p Mean monthly precipitation (mm)
+#'
+#' @return Potential evapotranspiration (mm) adjusted for growing season.
+#' This is the product of GetTransGrow() and GetPET() functions multiplied by a "crop" coefficient of 0.85 yields average results of similar magnitude within the United States as the older Thornthwaite method where it (the Thornthwaite method) was originally calibrated.
+#' @export
+#'
+#' @examples
 GetPETgs <- function(Ra, th, tl, p){
   e =  0.85*GetTransGrow(th, tl)*GetPET(Ra, th, tl, p) #0.85829 is crop coefficient to make comparable to Thornthwaite. Multiplied by growing season to zero out transpiration portion of evapotranspiration in freezing weather. Per day rate need to be multiplied by days per month to get monthly rate.
   return(e)}
+
+#' Thornthwaite 12 monthly potential evapotranspiration
+#'
+#' @param mon  Month of the year number (1-12).
+#' @param Lat Latitude (-90 - 90)
+#' @param t Mean daily mean temperature (degrees Celsius). Requires exactly 12 individual monthly mean temperatures to work properly.
+#'
+#' @return Monthly potential evapotranspiration (mm) from Thornthwaite as used in Lu et al (2005).
+#'
+#' @reference Lu, J., Sun, G., McNulty, S.G. and Amatya, D.M., 2005. A comparison of six potential evapotranspiration methods for regional use in the southeastern United States 1. JAWRA Journal of the American Water Resources Association, 41(3), pp.621-633.
+#' @export
+#'
+#' @examples mon=c(1:12)
+#' @examples lat=43
+#' @examples t=generateTemp(15,25)
+#' @examples GetPETthorn(mon,lat,t)
+
+GetPETthorn <- function(mon, lat, t){#Thornthwaite
+  Dl <- GetDayLength(GetDayNumber(mon), lat)
+  I = sum((pmax(0,t)/5)^1.514)
+  a = 0.49239+1792*10^-5*I-771*10^-7*I^2+675*10^-9*I^3
+
+  e.tw = 16*(10*pmax(t,0)/I)^a*(Dl/12)*(GetNumberDay(mon)/30)
+  return(e.tw)
+}
+
+#' Monthly temperature derived 'I' parameter for the Thornthwaite equation
+#'
+#' @param t Mean daily mean temperature (degrees Celsius). Requires exactly 12 individual monthly mean temperatures to work properly.
+#'
+#' @return Monthly temperature derived parameter for the parameter for the Thornthwaite equation.
+#'
+#' @reference Lu, J., Sun, G., McNulty, S.G. and Amatya, D.M., 2005. A comparison of six potential evapotranspiration methods for regional use in the southeastern United States 1. JAWRA Journal of the American Water Resources Association, 41(3), pp.621-633.
+#' @export
+#'
+#' @examples
+getThornFactor <- function(t){#Requires exactly 12 monthly mean temperatures
+  I = sum((pmax(0,t)/5)^1.514)
+  return(I)
+}
+
+#' Thornthwaite monthly potential evapotranspiration
+#'
+#' @param Dl Hours of day light per day.
+#' @param I Parameter derived from 12 monthly temperatures via the getThornFactor() function
+#' @param t Mean daily mean temperature (degrees Celsius)
+#'
+#' @return Thornthwaite monthly potential evapotranspiration (mm)
+#' @reference Lu, J., Sun, G., McNulty, S.G. and Amatya, D.M., 2005. A comparison of six potential evapotranspiration methods for regional use in the southeastern United States 1. JAWRA Journal of the American Water Resources Association, 41(3), pp.621-633.
+#' @export
+#'
+#' @examples
+GetPETthorn2 <- function(Dl,I, t){#Thornthwaite for individual month
+
+  a = 0.49239+1792*10^-5*I-771*10^-7*I^2+675*10^-9*I^3
+
+  e.tw = 16*(10*pmax(t,0)/I)^a*(Dl/12)*(GetNumberDay(mon)/30)
+  return(e.tw)
+}

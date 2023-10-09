@@ -20,3 +20,6 @@ Get day length
 \examples{
 GetDayLength(GetDayNumber(6),43)
 }
+\references{
+Brock, T.D., 1981. Calculating solar radiation for ecological studies. Ecological modelling, 14(1-2), pp.1-19.
+}

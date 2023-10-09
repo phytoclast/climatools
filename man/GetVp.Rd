@@ -15,11 +15,14 @@ GetVp(p, th, tl)
 }
 \value{
 Mean vapor pressure for the day or month
-Based on a linear regression using 10 minute WorldClim 2.0 data vapor pressure estimates.
+Based on a linear regression using 10 minute WorldClim 2.0 (Fick and Hijmans, 2017) data vapor pressure estimates.
 }
 \description{
 Estimate mean vapor pressure
 }
 \examples{
 GetVp(100,25,15)
+}
+\references{
+Fick, S.E. and Hijmans, R.J., 2017. WorldClim 2: new 1‐km spatial resolution climate surfaces for global land areas. International journal of climatology, 37(12), pp.4302-4315.
 }

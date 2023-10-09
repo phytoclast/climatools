@@ -7,7 +7,7 @@
 GetSolar(Ra, Elev, th, tl, p)
 }
 \arguments{
-\item{Ra}{Calculated daily solar radiation hitting the earth's atmosphere}
+\item{Ra}{Calculated daily solar radiation hitting the earth's atmosphere (MJ m^-2^ d^-1^)}
 
 \item{Elev}{Elevation above sea level (m).}
 
@@ -18,11 +18,14 @@ GetSolar(Ra, Elev, th, tl, p)
 \item{p}{Mean monthly precipitation (mm)}
 }
 \value{
-Estimated solar radiation reaching the earth's surface. Based on a linear regression of 10 minute WorldClim 2.0 solar radiation estimates.
+Estimated solar radiation reaching the earth's surface. Based on a linear regression of 10 minute WorldClim 2.0 (Fick and Hijmans, 2017) solar radiation estimates.
 }
 \description{
 Estimate solar radiation reaching the earth's surface
 }
 \examples{
 GetSolar(GetSolarRad(GetDayNumber(6), 43), 210, 25, 15, 100)
+}
+\references{
+Fick, S.E. and Hijmans, R.J., 2017. WorldClim 2: new 1‐km spatial resolution climate surfaces for global land areas. International journal of climatology, 37(12), pp.4302-4315.
 }
