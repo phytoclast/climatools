@@ -1,10 +1,19 @@
-#' Soil water budget
+#' @title Soil water budget
+#'
 #'
 #' @param p Monthly precipitation (mm)
 #' @param e Monthly potential evapotranspiration (mm)
 #' @param awc Soil available  water holding capacity (mm)
 #'
-#' @return Dataframe with monthly time series of:
+#' @return Data frame with monthly time series of:\tabular{ll}{
+#'    \code{a: } \tab actual evapotranspiration (mm) \cr
+#'    \tab \cr
+#'    \code{s: } \tab soil water (mm) \cr
+#'    \tab \cr
+#'    \code{u: } \tab precipitation surplus (mm) \cr
+#'    \tab \cr
+#'    \code{d: } \tab soil moisture deficit (mm) \cr
+#' }
 #'
 #' @export
 #'

@@ -1,6 +1,6 @@
 
 #rearrange a data set that has consecutive monthly columns  into a single column for each of precipitation, mean daily high, low, and mean temperature. Specify prefix for column that represents each property, assuming each column name follow with a two digit month. May either specify High and low temperature or mean and low temperature and the rest of the temperature attributes will be calculated.
-#' Move monthly columns to single column for each parameter
+#' @title Move monthly columns to single column for each parameter
 #'
 #' @param x data frame containing relatively standard monthly climate data, ideally after selecting only one station of interest.
 #' @param name give the name of the column containing station identifier

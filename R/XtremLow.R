@@ -1,4 +1,4 @@
-#' Estimate extreme annual low temperature
+#' @title Estimate extreme annual low temperature
 #'
 #' @param Tcl Mean daily low temperature of coldest month (degrees Celsius)
 #' @param Lat Latitude (-90 - 90)
@@ -69,3 +69,63 @@ XtremLow <- function(Tcl, Lat, Lon, Elev){
     colorado *	1.458	+
     hawaii *	6.673
   return(Tclx)}
+
+
+#' @title Growing season temperature
+#'
+#' @param t Vector of monthly mean temperatures for 12 months (degrees Celsius)
+#'
+#' @return Mean positive temperature of warmest 6 consecutive months (degrees Celsius; all monthly temperatures below zero counted as zero)
+#' @export
+#'
+#' @examples t <- generateTemp(-5,21)
+#' GrowTemp(t)
+GrowTemp <- function(t){
+  bt <- ifelse(t > 0,t,0)
+  tg <- pmax(mean(bt[c(1:4,11:12)]), mean(bt[c(5:10)]))
+  return(tg)}
+
+
+#' @title Mean annual biotemperature
+#'
+#' @param t Vector of monthly mean temperatures for 12 months (degrees Celsius)
+#'
+#' @return Mean annual positive temperature (degrees Celsius; all monthly temperatures below zero counted as zero then averaged)
+#' @export
+#'
+#' @examples t <- generateTemp(-5,21)
+#' Biotemperature(t)
+Biotemperature <- function(t){
+  bt <- mean(ifelse(t > 0,t,0))
+  return(bt)}
+
+#' @title Get peak 3-month evapotranspiration
+#' @description
+#' Function calculates p3AET, the peak consecutive 3-month sum of the lesser among monthly precipitation and evapotranspiration. Ignoring soil water storage, this is equivalent to the expected actual evapotranspiration of the most productive 3 months. This is a measure of the degree to which precipitation is associated with warm temperatures. A Mediterranean climate with the same temperatures and precipitation as a subtropical savanna will tend to have a lower value than the savanna. Higher value would tend to associate with a greater proportion of precipitation as thunderstorms.
+#'
+#'
+#' @param p vector of 12 monthly precipitation (mm)
+#' @param e vector of 12 monthly potential evapotranspiration (mm)
+#'
+#' @return p3AET (mm)
+#' @export
+#'
+#' @examples mon <- 1:12
+#' t <- generateTemp(-5,21)
+#' #Wet summer
+#' p <- generatePpt(700/12, 160, 5, 6, 12)
+#' e <- GetPET(mon,43,t+5,t-5,p)
+#' Getp3AET(p,e)
+#' #Wet winter
+#' p <- generatePpt(700/12, 160, 5, 12, 6)
+#' e <- GetPET(mon,43,t+5,t-5,p)
+#' Getp3AET(p,e)
+Getp3AET <- function(p,e){
+  paet <- pmin(p,e)
+  paet1 <- c(paet[11:12],paet,paet[1:2])
+  for(i in 1:12){
+    paet0 <- sum(paet1[(i):(i+2)])
+  if(i==1){p3AET=paet0}else{
+    p3AET=pmax(p3AET, paet0)
+  }}
+  return(p3AET)}

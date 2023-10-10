@@ -14,7 +14,15 @@ SoilWaterBudget(p, e, awc)
 \item{awc}{Soil available  water holding capacity (mm)}
 }
 \value{
-Dataframe with monthly time series of:
+Data frame with monthly time series of:\tabular{ll}{
+   \code{a: } \tab actual evapotranspiration (mm) \cr
+   \tab \cr
+   \code{s: } \tab soil water (mm) \cr
+   \tab \cr
+   \code{u: } \tab precipitation surplus (mm) \cr
+   \tab \cr
+   \code{d: } \tab soil moisture deficit (mm) \cr
+}
 }
 \description{
 Soil water budget
