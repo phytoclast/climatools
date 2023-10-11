@@ -124,14 +124,14 @@ makeClimplot = function(t,p,th=NULL,tl=NULL,e=NULL,a=NULL,u=NULL,t80=NULL,t20=NU
     theme(legend.position="bottom", legend.text = element_text(size = 5)) +
     scale_fill_manual("Legend", values = c("Temperature" = "yellow",
                                            "Precipitation" = "cyan",
+                                           "PET/Deficit" = "yellow",
                                            "PET" = "yellow",
-                                           "Deficit" = "yellow",
                                            "Frozen" = "white",
-                                           "Surplus" = "cyan",
+                                           "Soil Surplus" = "cyan",
                                            "Soil Recharge" = "blue",
                                            "PET/Recharge" = "purple",
                                            "Actual ET" = "darkcyan",
-                                           "Soil Use" = "green")
+                                           "AET/Soil Use" = "green")
     )+
     scale_color_manual("",values = c("Temperature" = "black", "Mean" = "red", "Low" = "red", "High"="red","Growth"="darkgreen"))+
     scale_shape_manual("",values = c("Mean" = 19, "Low" = 6, "High"=2))+
@@ -139,10 +139,11 @@ makeClimplot = function(t,p,th=NULL,tl=NULL,e=NULL,a=NULL,u=NULL,t80=NULL,t20=NU
     labs(title = paste0("Climate of ",name[1]))
 
   geom_Frz <- geom_area(data=climtabsmooth, stat="identity", aes(x=mon, y=f, fill='Frozen'),alpha = 1,  color="transparent" )
+  geom_Def <- geom_area(data=climtabsmooth, stat="identity", aes(x=mon, y=e/5, fill='PET/Deficit'), alpha = 1,  color="red" )
   geom_PET <- geom_area(data=climtabsmooth, stat="identity", aes(x=mon, y=e/5, fill='PET'), alpha = 1,  color="red" )
   geom_TMP <- geom_area(data=climtabsmooth, stat="identity", aes(x=mon, y=t, fill='Temperature'), alpha = 1,  color="red" )
-  geom_AET <- geom_area(data=climtabsmooth, stat="identity", aes(x=mon, y=a/5, fill='Soil Use'), alpha = 1,  color="darkgreen" )
-  geom_ppt <- geom_area(data=climtabsmooth, stat="identity", aes(x=mon, y=p/5, fill="Surplus"), alpha = 1,  color="blue")
+  geom_AET <- geom_area(data=climtabsmooth, stat="identity", aes(x=mon, y=a/5, fill='AET/Soil Use'), alpha = 1,  color="darkgreen" )
+  geom_ppt <- geom_area(data=climtabsmooth, stat="identity", aes(x=mon, y=p/5, fill="Soil Surplus"), alpha = 1,  color="blue")
   geom_ppt2 <- geom_area(data=climtabsmooth, stat="identity", aes(x=mon, y=p/5, fill="Precipitation"), alpha = 1,  color="blue")
 
   geom_rch <- geom_area(data=climtabsmooth, stat="identity", aes(x=mon, y=(p-u)/5, fill='Soil Recharge'), alpha = 1,  color="transparent")
@@ -179,7 +180,7 @@ makeClimplot = function(t,p,th=NULL,tl=NULL,e=NULL,a=NULL,u=NULL,t80=NULL,t20=NU
 
   }else{
     if(!noA){
-      climplot <- climplot0+geom_PET+geom_ppt+geom_rch+geom_AET+geom_pptpet+geom_pptaet+geom_PETline+geom_pptline+geom_aetline+geom_Frz+
+      climplot <- climplot0+geom_Def+geom_ppt+geom_rch+geom_AET+geom_pptpet+geom_pptaet+geom_PETline+geom_pptline+geom_aetline+geom_Frz+
         geom_temline+geom_tpnt+geom_thpnt+geom_tlpnt
     }else if(!noE){
       climplot <- climplot0+geom_PET+geom_ppt2+geom_pptpet2+geom_PETline+geom_pptline+geom_Frz+
