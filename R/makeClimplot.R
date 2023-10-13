@@ -94,7 +94,23 @@ makeClimplot = function(t,p,th=NULL,tl=NULL,e=NULL,a=NULL,u=NULL,t80=NULL,t20=NU
   climtab01 <- climtab[1,] |> mutate(mon=13)
   climtab <- rbind(climtab12, climtab, climtab01)
 
+  legmin <- pmin(min(climtab$t), min(climtab$p)/5)
+  legmax <- pmax(max(climtab$t), max(climtab$p)/5)
+#establish flexible y axis limits
+  x1 <- seq(pmin(pmax(-50,round(legmin/5,0)*5),-20), pmin(pmax(45,legmax),55), 5)
+  x2 <- x1*1.8+32
+  x3 <- paste0(x1, "(", x2,")")
+  tbreaks=x1
+  tlabels = c(x3[1:length(x1)-1], '°C (°F)')
 
+  x1 <- seq(0, pmin(pmax(45,legmax),90), 5)
+  x2a <- x1*5
+  x2b <- x2a/25
+  x3 <- paste0(x2a, "(", x2b,")")
+  pbreaks=x1
+  plabels = c(x3[1:length(x1)-1], 'mm (in)')
+
+  #smooth curves
     # spline()
     # loess()
     # approx()
@@ -115,12 +131,12 @@ makeClimplot = function(t,p,th=NULL,tl=NULL,e=NULL,a=NULL,u=NULL,t80=NULL,t20=NU
   climplot0 <- ggplot(climtab, aes(x=mon)) +
     scale_x_continuous(name= "Month", breaks=c(1,2,3,4,5,6,7,8,9,10,11,12),
                        labels=c('01','02','03','04','05','06','07','08','09','10','11','12'))+
-    scale_y_continuous(name= "Temperature",breaks=c(-20,-15,-10,-5,0,5,10,15,20,25,30,35,40,45),
+    scale_y_continuous(name= "Temperature",breaks=tbreaks,
 
-                       labels=c('-20 (-4)', '-15 (  5)', '-10 (14)', '-5 (23)', '0 (32)', '5 (41)', '10 (50)', '15 (59)', '20 (68)', '25 (77)', '30 (86)', '35 (95)', '40 (104)', '°C (°F)'),
-                       sec.axis = sec_axis(trans = ~.*1, name = "Precipitation",breaks=c(0,5,10,15,20,25,30,35,40,45),
+                       labels=tlabels,
+                       sec.axis = sec_axis(trans = ~.*1, name = "Precipitation",breaks=pbreaks,
 
-                                           labels = c('0', '25   (1)', '50   (2)', '75   (3)', '100 (4)', '125 (5)', '150 (6)', '175 (7)', '200 (8)', 'mm (in)')))+
+                                           labels = plabels))+
     theme(legend.position="bottom", legend.text = element_text(size = 5)) +
     scale_fill_manual("Legend", values = c("Temperature" = "yellow",
                                            "Precipitation" = "cyan",
@@ -135,7 +151,8 @@ makeClimplot = function(t,p,th=NULL,tl=NULL,e=NULL,a=NULL,u=NULL,t80=NULL,t20=NU
     )+
     scale_color_manual("",values = c("Temperature" = "black", "Mean" = "red", "Low" = "red", "High"="red","Growth"="darkgreen"))+
     scale_shape_manual("",values = c("Mean" = 19, "Low" = 6, "High"=2))+
-    coord_fixed(ratio = 1/9,xlim = c(1,12), ylim = c(-20, 43))+
+    coord_fixed(ratio = 1/9,xlim = c(1,12),
+                ylim = c(pmin(pmax(-50,floor(legmin/5)*5),-20), pmin(pmax(45,floor(legmax/5+1)*5),90)))+
     labs(title = paste0("Climate of ",name[1]))
 
   geom_Frz <- geom_area(data=climtabsmooth, stat="identity", aes(x=mon, y=f, fill='Frozen'),alpha = 1,  color="transparent" )
