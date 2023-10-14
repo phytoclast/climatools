@@ -97,9 +97,10 @@ makeClimplot = function(t,p,th=NULL,tl=NULL,e=NULL,a=NULL,u=NULL,t80=NULL,t20=NU
   legmin <- pmin(min(climtab$t), min(climtab$p)/5)
   legmax <- pmax(max(climtab$t), max(climtab$p)/5)
 #establish flexible y axis limits
-  x1 <- seq(pmin(pmax(-50,round(legmin/5,0)*5),-20), pmin(pmax(45,legmax),55), 5)
+  x1 <- seq(pmin(pmax(-50,round(legmin/5,0)*5),-20), pmin(pmax(45,legmax),90), 5)
   x2 <- x1*1.8+32
   x3 <- paste0(x1, "(", x2,")")
+  x3 <- ifelse(x1 > 55,'',x3)
   tbreaks=x1
   tlabels = c(x3[1:length(x1)-1], '°C (°F)')
 
@@ -152,7 +153,7 @@ makeClimplot = function(t,p,th=NULL,tl=NULL,e=NULL,a=NULL,u=NULL,t80=NULL,t20=NU
     scale_color_manual("",values = c("Temperature" = "black", "Mean" = "red", "Low" = "red", "High"="red","Growth"="darkgreen"))+
     scale_shape_manual("",values = c("Mean" = 19, "Low" = 6, "High"=2))+
     coord_fixed(ratio = 1/9,xlim = c(1,12),
-                ylim = c(pmin(pmax(-50,floor(legmin/5)*5),-20), pmin(pmax(45,floor(legmax/5+1)*5),90)))+
+                ylim = c(pmin(pmax(-50,floor(legmin/5)*5),-20), pmin(pmax(45,floor(legmax/5+1)*5),85)))+
     labs(title = paste0("Climate of ",name[1]))
 
   geom_Frz <- geom_area(data=climtabsmooth, stat="identity", aes(x=mon, y=f, fill='Frozen'),alpha = 1,  color="transparent" )
