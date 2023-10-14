@@ -94,8 +94,8 @@ makeClimplot = function(t,p,th=NULL,tl=NULL,e=NULL,a=NULL,u=NULL,t80=NULL,t20=NU
   climtab01 <- climtab[1,] |> mutate(mon=13)
   climtab <- rbind(climtab12, climtab, climtab01)
 
-  legmin <- pmin(min(climtab$t), min(climtab$p)/5)
-  legmax <- pmax(max(climtab$t), max(climtab$p)/5)
+  legmin <- pmin(min(climtab$tl), min(climtab$p)/5)
+  legmax <- pmax(max(climtab$th), max(climtab$p)/5)
 #establish flexible y axis limits
   x1 <- seq(pmin(pmax(-50,round(legmin/5,0)*5),-20), pmin(pmax(45,legmax),90), 5)
   x2 <- x1*1.8+32
