@@ -23,10 +23,10 @@
 #'
 climateLong <- function(x, name = 'name',lat = "lat", lon = "lon", elev = "elev", year = 'year',p.select = 'p', t.select = 't',th.select = 'th', tl.select = 'tl'){
   #assemble the header data for a given station
-  if(name %in% colnames(x)){name = x[1,name]}
-  if(lat %in% colnames(x)){lat = x[1,lat]}
-  if(lon %in% colnames(x)){lon = x[1,lon]}
-  if(elev %in% colnames(x)){elev = x[1,elev]}
+  if(name %in% colnames(x)){name = x[,name]}
+  if(lat %in% colnames(x)){lat = x[,lat]}
+  if(lon %in% colnames(x)){lon = x[,lon]}
+  if(elev %in% colnames(x)){elev = x[,elev]}
   if(year %in% colnames(x)){year = x[,year]}
   noTs=TRUE#switch to either look at mean temperature or high temperature
   #find out the column index numbers for each parameter
