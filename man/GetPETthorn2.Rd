@@ -14,7 +14,7 @@ GetPETthorn2(Dl, I, t)
 \item{t}{Mean daily mean temperature (degrees Celsius)}
 }
 \value{
-Thornthwaite monthly potential evapotranspiration (mm)
+Thornthwaite daily potential evapotranspiration (mm)
 }
 \description{
 Thornthwaite monthly potential evapotranspiration

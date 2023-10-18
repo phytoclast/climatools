@@ -274,7 +274,7 @@ getThornFactor <- function(t){#Requires exactly 12 monthly mean temperatures
 #' @param I Parameter derived from 12 monthly temperatures via the getThornFactor() function
 #' @param t Mean daily mean temperature (degrees Celsius)
 #'
-#' @return Thornthwaite monthly potential evapotranspiration (mm)
+#' @return Thornthwaite daily potential evapotranspiration (mm)
 #' @reference Lu, J., Sun, G., McNulty, S.G. and Amatya, D.M., 2005. A comparison of six potential evapotranspiration methods for regional use in the southeastern United States 1. JAWRA Journal of the American Water Resources Association, 41(3), pp.621-633.
 #' @export
 #'
@@ -289,6 +289,6 @@ GetPETthorn2 <- function(Dl,I, t){#Thornthwaite for individual month
 
   a = 0.49239+1792*10^-5*I-771*10^-7*I^2+675*10^-9*I^3
 
-  e.tw = 16*(10*pmax(t,0)/I)^a*(Dl/12)*(GetNumberDay(mon)/30)
+  e.tw = 16*(10*pmax(t,0)/I)^a*(Dl/12)
   return(e.tw)
 }
