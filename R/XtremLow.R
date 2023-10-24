@@ -85,6 +85,24 @@ GrowTemp <- function(t){
   tg <- pmax(mean(bt[c(1:4,11:12)]), mean(bt[c(5:10)]))
   return(tg)}
 
+#' @title Warmest Trimester
+#'
+#' @param t Vector of monthly mean temperatures for 12 months (degrees Celsius)
+#'
+#' @return Mean positive temperature of warmest 3 consecutive months (degrees Celsius; all monthly temperatures below zero counted as zero)
+#' @export
+#'
+#' @examples t <- generateTemp(-5,21)
+#' GrowTemp(t)
+SummerTemp <- function(t){
+  bt <- ifelse(t > 0,t,0)
+  bt <- c(bt,bt[1:2])
+  for(i in 1:12){
+    bt0<- mean(bt[i:(i+2)])
+    if(i==1){bt3max<-bt0}else{bt3max<-pmax(bt3max,bt0)}
+  }
+  return(bt3max)}
+
 
 #' @title Mean annual biotemperature
 #'
@@ -129,3 +147,66 @@ Getp3AET <- function(p,e){
     p3AET=pmax(p3AET, paet0)
   }}
   return(p3AET)}
+
+
+#' Highest/Lowest n month period temperature/precipitation
+#'
+#' @param t vector of 12 monthly mean temperatures
+#' @param p vector of 12 monthly mean precipitation
+#' @param n number of months in period
+#' @param max_var Use maximum if TRUE (minimum if FALSE)
+#' @param t_input Assess period with extreme temperature if TRUE (extreme precipitation if FALSE)
+#' @param p_return Return precipitation for the extreme period if TRUE (return temperature if FALSE)
+#'
+#' @return A single value for the temperature/precipitation of the warmest/coldest/wettest/driest n-month period.
+#' @export
+#'
+#' @examples t=generateTemp(5,22)
+#' p=generatePpt(100,50,150)
+#' #precipitation of warmest 6 months
+#' warm6ppt(t, p, n=6, max_var=TRUE, t_input=TRUE, p_return=TRUE)
+#' #temperature of warmest 6 months
+#' warm6ppt(t, p, n=6, max_var=TRUE, t_input=TRUE, p_return=FALSE)
+#' #temperature of driest 3 months
+#' warm6ppt(t, p, n=3, max_var=FALSE, t_input=FALSE, p_return=FALSE)
+#' #precipitation of driest 3 months
+#' warm6ppt(t, p, n=3, max_var=FALSE, t_input=FALSE, p_return=TRUE)
+#' #temperature of wettest 3 months
+#' warm6ppt(t, p, n=3, max_var=TRUE, t_input=FALSE, p_return=FALSE)
+warm6ppt <- function(t,p,n=6,max_var=TRUE,t_input=TRUE,p_return=TRUE){
+  ctab <- data.frame(t=t,p=p)
+  ctab <- rbind(ctab,ctab)
+  ctab$t6 = NA_real_
+  ctab$p6 = NA_real_
+  for(i in 1:12){#i=1
+    ctab[i,]$t6 <- mean(ctab[i:(i+n-1),]$t)
+    ctab[i,]$p6 <- sum(ctab[i:(i+n-1),]$p)
+  }
+  ctab <- ctab[1:12,]
+  if(t_input){
+    if(max_var){
+      warmest <- max(ctab$t6)
+      warmp <- subset(ctab, t6 %in% warmest)$p6[1]
+      warmt <- subset(ctab, t6 %in% warmest)$t6[1]
+      if(p_return){return(warmp)}else{return(warmt)}
+
+    }else{
+      coldest <- min(ctab$t6)
+      coldp <- subset(ctab, t6 %in% coldest)$p6[1]
+      coldt <- subset(ctab, t6 %in% coldest)$t6[1]
+      if(p_return){return(coldp)}else{return(coldt)}
+    }}else{
+      if(max_var){
+        wettest <- max(ctab$p6)
+        wetp <- subset(ctab, p6 %in% wettest)$p6[1]
+        wett <- subset(ctab, p6 %in% wettest)$t6[1]
+        if(p_return){return(wetp)}else{return(wett)}
+
+      }else{
+        driest <- min(ctab$p6)
+        dryp <- subset(ctab, p6 %in% driest)$p6[1]
+        dryt <- subset(ctab, p6 %in% driest)$t6[1]
+        if(p_return){return(dryp)}else{return(dryt)}
+      }
+    }
+}
