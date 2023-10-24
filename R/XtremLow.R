@@ -155,8 +155,9 @@ Getp3AET <- function(p,e){
 #' @param p vector of 12 monthly mean precipitation
 #' @param n number of months in period
 #' @param max_var Use maximum if TRUE (minimum if FALSE)
-#' @param t_input Assess period with extreme temperature if TRUE (extreme precipitation if FALSE)
-#' @param p_return Return precipitation for the extreme period if TRUE (return temperature if FALSE)
+#' @param v_input Assess which parameter to rate extreme for period (t = temperature; p = precipitation)
+#' @param v_return Return which parameter for the extreme period if TRUE (t = temperature; p = precipitation; b = positive biotemperature)
+#' @param bt Temperature threshold for biotemperature
 #'
 #' @return A single value for the temperature/precipitation of the warmest/coldest/wettest/driest n-month period.
 #' @export
@@ -164,49 +165,41 @@ Getp3AET <- function(p,e){
 #' @examples t=generateTemp(5,22)
 #' p=generatePpt(100,50,150)
 #' #precipitation of warmest 6 months
-#' warm6ppt(t, p, n=6, max_var=TRUE, t_input=TRUE, p_return=TRUE)
+#' warm6ppt(t, p, n=6, max_var=TRUE, v_input='t', v_return='p')
 #' #temperature of warmest 6 months
-#' warm6ppt(t, p, n=6, max_var=TRUE, t_input=TRUE, p_return=FALSE)
+#' warm6ppt(t, p, n=6, max_var=TRUE, v_input='t', v_return='t')
 #' #temperature of driest 3 months
-#' warm6ppt(t, p, n=3, max_var=FALSE, t_input=FALSE, p_return=FALSE)
+#' warm6ppt(t, p, n=3, max_var=FALSE, v_input='p', v_return='t')
 #' #precipitation of driest 3 months
-#' warm6ppt(t, p, n=3, max_var=FALSE, t_input=FALSE, p_return=TRUE)
+#' warm6ppt(t, p, n=3, max_var=FALSE, v_input='p', v_return='p')
 #' #temperature of wettest 3 months
-#' warm6ppt(t, p, n=3, max_var=TRUE, t_input=FALSE, p_return=FALSE)
-warm6ppt <- function(t,p,n=6,max_var=TRUE,t_input=TRUE,p_return=TRUE){
+#' warm6ppt(t, p, n=3, max_var=TRUE, v_input='p', v_return='t')
+#' #positive biotemperature of warmest 6 months (default threshold of 0 degrees Celsius)
+#' warm6ppt(t, p, n=6, max_var=TRUE, v_input='t', v_return='b')
+#' #positive biotemperature of warmest 6 months, with a threshold of 5 degrees Celsius
+#' warm6ppt(t, p, n=6, max_var=TRUE, v_input='t', v_return='b', bt = 5)
+#' #positive biotemperature of 12 months
+#' warm6ppt(t, p, n=12, max_var=TRUE, v_input='t', v_return='b')
+#' #positive biotemperature of 12 months, with a threshold of 5 degrees Celsius
+#' warm6ppt(t, p, n=12, max_var=TRUE, v_input='t', v_return='b', bt = 5)
+#'
+warm6ppt <- function(t,p,n=6,max_var=TRUE,v_input=c('t','p'),v_return=c('t','p','b'),bt=0){
+  #v_input=c('t','p')[1];v_return=c('t','p','b')[3]
   ctab <- data.frame(t=t,p=p)
+  if(v_input %in% 't'){ctab$v = ctab$t}else{ctab$v = ctab$p}
+if(v_return %in% 't'){ctab$r = ctab$t}else if(v_return %in% 'b'){
+  ctab$r = ifelse(ctab$t > bt, ctab$t - bt,0)
+}else{ctab$r = ctab$p}
+  ctab$v6 <- NA_real_
+  ctab$r6 <- NA_real_
   ctab <- rbind(ctab,ctab)
-  ctab$t6 = NA_real_
-  ctab$p6 = NA_real_
   for(i in 1:12){#i=1
-    ctab[i,]$t6 <- mean(ctab[i:(i+n-1),]$t)
-    ctab[i,]$p6 <- sum(ctab[i:(i+n-1),]$p)
+    ctab[i,]$v6 <- sum(ctab[i:(i+n-1),]$v)
+    ctab[i,]$r6 <- sum(ctab[i:(i+n-1),]$r)
   }
   ctab <- ctab[1:12,]
-  if(t_input){
-    if(max_var){
-      warmest <- max(ctab$t6)
-      warmp <- subset(ctab, t6 %in% warmest)$p6[1]
-      warmt <- subset(ctab, t6 %in% warmest)$t6[1]
-      if(p_return){return(warmp)}else{return(warmt)}
-
-    }else{
-      coldest <- min(ctab$t6)
-      coldp <- subset(ctab, t6 %in% coldest)$p6[1]
-      coldt <- subset(ctab, t6 %in% coldest)$t6[1]
-      if(p_return){return(coldp)}else{return(coldt)}
-    }}else{
-      if(max_var){
-        wettest <- max(ctab$p6)
-        wetp <- subset(ctab, p6 %in% wettest)$p6[1]
-        wett <- subset(ctab, p6 %in% wettest)$t6[1]
-        if(p_return){return(wetp)}else{return(wett)}
-
-      }else{
-        driest <- min(ctab$p6)
-        dryp <- subset(ctab, p6 %in% driest)$p6[1]
-        dryt <- subset(ctab, p6 %in% driest)$t6[1]
-        if(p_return){return(dryp)}else{return(dryt)}
-      }
-    }
+  if(max_var){extv <- max(ctab$v6)}else{extv <- min(ctab$v6)}
+  extr <- subset(ctab, v6 %in% extv)$r6[1]
+  if(v_return %in% c('t','b')){extr <- extr/n}
+  return(extr)
 }

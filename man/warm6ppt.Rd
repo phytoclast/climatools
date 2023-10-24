@@ -4,7 +4,15 @@
 \alias{warm6ppt}
 \title{Highest/Lowest n month period temperature/precipitation}
 \usage{
-warm6ppt(t, p, n = 6, max_var = TRUE, t_input = TRUE, p_return = TRUE)
+warm6ppt(
+  t,
+  p,
+  n = 6,
+  max_var = TRUE,
+  v_input = c("t", "p"),
+  v_return = c("t", "p", "b"),
+  bt = 0
+)
 }
 \arguments{
 \item{t}{vector of 12 monthly mean temperatures}
@@ -15,9 +23,11 @@ warm6ppt(t, p, n = 6, max_var = TRUE, t_input = TRUE, p_return = TRUE)
 
 \item{max_var}{Use maximum if TRUE (minimum if FALSE)}
 
-\item{t_input}{Assess period with extreme temperature if TRUE (extreme precipitation if FALSE)}
+\item{v_input}{Assess which parameter to rate extreme for period (t = temperature; p = precipitation)}
 
-\item{p_return}{Return precipitation for the extreme period if TRUE (return temperature if FALSE)}
+\item{v_return}{Return which parameter for the extreme period if TRUE (t = temperature; p = precipitation; b = positive biotemperature)}
+
+\item{bt}{Temperature threshold for biotemperature}
 }
 \value{
 A single value for the temperature/precipitation of the warmest/coldest/wettest/driest n-month period.
@@ -29,13 +39,22 @@ Highest/Lowest n month period temperature/precipitation
 t=generateTemp(5,22)
 p=generatePpt(100,50,150)
 #precipitation of warmest 6 months
-warm6ppt(t, p, n=6, max_var=TRUE, t_input=TRUE, p_return=TRUE)
+warm6ppt(t, p, n=6, max_var=TRUE, v_input='t', v_return='p')
 #temperature of warmest 6 months
-warm6ppt(t, p, n=6, max_var=TRUE, t_input=TRUE, p_return=FALSE)
+warm6ppt(t, p, n=6, max_var=TRUE, v_input='t', v_return='t')
 #temperature of driest 3 months
-warm6ppt(t, p, n=3, max_var=FALSE, t_input=FALSE, p_return=FALSE)
+warm6ppt(t, p, n=3, max_var=FALSE, v_input='p', v_return='t')
 #precipitation of driest 3 months
-warm6ppt(t, p, n=3, max_var=FALSE, t_input=FALSE, p_return=TRUE)
+warm6ppt(t, p, n=3, max_var=FALSE, v_input='p', v_return='p')
 #temperature of wettest 3 months
-warm6ppt(t, p, n=3, max_var=TRUE, t_input=FALSE, p_return=FALSE)
+warm6ppt(t, p, n=3, max_var=TRUE, v_input='p', v_return='t')
+#positive biotemperature of warmest 6 months (default threshold of 0 degrees Celsius)
+warm6ppt(t, p, n=6, max_var=TRUE, v_input='t', v_return='b')
+#positive biotemperature of warmest 6 months, with a threshold of 5 degrees Celsius
+warm6ppt(t, p, n=6, max_var=TRUE, v_input='t', v_return='b', bt = 5)
+#positive biotemperature of 12 months
+warm6ppt(t, p, n=12, max_var=TRUE, v_input='t', v_return='b')
+#positive biotemperature of 12 months, with a threshold of 5 degrees Celsius
+warm6ppt(t, p, n=12, max_var=TRUE, v_input='t', v_return='b', bt = 5)
+
 }
