@@ -6,7 +6,9 @@
 \usage{
 climateLong(
   x,
+  ID = "ID",
   name = "name",
+  group = "group",
   lat = "lat",
   lon = "lon",
   elev = "elev",
@@ -20,7 +22,11 @@ climateLong(
 \arguments{
 \item{x}{data frame containing relatively standard monthly climate data, ideally after selecting only one station of interest.}
 
-\item{name}{give the name of the column containing station identifier}
+\item{ID}{give the name of the column containing station identifier}
+
+\item{name}{give the name of the column containing name}
+
+\item{group}{give the name of the column containing a group membership}
 
 \item{lat}{give the name of the column with latitude}
 
@@ -47,7 +53,7 @@ Move monthly columns to single column for each parameter
 \examples{
 df <- climatools::Norms2010
 selected <- subset(df, Station_ID \%in\% 'USW00094860')
-ntab <- climateLong(selected, name <- 'Station_Name',lat = "Latitude",lon = "Longitude", elev = "Elevation", p.select = 'pp', year='Year_')
+ntab <- climateLong(selected, ID="Station_ID", name = 'Station_Name', group="State",lat = "Latitude",lon = "Longitude", elev = "Elevation", p.select = 'pp', year='Year_')
 head(ntab)
 
 }

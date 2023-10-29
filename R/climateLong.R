@@ -3,7 +3,9 @@
 #' @title Move monthly columns to single column for each parameter
 #'
 #' @param x data frame containing relatively standard monthly climate data, ideally after selecting only one station of interest.
-#' @param name give the name of the column containing station identifier
+#' @param ID give the name of the column containing station identifier
+#' @param name give the name of the column containing name
+#' @param group give the name of the column containing a group membership
 #' @param lat give the name of the column with latitude
 #' @param lon give the name of the column with longitude
 #' @param elev give the name of the column with elevation
@@ -18,12 +20,14 @@
 #'
 #' @examples df <- climatools::Norms2010
 #' selected <- subset(df, Station_ID %in% 'USW00094860')
-#' ntab <- climateLong(selected, name <- 'Station_Name',lat = "Latitude",lon = "Longitude", elev = "Elevation", p.select = 'pp', year='Year_')
+#' ntab <- climateLong(selected, ID="Station_ID", name = 'Station_Name', group="State",lat = "Latitude",lon = "Longitude", elev = "Elevation", p.select = 'pp', year='Year_')
 #' head(ntab)
 #'
-climateLong <- function(x, name = 'name',lat = "lat", lon = "lon", elev = "elev", year = 'year',p.select = 'p', t.select = 't',th.select = 'th', tl.select = 'tl'){
+climateLong <- function(x, ID='ID', name = 'name',group='group',lat = "lat", lon = "lon", elev = "elev", year = 'year',p.select = 'p', t.select = 't',th.select = 'th', tl.select = 'tl'){
   #assemble the header data for a given station
+  if(ID %in% colnames(x)){ID = x[,ID]}
   if(name %in% colnames(x)){name = x[,name]}
+  if(group %in% colnames(x)){group = x[,group]}
   if(lat %in% colnames(x)){lat = x[,lat]}
   if(lon %in% colnames(x)){lon = x[,lon]}
   if(elev %in% colnames(x)){elev = x[,elev]}
@@ -43,7 +47,7 @@ climateLong <- function(x, name = 'name',lat = "lat", lon = "lon", elev = "elev"
     p.colrange = grep(paste0("^",p.select,"01$"), colnames(x)):grep(paste0("^",p.select,"12$"), colnames(x))
   }
 
-  header = data.frame(name=name,lat=lat,lon=lon,elev=elev,year=year)
+  header = data.frame(ID=ID,name=name,group=group,lat=lat,lon=lon,elev=elev,year=year)
   if(noTs){
     for(i in 1:12){#i=1
       th = x[,th.colrange[i]]
@@ -65,5 +69,5 @@ climateLong <- function(x, name = 'name',lat = "lat", lon = "lon", elev = "elev"
       if(i==1){ntab=ntab0}else{ntab=rbind(ntab,ntab0)}
     }; ntab0=NULL
   }
-  ntab <- ntab |> arrange(year, mon)
+  ntab <- ntab |> arrange(ID, year, mon)
   return(ntab)}
