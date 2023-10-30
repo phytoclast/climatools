@@ -108,13 +108,14 @@ SummerTemp <- function(t){
 #'
 #' @param t Vector of monthly mean temperatures for 12 months (degrees Celsius)
 #'
-#' @return Mean annual positive temperature (degrees Celsius; all monthly temperatures below zero counted as zero then averaged)
+#' @return Mean annual temperature between 0 and 30 (degrees Celsius; all monthly temperatures below zero counted as zero, and those above 30 limited to 30, prior to averaging)
+#' @references Holdridge, L.R. and Tosi Jr, J.A., 1967. Tropical Science Center: San jose, Costa Rica. Life Zone Ecology; Tropical Science Center: San Jose, Costa Rica.
 #' @export
 #'
 #' @examples t <- generateTemp(-5,21)
 #' Biotemperature(t)
 Biotemperature <- function(t){
-  bt <- mean(ifelse(t > 0,t,0))
+  bt <- mean(ifelse(t > 0,ifelse(t>30,30,t),0))
   return(bt)}
 
 #' @title Get peak 3-month evapotranspiration
