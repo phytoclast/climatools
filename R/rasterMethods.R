@@ -2,7 +2,7 @@
 
 GetSolarRad.rast <- function(DayNumber, Lat){
   declination <- GetDcl(DayNumber)
-  
+
   hs <- acos(min(max(-tan(Lat/360*2*3.141592) * tan(declination),-1),1))
   Ra <- 117.5 * (hs*sin(Lat/360*2*3.141592)*sin(declination) +
                    cos(Lat/360*2*3.141592)*cos(declination)*sin(hs)) / 3.141592
@@ -11,6 +11,8 @@ GetSolarRad.rast <- function(DayNumber, Lat){
 GetPET.rast <- function(mon, lat, th, tl, p){
   Ra=GetSolarRad.rast(GetDayNumber(mon),lat)
   e =  0.85*GetTransGrow.rast(th, tl)*GetPETdaily.rast(Ra, th, tl, p)*GetNumberDay(mon) #0.85829 is crop coefficient to make comparable to Thornthwaite. Multiplied by growing season to zero out transpiration portion of evapotranspiration in freezing weather. Per day rate need to be multiplied by days per month to get monthly rate.
+  mons <- c('e01','e02','e03','e04','e05','e06','e07','e08','e09','e10','e11','e12')
+  names(e) <- mons[mon]
   return(e)}
 
 GetTransGrow.rast <- function(th, tl) {#Adjust to reduction in transpiration due to cold, with evaporation only outside growing season
@@ -36,15 +38,27 @@ GetPETdaily.rast <- function(Ra, th, tl, p){
   e <- max(e0,0)
   return(e)}
 
+GetPET.block <- function(mon, block, th.jan='th01', tl.jan='tl01', p.jan='p01'){
+  th.ind = which(names(block) %in% th.jan)
+  tl.ind = which(names(block) %in% tl.jan)
+  p.ind = which(names(block) %in% p.jan)
+  th <- block[,,(th.ind+mon-1),drop=FALSE]
+  tl <- block[,,(tl.ind+mon-1),drop=FALSE]
+  p  <- block[,,(p.ind+mon-1),drop=FALSE]
+  e <- GetPET.rast(mon=mon, lat = prism$lat, th= th, tl= tl, p= p)
+  return(e)
+}
+
+
 
 meanT.rast <- function(block, th.jan='th01', tl.jan='tl01'){
   th.ind = which(names(block) %in% th.jan)
   tl.ind = which(names(block) %in% tl.jan)
   th <- block[,,th.ind:(th.ind+11),drop=FALSE]
   tl <- block[,,tl.ind:(tl.ind+11),drop=FALSE]
-  
+
   t <- (th+tl)/2
-  
+
   names(t) <- c('t01','t02','t03','t04','t05','t06','t07','t08','t09','t10','t11','t12')
   return(t)}
 
