@@ -46,7 +46,7 @@ GetPET.block <- function(mon, block, lat='lat', th.jan='th01', tl.jan='tl01', p.
   th <- block[,,(th.ind+mon-1),drop=FALSE]
   tl <- block[,,(tl.ind+mon-1),drop=FALSE]
   p  <- block[,,(p.ind+mon-1),drop=FALSE]
-  Lat  <- block[,,(p.ind+mon-1),drop=FALSE]
+  Lat  <- block[,,(lat.ind),drop=FALSE]
   e <- GetPET.rast(mon=mon, lat = Lat, th= th, tl= tl, p= p)
   return(e)
 }
