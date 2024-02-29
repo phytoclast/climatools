@@ -38,14 +38,16 @@ GetPETdaily.rast <- function(Ra, th, tl, p){
   e <- max(e0,0)
   return(e)}
 
-GetPET.block <- function(mon, block, th.jan='th01', tl.jan='tl01', p.jan='p01'){
+GetPET.block <- function(mon, block, lat='lat', th.jan='th01', tl.jan='tl01', p.jan='p01'){
   th.ind = which(names(block) %in% th.jan)
   tl.ind = which(names(block) %in% tl.jan)
   p.ind = which(names(block) %in% p.jan)
+  lat.ind = which(names(block) %in% lat)
   th <- block[,,(th.ind+mon-1),drop=FALSE]
   tl <- block[,,(tl.ind+mon-1),drop=FALSE]
   p  <- block[,,(p.ind+mon-1),drop=FALSE]
-  e <- GetPET.rast(mon=mon, lat = prism$lat, th= th, tl= tl, p= p)
+  Lat  <- block[,,(p.ind+mon-1),drop=FALSE]
+  e <- GetPET.rast(mon=mon, lat = Lat, th= th, tl= tl, p= p)
   return(e)
 }
 
