@@ -102,3 +102,11 @@ ColdLow.rast <- function(block, tl.jan='tl01'){
   names(t) <- 'Tcl'
   return(t)
 }
+
+ApplyClim.rast <- function(block, jan='p01',mons=c(1,2,3,4,5,6,7,8,9,10,11,12),  fun='sum'){
+  ind = which(names(block) %in% jan)
+  x <- block[,,ind:(ind+11),drop=FALSE]
+  x <- x[,,mons, drop=FALSE]
+  x <- terra::app(x, fun=fun)
+  return(x)
+}
