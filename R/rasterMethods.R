@@ -72,41 +72,16 @@ GrowTemp.rast <- function(block, t.jan='t01'){
   t <- max(mean(t[,,c(11,12,1,2,3,4),drop=FALSE]),mean(t[,,c(5,6,7,8,9,10),drop=FALSE]))
   names(t) <- 'Tg'
   return(t)
-}
+  }
 
-Warm.rast <- function(block, t.jan='t01'){
-  t.ind = which(names(block) %in% t.jan)
-  t <- block[,,t.ind:(t.ind+11),drop=FALSE]
-  t <- max(t)
-  names(t) <- 'Tw'
-  return(t)
-}
-WarmHigh.rast <- function(block, th.jan='th01'){
-  t.ind = which(names(block) %in% th.jan)
-  t <- block[,,t.ind:(t.ind+11),drop=FALSE]
-  t <- max(t)
-  names(t) <- 'Twh'
-  return(t)
-}
-Cold.rast <- function(block, t.jan='t01'){
-  t.ind = which(names(block) %in% t.jan)
-  t <- block[,,t.ind:(t.ind+11),drop=FALSE]
-  t <- min(t)
-  names(t) <- 'Tc'
-  return(t)
-}
-ColdLow.rast <- function(block, tl.jan='tl01'){
-  t.ind = which(names(block) %in% tl.jan)
-  t <- block[,,t.ind:(t.ind+11),drop=FALSE]
-  t <- min(t)
-  names(t) <- 'Tcl'
-  return(t)
-}
 
-ApplyClim.rast <- function(block, jan='p01',mons=c(1,2,3,4,5,6,7,8,9,10,11,12),  fun='sum'){
+ApplyClim.rast <- function(block, jan='p01',mons=c(1,2,3,4,5,6,7,8,9,10,11,12),  fun='sum', name = NULL){
   ind = which(names(block) %in% jan)
   x <- block[,,ind:(ind+11),drop=FALSE]
   x <- x[,,mons, drop=FALSE]
   x <- terra::app(x, fun=fun)
+  if(!is.null(name)){
+    names(x) <- name
+  }
   return(x)
 }
