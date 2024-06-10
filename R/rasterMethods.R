@@ -74,7 +74,7 @@ GrowTemp.rast <- function(block, t.jan='t01'){
   return(t)
   }
 
-
+#summarizes a climate statistic from a raster stack of monthly stats consecutively arranged by month; user identifies name of first month of that statistic and name of the function to summarize it.
 ApplyClim.rast <- function(block, jan='p01',mons=c(1,2,3,4,5,6,7,8,9,10,11,12),  fun='sum', name = NULL){
   ind = which(names(block) %in% jan)
   x <- block[,,ind:(ind+11),drop=FALSE]
@@ -83,5 +83,19 @@ ApplyClim.rast <- function(block, jan='p01',mons=c(1,2,3,4,5,6,7,8,9,10,11,12), 
   if(!is.null(name)){
     names(x) <- name
   }
+  return(x)
+}
+
+#Calculates the maximum possible evapotranspiration based only on precipitation for each month, without monthly carry over of soil water storage.
+AET.rast <- function(block, jan.p='p01',jan.e='e01'){
+  p.ind = which(names(block) %in% jan.p)
+  e.ind = which(names(block) %in% jan.e)
+  p <- block[,,p.ind:(p.ind+11),drop=FALSE]
+  e <- block[,,e.ind:(e.ind+11),drop=FALSE]
+  a <- e
+  for(i in 1:12){
+  a[[i]] <- min(e[[i]],p[[i]])}
+  x <- terra::app(a, fun='sum')
+  names(x) <- 'a'
   return(x)
 }
