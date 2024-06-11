@@ -17,7 +17,7 @@ focalmax <- function(x, r){
   if(fc > 1){
     x1.max <- project(x1.max, x)
   }
-  return(x1.max)} 
+  return(x1.max)}
 
 focalmin <- function(x, r){
   #establish aggregating factor when radius is too large
@@ -35,7 +35,7 @@ focalmin <- function(x, r){
   if(fc > 1){
     x1.min <- project(x1.min, x)
   }
-  return(x1.min)} 
+  return(x1.min)}
 
 focalmed <- function(x, r){
   #establish aggregating factor when radius is too large
@@ -53,7 +53,7 @@ focalmed <- function(x, r){
   if(fc > 1){
     x1.mean <- project(x1.mean, x)
   }
-  return(x1.mean)} 
+  return(x1.mean)}
 
 
 hillpos <- function(xmax, xmin, xmed){#relative slope position
@@ -80,7 +80,7 @@ tpi = function(max1,max2,max3,min1,min2,min3,med1,med2,med3){
   x.pos1 <- hillpos(max1,min1,med1)
   x.pos2 <- hillpos(max2,min2,med2)
   x.pos3 <- hillpos(max3,min3,med3)
-  
+
   x.pos <- (x.pos1+x.pos2+x.pos3)/3
   return(x.pos)
 }
@@ -99,7 +99,7 @@ enhanceRast <- function(t1,e1,e2){
   expts <- expts + matrix(c(-10000,-10000,10000,10000,-10000,10000,-10000,10000),ncol = 2)
   #convert to spatVect and project to get new extent
   expts <- vect(expts, geom=c('x','y'), crs=crs(e2))
-  expts <- project(expts, e1) 
+  expts <- project(expts, e1)
   #apply new extent to crop analysis
   e1 <- crop(e1, ext(expts))
   t1 <- crop(t1, ext(expts))
@@ -109,7 +109,7 @@ enhanceRast <- function(t1,e1,e2){
   e1 <- project(e1, t1)
   #ensure that grid is numeric not factor
   e1 <- e1+0
-  
+
   names(t1) <- 't1';names(e1) <- 'e1';names(e2) <- 'e2'
   #find neighborhood means
   t5km <- aggregate(t1, fact=10, fun='mean', na.rm=T)
@@ -127,9 +127,37 @@ enhanceRast <- function(t1,e1,e2){
   wts.sum <- aggregate(wts, fact=10, fun='sum', na.rm=T)
   rate.5km <- rate.sum/(wts.sum+0.001)
   rate.5km <- focal(rate.5km, na.rm=T, fun="median")
-  t1.90 <- project(t1, e2) 
-  e1.90 <- project(e1, e2) 
-  rate.90 <- project(rate.5km, e2) 
+  t1.90 <- project(t1, e2)
+  e1.90 <- project(e1, e2)
+  rate.90 <- project(rate.5km, e2)
   #apply lapse rate to high resolution DEM
   new.90 <- t1.90 + (e2 - e1.90)*rate.90
   return(new.90)}
+
+
+#Reduces the resolution of a raster but preserves the values of local high and low values.
+AmplifiedReduction <- function(hires, fact = 5){
+
+  lowres <- aggregate(hires, fact=fact, fun='mean',na.rm=TRUE)
+
+  hiresMax <- aggregate(hires, fact=fact, fun='max',na.rm=TRUE)
+  hiresMin <- aggregate(hires, fact=fact, fun='min',na.rm=TRUE)
+
+  lowresMax <- aggregate(lowres, fact=fact, fun='max',na.rm=TRUE)
+  lowresMin <- aggregate(lowres, fact=fact, fun='min',na.rm=TRUE)
+  lowresMean <- aggregate(lowres, fact=fact, fun='mean',na.rm=TRUE)
+
+  lowresMax <- resample(lowresMax, lowres, method = 'bilinear')
+  lowresMin <- resample(lowresMin, lowres, method = 'bilinear')
+  lowresMean <- resample(lowresMean, lowres, method = 'bilinear')
+
+  ElevBin <- lowres >= lowresMean
+
+  ElevRel1 <- (lowres - lowresMean)/(lowresMax - lowresMin + 0.1)
+  ElevRel2 <- (lowresMean - lowres)/(lowresMean - lowresMin + 0.1)
+
+  ElevAmp1 <- (hiresMax * (ElevRel1) + lowres * (ElevRel1-1)*-1)
+  ElevAmp2 <- (lowres * (ElevRel2) + hiresMin * (ElevRel2-1)*-1)
+
+  ElevAmp <- ElevAmp1 * ElevBin + ElevAmp2 * (ElevBin-1)*-1
+  return(ElevAmp)}
