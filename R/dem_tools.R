@@ -92,15 +92,16 @@ focalmed <- function(x, r){
 #' Calculate hillslope position
 #'
 #' @param dm original raster
-#' @param xmax raster with focal neighborhood maximum
-#' @param xmin raster with focal neighborhood minimum
-#' @param xmed raster with focal neighborhood median
+#' @param r neighborhood radius
 #'
 #' @return Raster with relative slope position 0 to 1.
 #' @export
 #'
 #' @examples
-hillpos <- function(dm, xmax, xmin, xmed){#relative slope position
+hillpos <- function(dm, r){#relative slope position
+  xmax = focalmax(dm, r)
+  xmin = focalmin(dm, r)
+  xmed = focalmed(dm, r)
   x.pos <- (dm - xmed)/(xmax - xmed+0.5)
   x.neg <- (dm - xmed)/(xmed - xmin+0.5)
   x.pos <- ifel(x.pos > 0, x.pos,0)
@@ -113,28 +114,23 @@ hillpos <- function(dm, xmax, xmin, xmed){#relative slope position
 #' Compound hillslope position using 3 neighborhood scales
 #'
 #' @param dm original raster
-#' @param max1 small neighborhood focal maximum
-#' @param max2 intermediate neighborhood focal maximum
-#' @param max3 large neighborhood focal maximum
-#' @param min1 small neighborhood focal minimum
-#' @param min2 intermediate neighborhood focal minimum
-#' @param min3 large neighborhood focal minimum
-#' @param med1 small neighborhood focal median
-#' @param med2 intermediate neighborhood focal median
-#' @param med3 large neighborhood focal median
+#' @param r1 small neighborhood radius
+#' @param r2 intermediate neighborhood radius
+#' @param r3 large neighborhood radius
 #'
 #' @return Compound hillslope position raster
 #' This function gives more weight to neighborhoods with higher relative relief.
 #' @export
 #'
 #' @examples
-comphillpos = function(dm, max1,max2,max3,min1,min2,min3,med1,med2,med3){
-  x.pos1 <- hillpos(dm, max1, min1, med1)
-  x.pos2 <- hillpos(dm, max2, min2, med2)
-  x.pos3 <- hillpos(dm, max3, min3, med3)
-  x.pos.r1 <- focalmax(x.pos2, 100) - focalmin(x.pos2, 100)
+comphillpos = function(dm, r1, r2, r3){
+
+  x.pos1 <- hillpos(dm, r1)
+  x.pos2 <- hillpos(dm, r2)
+  x.pos3 <- hillpos(dm, r3)
+  x.pos.r1 <- focalmax(x.pos2, r1) - focalmin(x.pos2, r1)
   x.pos.1 <- x.pos1*x.pos.r1 + x.pos2*(x.pos.r1*-1+1)
-  x.pos.r2 <- focalmax(x.pos3, 500) - focalmin(x.pos3, 500)
+  x.pos.r2 <- focalmax(x.pos3, r2) - focalmin(x.pos3, r2)
   x.pos <- x.pos.1*x.pos.r2 + x.pos3*(x.pos.r2*-1+1)
   return(x.pos)
 }
@@ -142,26 +138,19 @@ comphillpos = function(dm, max1,max2,max3,min1,min2,min3,med1,med2,med3){
 #' Topographic position index using 3 neighborhood scales
 #'
 #' @param dm original raster
-#' @param max1 small neighborhood focal maximum
-#' @param max2 intermediate neighborhood focal maximum
-#' @param max3 large neighborhood focal maximum
-#' @param min1 small neighborhood focal minimum
-#' @param min2 intermediate neighborhood focal minimum
-#' @param min3 large neighborhood focal minimum
-#' @param med1 small neighborhood focal median
-#' @param med2 intermediate neighborhood focal median
-#' @param med3 large neighborhood focal median
+#' @param r1 small neighborhood radius
+#' @param r2 intermediate neighborhood radius
+#' @param r3 large neighborhood radius
 #'
 #' @return Topographic position index raster
 #' This function simply averages the hillslope positions for all 3 neighborhoods.
 #' @export
 #'
 #' @examples
-tpi = function(dm, max1,max2,max3,min1,min2,min3,med1,med2,med3){
-  x.pos1 <- hillpos(dm,max1,min1,med1)
-  x.pos2 <- hillpos(dm,max2,min2,med2)
-  x.pos3 <- hillpos(dm,max3,min3,med3)
-
+tpi = function(dm, r1, r2, r3){
+  x.pos1 <- hillpos(dm, r1)
+  x.pos2 <- hillpos(dm, r2)
+  x.pos3 <- hillpos(dm, r3)
   x.pos <- (x.pos1+x.pos2+x.pos3)/3
   return(x.pos)
 }

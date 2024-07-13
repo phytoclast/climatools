@@ -4,28 +4,16 @@
 \alias{tpi}
 \title{Topographic position index using 3 neighborhood scales}
 \usage{
-tpi(dm, max1, max2, max3, min1, min2, min3, med1, med2, med3)
+tpi(dm, r1, r2, r3)
 }
 \arguments{
 \item{dm}{original raster}
 
-\item{max1}{small neighborhood focal maximum}
+\item{r1}{small neighborhood radius}
 
-\item{max2}{intermediate neighborhood focal maximum}
+\item{r2}{intermediate neighborhood radius}
 
-\item{max3}{large neighborhood focal maximum}
-
-\item{min1}{small neighborhood focal minimum}
-
-\item{min2}{intermediate neighborhood focal minimum}
-
-\item{min3}{large neighborhood focal minimum}
-
-\item{med1}{small neighborhood focal median}
-
-\item{med2}{intermediate neighborhood focal median}
-
-\item{med3}{large neighborhood focal median}
+\item{r3}{large neighborhood radius}
 }
 \value{
 Topographic position index raster

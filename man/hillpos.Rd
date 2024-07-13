@@ -4,16 +4,12 @@
 \alias{hillpos}
 \title{Calculate hillslope position}
 \usage{
-hillpos(dm, xmax, xmin, xmed)
+hillpos(dm, r)
 }
 \arguments{
 \item{dm}{original raster}
 
-\item{xmax}{raster with focal neighborhood maximum}
-
-\item{xmin}{raster with focal neighborhood minimum}
-
-\item{xmed}{raster with focal neighborhood median}
+\item{r}{neighborhood radius}
 }
 \value{
 Raster with relative slope position 0 to 1.
