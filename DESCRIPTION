@@ -12,4 +12,4 @@ Depends:
     R (>= 2.10),
     dplyr (>= 1.1.0),
     ggplot2
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
