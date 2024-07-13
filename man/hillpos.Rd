@@ -4,9 +4,11 @@
 \alias{hillpos}
 \title{Calculate hillslope position}
 \usage{
-hillpos(xmax, xmin, xmed)
+hillpos(dm, xmax, xmin, xmed)
 }
 \arguments{
+\item{dm}{original raster}
+
 \item{xmax}{raster with focal neighborhood maximum}
 
 \item{xmin}{raster with focal neighborhood minimum}

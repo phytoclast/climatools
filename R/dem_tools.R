@@ -91,6 +91,7 @@ focalmed <- function(x, r){
 
 #' Calculate hillslope position
 #'
+#' @param dm original raster
 #' @param xmax raster with focal neighborhood maximum
 #' @param xmin raster with focal neighborhood minimum
 #' @param xmed raster with focal neighborhood median
@@ -99,7 +100,7 @@ focalmed <- function(x, r){
 #' @export
 #'
 #' @examples
-hillpos <- function(xmax, xmin, xmed){#relative slope position
+hillpos <- function(dm, xmax, xmin, xmed){#relative slope position
   x.pos <- (dm - xmed)/(xmax - xmed+0.5)
   x.neg <- (dm - xmed)/(xmed - xmin+0.5)
   x.pos <- ifel(x.pos > 0, x.pos,0)
