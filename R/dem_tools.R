@@ -112,6 +112,7 @@ hillpos <- function(dm, xmax, xmin, xmed){#relative slope position
 #compound slope position
 #' Compound hillslope position using 3 neighborhood scales
 #'
+#' @param dm original raster
 #' @param max1 small neighborhood focal maximum
 #' @param max2 intermediate neighborhood focal maximum
 #' @param max3 large neighborhood focal maximum
@@ -127,10 +128,10 @@ hillpos <- function(dm, xmax, xmin, xmed){#relative slope position
 #' @export
 #'
 #' @examples
-comphillpos = function(max1,max2,max3,min1,min2,min3,med1,med2,med3){
-  x.pos1 <- hillpos(max1,min1,med1)
-  x.pos2 <- hillpos(max2,min2,med2)
-  x.pos3 <- hillpos(max3,min3,med3)
+comphillpos = function(dm, max1,max2,max3,min1,min2,min3,med1,med2,med3){
+  x.pos1 <- hillpos(dm, max1, min1, med1)
+  x.pos2 <- hillpos(dm, max2, min2, med2)
+  x.pos3 <- hillpos(dm, max3, min3, med3)
   x.pos.r1 <- focalmax(x.pos2, 100) - focalmin(x.pos2, 100)
   x.pos.1 <- x.pos1*x.pos.r1 + x.pos2*(x.pos.r1*-1+1)
   x.pos.r2 <- focalmax(x.pos3, 500) - focalmin(x.pos3, 500)
@@ -140,6 +141,7 @@ comphillpos = function(max1,max2,max3,min1,min2,min3,med1,med2,med3){
 
 #' Topographic position index using 3 neighborhood scales
 #'
+#' @param dm original raster
 #' @param max1 small neighborhood focal maximum
 #' @param max2 intermediate neighborhood focal maximum
 #' @param max3 large neighborhood focal maximum
@@ -155,10 +157,10 @@ comphillpos = function(max1,max2,max3,min1,min2,min3,med1,med2,med3){
 #' @export
 #'
 #' @examples
-tpi = function(max1,max2,max3,min1,min2,min3,med1,med2,med3){
-  x.pos1 <- hillpos(max1,min1,med1)
-  x.pos2 <- hillpos(max2,min2,med2)
-  x.pos3 <- hillpos(max3,min3,med3)
+tpi = function(dm, max1,max2,max3,min1,min2,min3,med1,med2,med3){
+  x.pos1 <- hillpos(dm,max1,min1,med1)
+  x.pos2 <- hillpos(dm,max2,min2,med2)
+  x.pos3 <- hillpos(dm,max3,min3,med3)
 
   x.pos <- (x.pos1+x.pos2+x.pos3)/3
   return(x.pos)
