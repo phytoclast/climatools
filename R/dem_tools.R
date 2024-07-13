@@ -1,7 +1,18 @@
 #Digital elevation model focal statistics tools using terra package
 #
 
+#' Get focal maximum with specified radius
+#'
+#' @param x raster
+#' @param r radius
+#'
+#' @return focal maximum raster
+#' This function makes use of lower resolution aggregated rasters to speed up calculations at increasing radii, compromising accuracy.
+#' @export
+#'
+#' @examples
 focalmax <- function(x, r){
+  require(terra)
   #establish aggregating factor when radius is too large
   fc = floor(r/res(x)[1]/9+1)
   x1 = x
@@ -10,7 +21,7 @@ focalmax <- function(x, r){
   }
   #create a focal weights matrix of the appropriate size for given radius
   fm <- focalMat(x1, d=r, type = 'circle')
-  #exclude outer portion of circle and ensure max/min values are only mutlplied by 1
+  #exclude outer portion of circle and ensure max/min values are only multplied by 1
   fm.na <- ifelse(fm > 0, 1, NA)
   x1.max <- focal(x1, fm.na, fun='max', na.rm=T)
   #restore resolution in result
@@ -19,7 +30,18 @@ focalmax <- function(x, r){
   }
   return(x1.max)}
 
+#' Get focal minimum with specified radius
+#'
+#' @param x raster
+#' @param r radius
+#'
+#' @return focal minimum raster
+#' This function makes use of lower resolution aggregated rasters to speed up calculations at increasing radii, compromising accuracy.
+#' @export
+#'
+#' @examples
 focalmin <- function(x, r){
+  require(terra)
   #establish aggregating factor when radius is too large
   fc = floor(r/res(x)[1]/9+1)
   x1 = x
@@ -28,7 +50,7 @@ focalmin <- function(x, r){
   }
   #create a focal weights matrix of the appropriate size for given radius
   fm <- focalMat(x1, d=r, type = 'circle')
-  #exclude outer portion of circle and ensure max/min values are only mutlplied by 1
+  #exclude outer portion of circle and ensure max/min values are only multplied by 1
   fm.na <- ifelse(fm > 0, 1, NA)
   x1.min <- focal(x1, fm.na, fun='min', na.rm=T)
   #restore resolution in result
@@ -37,7 +59,18 @@ focalmin <- function(x, r){
   }
   return(x1.min)}
 
+#' Get focal median with specified radius
+#'
+#' @param x raster
+#' @param r radius
+#'
+#' @return focal median raster
+#' This function makes use of lower resolution aggregated rasters to speed up calculations at increasing radii, compromising accuracy.
+#' @export
+#'
+#' @examples
 focalmed <- function(x, r){
+  require(terra)
   #establish aggregating factor when radius is too large
   fc = floor(r/res(x)[1]/9+1)
   x1 = x
@@ -56,6 +89,16 @@ focalmed <- function(x, r){
   return(x1.mean)}
 
 
+#' Calculate hillslope position
+#'
+#' @param xmax raster with focal neighborhood maximum
+#' @param xmin raster with focal neighborhood minimum
+#' @param xmed raster with focal neighborhood median
+#'
+#' @return Raster with relative slope position 0 to 1.
+#' @export
+#'
+#' @examples
 hillpos <- function(xmax, xmin, xmed){#relative slope position
   x.pos <- (dm - xmed)/(xmax - xmed+0.5)
   x.neg <- (dm - xmed)/(xmed - xmin+0.5)
@@ -66,6 +109,23 @@ hillpos <- function(xmax, xmin, xmed){#relative slope position
 }
 
 #compound slope position
+#' Compound hillslope position using 3 neighborhood scales
+#'
+#' @param max1 small neighborhood focal maximum
+#' @param max2 intermediate neighborhood focal maximum
+#' @param max3 large neighborhood focal maximum
+#' @param min1 small neighborhood focal minimum
+#' @param min2 intermediate neighborhood focal minimum
+#' @param min3 large neighborhood focal minimum
+#' @param med1 small neighborhood focal median
+#' @param med2 intermediate neighborhood focal median
+#' @param med3 large neighborhood focal median
+#'
+#' @return Compound hillslope position raster
+#' This function gives more weight to neighborhoods with higher relative relief.
+#' @export
+#'
+#' @examples
 comphillpos = function(max1,max2,max3,min1,min2,min3,med1,med2,med3){
   x.pos1 <- hillpos(max1,min1,med1)
   x.pos2 <- hillpos(max2,min2,med2)
@@ -76,6 +136,24 @@ comphillpos = function(max1,max2,max3,min1,min2,min3,med1,med2,med3){
   x.pos <- x.pos.1*x.pos.r2 + x.pos3*(x.pos.r2*-1+1)
   return(x.pos)
 }
+
+#' Topographic position index using 3 neighborhood scales
+#'
+#' @param max1 small neighborhood focal maximum
+#' @param max2 intermediate neighborhood focal maximum
+#' @param max3 large neighborhood focal maximum
+#' @param min1 small neighborhood focal minimum
+#' @param min2 intermediate neighborhood focal minimum
+#' @param min3 large neighborhood focal minimum
+#' @param med1 small neighborhood focal median
+#' @param med2 intermediate neighborhood focal median
+#' @param med3 large neighborhood focal median
+#'
+#' @return Topographic position index raster
+#' This function simply averages the hillslope positions for all 3 neighborhoods.
+#' @export
+#'
+#' @examples
 tpi = function(max1,max2,max3,min1,min2,min3,med1,med2,med3){
   x.pos1 <- hillpos(max1,min1,med1)
   x.pos2 <- hillpos(max2,min2,med2)
