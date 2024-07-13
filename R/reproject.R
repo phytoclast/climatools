@@ -19,7 +19,7 @@
 #' @export
 #'
 #' @examples
-reproject <- function(dem=dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA){
+reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA){
   require(terra)
   require(sf)
 

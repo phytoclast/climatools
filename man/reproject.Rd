@@ -4,7 +4,7 @@
 \alias{reproject}
 \title{Reproject any raster to Lambert_Azimuthal_Equal_Area with specified center and extent.}
 \usage{
-reproject(dem = dem, lat = NA, lon = NA, rs = NA, h = NA, w = NA)
+reproject(dem, lat = NA, lon = NA, rs = NA, h = NA, w = NA)
 }
 \arguments{
 \item{dem}{Digital elevation model or other type of raster}
