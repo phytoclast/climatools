@@ -4,7 +4,7 @@
 \alias{getrelief}
 \title{Get topographic relief}
 \usage{
-getrelief(dm, r1, r2, n = 0, s = 0.1)
+getrelief(dm, r1, r2, n = 0, s = 0.1, p = c("low", "medium", "high", "exact"))
 }
 \arguments{
 \item{dm}{Digital elevation model (terra raster) with projected coordinates.}
@@ -16,6 +16,8 @@ getrelief(dm, r1, r2, n = 0, s = 0.1)
 \item{n}{Number of segments between maximum and minimum radii to estimate relief.}
 
 \item{s}{Slope for which relief is estimated (Default is 0.1 for a 10% slope). Should be a ratio of vertical units to horizontal units).}
+
+\item{p}{precision, from low to exact, with higher levels of precision requiring more processing time.}
 }
 \value{
 Topographic relief of either a fixed radius or for a fixed slope for a range of radii.

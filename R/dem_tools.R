@@ -5,16 +5,27 @@
 #'
 #' @param x raster
 #' @param r radius
+#' @param p precision, from low to exact, with higher levels of precision requiring more processing time.
 #'
 #' @return focal maximum raster
-#' This function makes use of lower resolution aggregated rasters to speed up calculations at increasing radii, compromising accuracy.
+#' This function makes use of lower resolution aggregated rasters to speed up calculations at increasing radii, compromising accuracy. Higher precision generates a focal neighborhood at a higher resolution, while lower precision aggregates more aggressively before focal analysis.
 #' @export
 #'
 #' @examples
-focalmax <- function(x, r){
+focalmax <- function(x, r, p=c('low', 'medium', 'high','exact')){
   require(terra)
   #establish aggregating factor when radius is too large
-  fc = floor(r/res(x)[1]/9+1)
+  #p is for precision options
+  p=p[1]
+  if(p == 'low'){
+    fc = floor(r/res(x)[1]/9+1)
+  }else if(p == 'medium'){
+    fc = floor(r/res(x)[1]/21+1)
+  }else if(p == 'high'){
+    fc = floor(r/res(x)[1]/81+1)
+  }else{
+    fc = floor(r/res(x)[1]/243+1)}
+
   x1 = x
   if(fc > 1){
     x1 <- aggregate(x, fact = fc, fun = 'max',  na.rm=TRUE)
@@ -23,7 +34,16 @@ focalmax <- function(x, r){
   fm <- focalMat(x1, d=r, type = 'circle')
   #exclude outer portion of circle and ensure max/min values are only multplied by 1
   fm.na <- ifelse(fm > 0, 1, NA)
-  x1.max <- focal(x1, fm.na, fun='max', na.rm=T)
+  #reduce mat size if raster too small
+  matsize = nrow(fm.na)
+  centermat <- floor(nrow(fm.na)/2+1)
+  goodrows <- intersect((1:matsize),(centermat-floor(nrow(x1)-1)):(centermat+floor(nrow(x1)-1)))
+  goodcols <- intersect((1:matsize),(centermat-floor(ncol(x1)-1)):(centermat+floor(ncol(x1)-1)))
+  fm.na <- fm.na[goodrows,goodcols, drop = FALSE]
+  if(nrow(fm.na) <= 1 & ncol(fm.na) <= 1){
+    x1.max <- x1
+  }else{
+    x1.max <- focal(x1, fm.na, fun='max', na.rm=T)}
   #restore resolution in result
   if(fc > 1){
     x1.max <- project(x1.max, x)
@@ -34,16 +54,27 @@ focalmax <- function(x, r){
 #'
 #' @param x raster
 #' @param r radius
+#' @param p precision, from low to exact, with higher levels of precision requiring more processing time.
 #'
 #' @return focal minimum raster
-#' This function makes use of lower resolution aggregated rasters to speed up calculations at increasing radii, compromising accuracy.
+#' This function makes use of lower resolution aggregated rasters to speed up calculations at increasing radii, compromising accuracy. Higher precision generates a focal neighborhood at a higher resolution, while lower precision aggregates more aggressively before focal analysis.
 #' @export
 #'
 #' @examples
-focalmin <- function(x, r){
+focalmin <- function(x, r, p=c('low', 'medium', 'high','exact')){
   require(terra)
   #establish aggregating factor when radius is too large
-  fc = floor(r/res(x)[1]/9+1)
+  #p is for precision options
+  p=p[1]
+  if(p == 'low'){
+    fc = floor(r/res(x)[1]/9+1)
+  }else if(p == 'medium'){
+    fc = floor(r/res(x)[1]/21+1)
+  }else if(p == 'high'){
+    fc = floor(r/res(x)[1]/81+1)
+  }else{
+    fc = floor(r/res(x)[1]/243+1)}
+
   x1 = x
   if(fc > 1){
     x1 <- aggregate(x, fact = fc, fun = 'min',  na.rm=TRUE)
@@ -52,36 +83,67 @@ focalmin <- function(x, r){
   fm <- focalMat(x1, d=r, type = 'circle')
   #exclude outer portion of circle and ensure max/min values are only multplied by 1
   fm.na <- ifelse(fm > 0, 1, NA)
-  x1.min <- focal(x1, fm.na, fun='min', na.rm=T)
+  #reduce mat size if raster too small
+  matsize = nrow(fm.na)
+  centermat <- floor(nrow(fm.na)/2+1)
+  goodrows <- intersect((1:matsize),(centermat-floor(nrow(x1)-1)):(centermat+floor(nrow(x1)-1)))
+  goodcols <- intersect((1:matsize),(centermat-floor(ncol(x1)-1)):(centermat+floor(ncol(x1)-1)))
+  fm.na <- fm.na[goodrows,goodcols, drop = FALSE]
+  if(nrow(fm.na) <= 1 & ncol(fm.na) <= 1){
+    x1.min <- x1
+  }else{
+    x1.min <- focal(x1, fm.na, fun='min', na.rm=T)}
   #restore resolution in result
   if(fc > 1){
     x1.min <- project(x1.min, x)
   }
   return(x1.min)}
 
+
+
 #' Get focal median with specified radius
 #'
 #' @param x raster
 #' @param r radius
+#' @param p precision, from low to exact, with higher levels of precision requiring more processing time.
 #'
 #' @return focal median raster
-#' This function makes use of lower resolution aggregated rasters to speed up calculations at increasing radii, compromising accuracy.
+#' This function makes use of lower resolution aggregated rasters to speed up calculations at increasing radii, compromising accuracy. Higher precision generates a focal neighborhood at a higher resolution, while lower precision aggregates more aggressively before focal analysis.
 #' @export
 #'
 #' @examples
-focalmed <- function(x, r){
+focalmed <- function(x, r, p=c('low', 'medium', 'high','exact')){
   require(terra)
   #establish aggregating factor when radius is too large
-  fc = floor(r/res(x)[1]/9+1)
+  #p is for precision options
+  p=p[1]
+  if(p == 'low'){
+    fc = floor(r/res(x)[1]/9+1)
+  }else if(p == 'medium'){
+    fc = floor(r/res(x)[1]/21+1)
+  }else if(p == 'high'){
+    fc = floor(r/res(x)[1]/81+1)
+  }else{
+    fc = floor(r/res(x)[1]/243+1)}
+
   x1 = x
   if(fc > 1){
     x1 <- aggregate(x, fact = fc, fun = 'mean',  na.rm=TRUE)
   }
   #create a focal weights matrix of the appropriate size for given radius
   fm <- focalMat(x1, d=r, type = 'circle')
-  #exclude outer portion of circle and ensure max/min values are only multiplied by 1
+  #exclude outer portion of circle and ensure max/min values are only multplied by 1
   fm.na <- ifelse(fm > 0, 1, NA)
-  x1.mean <- focal(x1, fm.na, fun='median', na.rm=T)
+  #reduce mat size if raster too small
+  matsize = nrow(fm.na)
+  centermat <- floor(nrow(fm.na)/2+1)
+  goodrows <- intersect((1:matsize),(centermat-floor(nrow(x1)-1)):(centermat+floor(nrow(x1)-1)))
+  goodcols <- intersect((1:matsize),(centermat-floor(ncol(x1)-1)):(centermat+floor(ncol(x1)-1)))
+  fm.na <- fm.na[goodrows,goodcols, drop = FALSE]
+  if(nrow(fm.na) <= 1 & ncol(fm.na) <= 1){
+    x1.mean <- x1
+  }else{
+    x1.mean <- focal(x1, fm.na, fun='mean', na.rm=T)}
   #restore resolution in result
   if(fc > 1){
     x1.mean <- project(x1.mean, x)
