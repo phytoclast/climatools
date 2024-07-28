@@ -23,7 +23,7 @@ if(i==1){df=df0}else{df=rbind(df,df0)}
   
   }
 
-thismts <- mts[59,]
+thismts <- mts[6,]
 cropdeg = 5
 thisfile <- subset(df, west <= thismts$Longitude &
                      east >= thismts$Longitude &
@@ -61,20 +61,25 @@ plot(dem)
 demx <- reproject(dem=dem, rs=250, w=100000, h=100000, lat=thismts$Latitude, lon=thismts$Longitude)
 
 plot(demx)
+prebreaks = c(150,300,500,1000,2000,3000,4000,5000,6000,7000,8000)
+maxrange <- max(minmax(demx)[2]-minmax(demx)[1],150)
+breaks <- prebreaks[prebreaks <=maxrange ]
+rng <- getrelief(demx, r1=1000, r2=maxrange, s=0.1, n=1, p='medium', breaks = breaks)
+plot(rng)
 
-rng <- getrelief(demx, r1=1000, r2=90000, s=0.1, n=3, p='medium', breaks = c(150,300,1000,2500,5000,8000))
-plot(rng);minmax(rng)[2]
 
+rng2 <- getrelief(demx, r1=1000, r2=maxrange, s=0.25, n=1, p='medium', breaks = breaks)
+plot(rng2)
 
-rng2 <- getrelief(demx, r1=1000, r2=90000, s=0.25, n=3, p='medium', breaks = c(150,300,1000,2500,5000,7000))
-plot(rng2);minmax(rng2)[2]
-minmax(rng)[2]
 minmax(rng2)[2]
-minmax(demx)
+minmax(rng)[2]
+minmax(demx)[2] - minmax(demx)[1]
+minmax(demx)[2]
 
+getmaxcoords(demx)
 getmaxcoords(rng)
 getmaxcoords(rng2)
-getmaxcoords(demx)
+
 
 
 sl<- terrain(demx, v="slope", unit="radians")
