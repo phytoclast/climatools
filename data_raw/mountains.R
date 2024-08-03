@@ -15,15 +15,18 @@ return(coord)}
 
 
 for(i in 1:length(input)){#i=1
-  
+
   dem <- rast(paste0(path,'/',input[i]))
   df0 <- data.frame(i=i, filename=input[i], west=ext(dem)[1],east=ext(dem)[2],north=ext(dem)[4],south=ext(dem)[3])
   rownames(df0)=i
 if(i==1){df=df0}else{df=rbind(df,df0)}
-  
-  }
+}
 
-thismts <- mts[2,]
+
+
+
+for(k in 1:nrow(mts)){#k=58
+thismts <- mts[k,]
 cropdeg = 5
 thisfile <- subset(df, west <= thismts$Longitude &
                      east >= thismts$Longitude &
@@ -57,29 +60,35 @@ for(i in 1:length(demlist)){
   if(i==1){dem <- dem0}else{dem <- merge(dem,dem0)}
 }
 plot(dem)
-
-demx <- reproject(dem=dem, rs=250, w=100000, h=100000, lat=thismts$Latitude, lon=thismts$Longitude)
+rg <- minmax(dem)[2]-minmax(dem)[1]
+scale <- rg*15+10000
+demx <- reproject(dem=dem, rs=250, w=scale, h=scale, lat=thismts$Latitude, lon=thismts$Longitude)
 
 plot(demx)
 prebreaks = c(150,300,500,1000,2000,3000,4000,5000,6000,7000,8000)
-maxrange <- max(minmax(demx)[2]-minmax(demx)[1],150)
+maxrange <- max(minmax(demx)[2]-minmax(demx)[1],1000)
 breaks <- prebreaks[prebreaks <=maxrange]
 rng <- getrelief(demx, r1=1000, r2=maxrange, s=0.1, n=1, p='medium', breaks = breaks)
-plot(rng)
+# plot(rng)
 
 
 rng2 <- getrelief(demx, r1=1000, r2=maxrange, s=0.25, n=1, p='medium', breaks = breaks)
-plot(rng2)
+# plot(rng2)
 
-minmax(rng2)[2]
-minmax(rng)[2]
+steepslope = minmax(rng2)[2]
+totalslope = minmax(rng)[2]
 minmax(demx)[2] - minmax(demx)[1]
-minmax(demx)[2]
+summit = minmax(demx)[2]
 
-getmaxcoords(demx)
-getmaxcoords(rng)
-getmaxcoords(rng2)
+summitcoord = getmaxcoords(demx)
+totalcoord = getmaxcoords(rng)
+steepcoord = getmaxcoords(rng2)
 
+mountains0 <- data.frame(state=mts$State[k], Name=mts$Name[k], summit=summit,totalslope=totalslope,steepslope=steepslope,summitcoord=summitcoord,totalcoord=totalcoord,steepcoord=steepcoord)
+if(k==1){mountains=mountains0}else{mountains=rbind(mountains,mountains0)}
+
+}
+write.csv(mountains, 'C:/workspace2/dem/output/mountains.csv', row.names = F)
 
 
 sl<- terrain(demx, v="slope", unit="radians")
