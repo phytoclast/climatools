@@ -1,4 +1,4 @@
-begining <- 'PROJCS["Custom",'
+begin <- 'PROJCS["Custom",'
 
 datums <- c(
   #WGS 84
@@ -40,75 +40,87 @@ axises <- ',AXIS["Easting",EAST], AXIS["Northing",NORTH]]]'
 
 
 projections <- c(
-  #azimutal
+  #azimutal 1,2
   'PROJECTION["Lambert_Azimuthal_Equal_Area"],',
   'PROJECTION["Azimuthal_Equidistant"],',
+  #stereographic 3
   'PROJECTION["Stereographic"],',
-  #cylindric
+  #cylindric 4,5
   'PROJECTION["Cylindrical_Equal_Area"],',
   'PROJECTION["Equirectangular"],',
+  #mercator 6
   'PROJECTION["Mercator_2SP"],',
-  #conic
+  #conic 7,8
   'PROJECTION["Albers_Conic_Equal_Area"],',
-  'PROJECTION["Equidistant_Conic"],',  
+  'PROJECTION["Equidistant_Conic"],',
+  #conformal conic 9
   'PROJECTION["Lambert_Conformal_Conic_2SP"],',
-  #transverse
+  #transverse 10
   'PROJECTION["Transverse_Mercator"],',
-  #oblique
-  'PROJECTION["Hotine_Oblique_Mercator"],'
+  #oblique 11
+  'PROJECTION["Hotine_Oblique_Mercator_Two_Point_Natural_Origin"],'
 )
 lat <- 40
 lon <- -85
-azi <- 335
-rga <- azi
+lat1 <- NA
+lon1 <- NA
+lat2 <- lat + 8
+lon2 <- lon + 3
+
+shape <- c('point', 'cylinder', 'cone')
+equal <- c('area', 'distance', 'angle')
+angle <- c('standard', 'transverse', 'oblique')
+
 scf <- 0.9996
 feast <- 0
 fnorth <- 0
-stp1 <- lat
-stp2 <- lat+8
-lorg <- lat-8
-cmer <- lon
-
-par1 <- paste0('PARAMETER["latitude_of_center",',lat,'],')
-par2 <- paste0('PARAMETER["longitude_of_center",',lon,'],')
-par3 <- paste0('PARAMETER["false_easting",',feast,'],')
-par4 <- paste0('PARAMETER["false_northing",',fnorth,'],')
-par5 <- paste0('PARAMETER["scale_factor",',scf,'],')
-par6a <- paste0('PARAMETER["azimuth",',azi,'],')
-par6b <- paste0('PARAMETER["rectified_grid_angle",',rga,'],')
-
-par1a <- paste0('PARAMETER["standard_parallel_1",',stp1,'],')
-par1b <- paste0('PARAMETER["standard_parallel_2",',stp2,'],')
-par1c <- paste0('PARAMETER["latitude_of_origin",',lorg,'],')
-par2a <- paste0('PARAMETER["central_meridian",',cmer,'],')
+orglat <- NA
 
 
 
-ifaz <- paste0(begining,
+if(is.na(lat1)){lat1 <- lat - 8}
+if(is.na(lon1)){lon1 <- lon - 3}
+if(is.na(lat2)){lat2 <- lat + 8}
+if(is.na(lon2)){lon2 <- lon + 3}
+if(is.na(orglat)){orglat <- lat}
+
+  
+azcentlat <- paste0('PARAMETER["latitude_of_center",',lat,'],')
+azcentlon <- paste0('PARAMETER["longitude_of_center",',lon,'],')
+parfeast <- paste0('PARAMETER["false_easting",',feast,'],')
+parfnorth <- paste0('PARAMETER["false_northing",',fnorth,'],')
+parscf <- paste0('PARAMETER["scale_factor",',scf,'],')
+
+
+coniclat1 <- paste0('PARAMETER["standard_parallel_1",',lat1,'],')
+coniclat2 <- paste0('PARAMETER["standard_parallel_2",',lat2,'],')
+coniclat0 <- paste0('PARAMETER["latitude_of_origin",',orglat,'],')
+coniclon <- paste0('PARAMETER["central_meridian",',lon,'],')
+
+oblilat1 <- paste0('PARAMETER["latitude_of_point_1",',lat1,'],')
+oblilon1 <- paste0('PARAMETER["longitude_of_point_1",',lon1,'],')
+oblilat2 <- paste0('PARAMETER["latitude_of_point_2",',lat2,'],')
+oblilon2 <- paste0('PARAMETER["longitude_of_point_2",',lon2,'],')
+
+
+ifaz <- paste0(azcentlat, azcentlon)
+ifcyl <- paste0(coniclat1, coniclon)
+ifcon <- paste0(azcentlat, azcentlon, coniclat1, coniclat2)
+ifconf <- paste0(coniclat0, coniclon, coniclat1, coniclat2)
+ifutm <- paste0(coniclat0, coniclon, parscf)
+ifobl <- paste0(azcentlat, oblilat1, oblilon1, oblilat2, oblilon2, parscf)
+ifster <- paste0(coniclat0, coniclon)
+pickparameters <- c(ifaz, ifcyl, ifcon, ifconf, ifutm, ifobl, ifster)
+
+assembly <- paste0(begin,
                datums[1],
                projections[1],
-               par1,par2,par3,par4,units[1],axises
-)
-ifcyl <- paste0(begining,
-                datums[1],
-                projections[4],
-                par1a,par2,par3,par4,units[1],axises
-)
-ifcon <- paste0(begining,
-                datums[1],
-                projections[4],
-                par1,par2,par1a,par1b,par3,par4,units[1],axises
-)
-ifconf <- paste0(begining,
-                 datums[1],
-                 projections[4],
-                 par1,par2a,par1a,par1b,par3,par4,units[1],axises
-)
-ifutm <- paste0(begining,
-                datums[1],
-                projections[10],
-                par1,par2a,par5,par3,par4,units[1],axises
-)
+               pickparameters[1],
+               parfeast, parfnorth, units[1],axises)
+
+
+
+
 
 #WGS 84
 st_crs('EPSG:4326')
@@ -223,6 +235,13 @@ AXIS["Northing",NORTH]'
 #oblique equidistant
 
 #azimuthal conformal
+'PROJECTION["Polar_Stereographic"],
+PARAMETER["latitude_of_origin",90],
+PARAMETER["central_meridian",0],
+PARAMETER["scale_factor",1],
+PARAMETER["false_easting",0],
+PARAMETER["false_northing",0]'
+
 
 #cylindric conformal
 'PROJECTION["Mercator_2SP"],
@@ -261,30 +280,19 @@ AXIS["Northing",NORTH]]'
     AXIS["Northing",NORTH]]'
 
 #oblique conformal
-'PROJECTION["Hotine_Oblique_Mercator"],
-    PARAMETER["latitude_of_center",45.3091666666667],
-    PARAMETER["longitude_of_center",-86],
-    PARAMETER["azimuth",337.25556],
-    PARAMETER["rectified_grid_angle",337.25556],
-    PARAMETER["scale_factor",0.9996],
-    PARAMETER["false_easting",2546731.496],
-    PARAMETER["false_northing",-4354009.816],
-    UNIT["metre",1,
-        AUTHORITY["EPSG","9001"]],
-    AXIS["Easting",EAST],
-    AXIS["Northing",NORTH]]'
+'PROJECTION["Hotine_Oblique_Mercator_Two_Point_Natural_Origin"],
+    PARAMETER["latitude_of_center",40],
+    PARAMETER["latitude_of_point_1",0],
+    PARAMETER["longitude_of_point_1",0],
+    PARAMETER["latitude_of_point_2",60],
+    PARAMETER["longitude_of_point_2",60],
+    PARAMETER["scale_factor",1],
+    PARAMETER["false_easting",0],
+    PARAMETER["false_northing",0],
+'
 
-CS[Cartesian,2],
-AXIS["easting (X)",east,
-     ORDER[1],
-     LENGTHUNIT["metre",1]],
-AXIS["northing (Y)",north,
-     ORDER[2],
-     LENGTHUNIT["metre",1]],
-USAGE[
-  SCOPE["State-wide spatial data management."],
-  AREA["United States (USA) - Michigan."],
-  BBOX[41.69,-90.42,48.32,-82.13]]'
+
+
 
 
 reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA){
