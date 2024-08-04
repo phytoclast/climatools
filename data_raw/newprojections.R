@@ -69,7 +69,7 @@ lon2 <- lon + 3
 
 shape <- c('point', 'cylinder', 'cone')
 equal <- c('area', 'distance', 'angle')
-angle <- c('standard', 'transverse', 'oblique')
+variant <- c('standard', 'transverse', 'oblique')
 
 scf <- 0.9996
 feast <- 0
@@ -112,8 +112,64 @@ ifobl <- paste0(azcentlat, oblilat1, oblilon1, oblilat2, oblilon2, parscf)
 ifster <- paste0(coniclat0, coniclon)
 pickparameters <- c(ifaz, ifcyl, ifcon, ifconf, ifutm, ifobl, ifster)
 
+da <- 1
+sh <- 1
+eq <- 1
+va <- 1
+un <- 1
+
+prochoice <- 1 
+pramchoice <- 1
+
+if(shape %in% 'point' & equal %in% 'area'){
+  prochoice <- 1 
+  pramchoice <- 1
+}
+if(shape %in% 'point' & equal %in% 'distance'){
+  prochoice <- 1 
+  pramchoice <- 1
+}
+if(shape %in% 'point' & equal %in% 'angle'){
+  prochoice <- 1 
+  pramchoice <- 1
+}
+
+if(shape %in% 'cylinder' & equal %in% 'area'){
+  prochoice <- 1 
+  pramchoice <- 1
+}
+if(shape %in% 'cylinder' & equal %in% 'distance'){
+  prochoice <- 1 
+  pramchoice <- 1
+}
+if(shape %in% 'cylinder' & equal %in% 'angle' & variant %in% 'standard'){
+  prochoice <- 1 
+  pramchoice <- 1
+}
+if(shape %in% 'cylinder' & equal %in% 'angle' & variant %in% 'transverse'){
+  prochoice <- 1 
+  pramchoice <- 1
+}
+if(shape %in% 'cylinder' & equal %in% 'angle' & variant %in% 'oblique'){
+  prochoice <- 1 
+  pramchoice <- 1
+}
+if(shape %in% 'cone' & equal %in% 'area'){
+  prochoice <- 1 
+  pramchoice <- 1
+}
+if(shape %in% 'cone' & equal %in% 'distance'){
+  prochoice <- 1 
+  pramchoice <- 1
+}
+if(shape %in% 'cone' & equal %in% 'angle'){
+  prochoice <- 1 
+  pramchoice <- 1
+}
+
+
 assembly <- paste0(begin,
-               datums[1],
+               datums[da],
                projections[1],
                pickparameters[1],
                parfeast, parfnorth, units[1],axises)
