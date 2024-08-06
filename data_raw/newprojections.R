@@ -40,24 +40,24 @@ axises <- ',AXIS["Easting",EAST], AXIS["Northing",NORTH]]]'
 
 
 projections <- c(
-  #azimutal 1,2
+  #1.azimutal 1,2
   'PROJECTION["Lambert_Azimuthal_Equal_Area"],',
   'PROJECTION["Azimuthal_Equidistant"],',
-  #stereographic 3
+  #2.stereographic 3
   'PROJECTION["Stereographic"],',
-  #cylindric 4,5
+  #3.cylindric 4,5
   'PROJECTION["Cylindrical_Equal_Area"],',
   'PROJECTION["Equirectangular"],',
-  #mercator 6
+  #4.mercator 6
   'PROJECTION["Mercator_2SP"],',
-  #conic 7,8
+  #5.conic 7,8
   'PROJECTION["Albers_Conic_Equal_Area"],',
   'PROJECTION["Equidistant_Conic"],',
-  #conformal conic 9
+  #6.conformal conic 9
   'PROJECTION["Lambert_Conformal_Conic_2SP"],',
-  #transverse 10
+  #7.transverse 10
   'PROJECTION["Transverse_Mercator"],',
-  #oblique 11
+  #8.oblique 11
   'PROJECTION["Hotine_Oblique_Mercator_Two_Point_Natural_Origin"],'
 )
 lat <- 40
@@ -67,9 +67,11 @@ lon1 <- NA
 lat2 <- lat + 8
 lon2 <- lon + 3
 
-shape <- c('point', 'cylinder', 'cone')
-equal <- c('area', 'distance', 'angle')
-variant <- c('standard', 'transverse', 'oblique')
+prjs <- c('point.equalarea','point.equaldistant','conformal.point',
+         'cylinder.equalarea','cylinder.equaldistant','conformal.cylindric',
+         'cone.equalarea','cone.equaldistant','conformal.conic',
+
+         'conformal.transverse','conformal.oblique')
 
 scf <- 0.9996
 feast <- 0
@@ -84,7 +86,7 @@ if(is.na(lat2)){lat2 <- lat + 8}
 if(is.na(lon2)){lon2 <- lon + 3}
 if(is.na(orglat)){orglat <- lat}
 
-  
+
 azcentlat <- paste0('PARAMETER["latitude_of_center",',lat,'],')
 azcentlon <- paste0('PARAMETER["longitude_of_center",',lon,'],')
 parfeast <- paste0('PARAMETER["false_easting",',feast,'],')
@@ -118,60 +120,60 @@ eq <- 1
 va <- 1
 un <- 1
 
-prochoice <- 1 
-pramchoice <- 1
+prj <- prjs[6]
 
-if(shape %in% 'point' & equal %in% 'area'){
-  prochoice <- 1 
+if(prj %in% 'point.equalarea'){
+  prochoice <- 1
   pramchoice <- 1
 }
-if(shape %in% 'point' & equal %in% 'distance'){
-  prochoice <- 1 
+if(prj %in% 'point.equaldistant'){
+  prochoice <- 2
   pramchoice <- 1
 }
-if(shape %in% 'point' & equal %in% 'angle'){
-  prochoice <- 1 
-  pramchoice <- 1
+if(prj %in% 'conformal.point'){
+  prochoice <- 3
+  pramchoice <- 2
 }
 
-if(shape %in% 'cylinder' & equal %in% 'area'){
-  prochoice <- 1 
-  pramchoice <- 1
+if(prj %in% 'cylinder.equalarea'){
+  prochoice <- 4
+  pramchoice <- 3
 }
-if(shape %in% 'cylinder' & equal %in% 'distance'){
-  prochoice <- 1 
-  pramchoice <- 1
+if(prj %in% 'cylinder.equaldistant'){
+  prochoice <- 5
+  pramchoice <- 3
 }
-if(shape %in% 'cylinder' & equal %in% 'angle' & variant %in% 'standard'){
-  prochoice <- 1 
-  pramchoice <- 1
+if(prj %in% 'conformal.cylindric'){
+  prochoice <- 6
+  pramchoice <- 4
 }
-if(shape %in% 'cylinder' & equal %in% 'angle' & variant %in% 'transverse'){
-  prochoice <- 1 
-  pramchoice <- 1
+if(prj %in% 'cone.equalarea'){
+  prochoice <- 7
+  pramchoice <- 5
 }
-if(shape %in% 'cylinder' & equal %in% 'angle' & variant %in% 'oblique'){
-  prochoice <- 1 
-  pramchoice <- 1
+if(prj %in% 'cone.equaldistant'){
+  prochoice <- 8
+  pramchoice <- 5
 }
-if(shape %in% 'cone' & equal %in% 'area'){
-  prochoice <- 1 
-  pramchoice <- 1
+if(prj %in% 'conformal.conic'){
+  prochoice <- 9
+  pramchoice <- 6
 }
-if(shape %in% 'cone' & equal %in% 'distance'){
-  prochoice <- 1 
-  pramchoice <- 1
+
+if(prj %in% 'conformal.transverse'){
+  prochoice <- 10
+  pramchoice <- 7
 }
-if(shape %in% 'cone' & equal %in% 'angle'){
-  prochoice <- 1 
-  pramchoice <- 1
+if(prj %in% 'conformal.oblique'){
+  prochoice <- 11
+  pramchoice <- 8
 }
 
 
 assembly <- paste0(begin,
                datums[da],
-               projections[1],
-               pickparameters[1],
+               projections[prochoice],
+               pickparameters[pramchoice],
                parfeast, parfnorth, units[1],axises)
 
 
@@ -354,19 +356,19 @@ AXIS["Northing",NORTH]]'
 reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA){
   require(terra)
   require(sf)
-  
+
   #get lat/lon for center of dem by projecting to 'EPSG:4326'
   xcoord =(ext(dem)[1] + ext(dem)[2])/2
   ycoord =(ext(dem)[3] + ext(dem)[4])/2
-  
+
   pt = data.frame(
     xcoord,ycoord
   )
   pt <- sf::st_as_sf(as.data.frame(pt), coords = c("xcoord","ycoord"), crs=st_crs(dem))
   pt.trans <- (st_transform(pt,crs=st_crs('EPSG:4326')))
   pt.trans <- st_coordinates(pt.trans)
-  
-  
+
+
   #set final lat/lon of projection
   if(is.na(lat)){
     lat <- pt.trans[,2]
@@ -374,7 +376,7 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA){
   if(is.na(lon)){
     lon <- pt.trans[,1]
   }
-  
+
   wkt.new <- paste0('PROJCS["Centered Equal Area",
     GEOGCS["WGS 84",
         DATUM["WGS_1984",
@@ -387,18 +389,18 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA){
     PARAMETER["false_easting",0],
     PARAMETER["false_northing",0],
     UNIT["metre",1]]')
-  
+
   #find units and resolution of current projection
   ishfeet <- (grepl('unit.*"foot".*vertcrs',tolower(st_crs(dem))) | !grepl('vertcrs',tolower(st_crs(dem))) & grepl('unit.*"foot"',tolower(st_crs(dem))))
   ishusfeet <- (grepl('unit.*"us survey foot".*vertcrs',tolower(st_crs(dem)))| !grepl('vertcrs',tolower(st_crs(dem))) & grepl('unit.*"us survey foot"',tolower(dem)))
   isprojected <- grepl('conversion',tolower(st_crs(dem)))
-  
+
   hfactor <- ifelse(!isprojected[length(st_crs(dem))], 111111.1,
                     ifelse(ishfeet[length(st_crs(dem))], 0.3048,
                            ifelse(ishusfeet[length(st_crs(dem))], 0.304800609601219, 1)))
   r = mean(res(dem))*hfactor
-  
-  
+
+
   #find extent after projection
   ex <- data.frame(rname=c('ul','ll','ur','lr'),
                    xcoord=c(ext(dem)[1],ext(dem)[1],ext(dem)[2],ext(dem)[2]),
@@ -407,7 +409,7 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA){
   ex <- sf::st_as_sf(as.data.frame(ex), coords = c("xcoord","ycoord"), crs=st_crs(dem))
   ex.trans <- (st_transform(ex,crs=wkt.new))
   ex.trans <- as.data.frame(st_coordinates(ex.trans))
-  
+
   #set final extent
   if(is.na(h)){
     ymn= min(ex.trans$Y)
@@ -423,14 +425,14 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA){
     xmn= -w/2
     xmx= w/2
   }
-  
+
   #set final resolution
   r <- ifelse(is.na(rs),r,rs)
-  
+
   #dumb raster
   y.rast <- rast(xmin=xmn, xmax=xmx,
                  ymin=ymn, ymax=ymx, crs=wkt.new, res=r)
   #project raster
   dem2 <- project(dem, y.rast, method = 'bilinear')
-  
+
   return(dem2)}
