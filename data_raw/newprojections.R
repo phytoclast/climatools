@@ -1,3 +1,24 @@
+
+scf <- 0.9996
+feast <- 0
+fnorth <- 0
+orglat <- NA
+lat <- 40
+lon <- -85
+lat1 <- NA
+lon1 <- NA
+lat2 <- lat + 8
+lon2 <- lon + 3
+
+
+
+setProjection <- function(prj = c('point.equalarea','point.equaldistant','conformal.point',
+                                    'cylinder.equalarea','cylinder.equaldistant','conformal.cylindric',
+                                    'cone.equalarea','cone.equaldistant','conformal.conic',
+                                    'conformal.transverse','conformal.oblique','geographic'),
+                          datum = c('WGS84','NAD83','NAD27'),unit=c('m','ft','usft'),
+                          lat=NA, lon=NA, lat2=NA,lon2=NA,feast=0,fnorth=0,orglat=NA){
+
 begin <- 'PROJCS["Custom",'
 
 datums <- c(
@@ -34,10 +55,6 @@ units <- c('UNIT["metre",1,AUTHORITY["EPSG","9001"]]',
 
 axises <- ',AXIS["Easting",EAST], AXIS["Northing",NORTH]]]'
 
-#survey feet
-'UNIT["degree",0.0174532925199433,
-     AUTHORITY["EPSG","9122"]]'
-
 
 projections <- c(
   #1.azimutal 1,2
@@ -60,23 +77,6 @@ projections <- c(
   #8.oblique 11
   'PROJECTION["Hotine_Oblique_Mercator_Two_Point_Natural_Origin"],'
 )
-lat <- 40
-lon <- -85
-lat1 <- NA
-lon1 <- NA
-lat2 <- lat + 8
-lon2 <- lon + 3
-
-prjs <- c('point.equalarea','point.equaldistant','conformal.point',
-         'cylinder.equalarea','cylinder.equaldistant','conformal.cylindric',
-         'cone.equalarea','cone.equaldistant','conformal.conic',
-
-         'conformal.transverse','conformal.oblique')
-
-scf <- 0.9996
-feast <- 0
-fnorth <- 0
-orglat <- NA
 
 
 
@@ -120,7 +120,6 @@ eq <- 1
 va <- 1
 un <- 1
 
-prj <- prjs[6]
 
 if(prj %in% 'point.equalarea'){
   prochoice <- 1
@@ -174,10 +173,10 @@ assembly <- paste0(begin,
                datums[da],
                projections[prochoice],
                pickparameters[pramchoice],
-               parfeast, parfnorth, units[1],axises)
+               parfeast, parfnorth, units[un],axises)
 
 
-
+}
 
 
 #WGS 84
