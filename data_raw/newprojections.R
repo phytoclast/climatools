@@ -11,10 +11,6 @@ lon1 <- NA
 lat2 <- lat + 8
 lon2 <- lon + 3
 
-setProjection(prj = 'cone.equaldistant', datum = 3, unit = 3, lat = lat, lon = lon)
-setProjection( lat = lat, lon = lon)
-
-
 
 
 
@@ -233,7 +229,7 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, dat
     lon <- pt.trans[,1]
   }
 
-  wkt.new <- setProjection(prj=1, datum=1,unit=1, lat=lat, lon=lon)
+  wkt.new <- setProjection(prj=prj, datum=datum,unit=unit, lat=lat, lon=lon)
 
   #find units and resolution of current projection
   ishfeet <- (grepl('unit.*"foot".*vertcrs',tolower(st_crs(dem))) | !grepl('vertcrs',tolower(st_crs(dem))) & grepl('unit.*"foot"',tolower(st_crs(dem))))
