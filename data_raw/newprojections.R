@@ -1,15 +1,15 @@
 library(sf)
 library(terra)
-scf <- 0.9996
-feast <- 0
-fnorth <- 0
-orglat <- NA
-lat <- 40
-lon <- -85
-lat1 <- NA
-lon1 <- NA
-lat2 <- lat + 8
-lon2 <- lon + 3
+# scf <- 0.9996
+# feast <- 0
+# fnorth <- 0
+# orglat <- NA
+# lat <- 40
+# lon <- -85
+# lat1 <- NA
+# lon1 <- NA
+# lat2 <- lat + 8
+# lon2 <- lon + 3
 
 
 
@@ -122,6 +122,8 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
   coniclat2 <- paste0('PARAMETER["standard_parallel_2",',lat2,'],')
   coniclat0 <- paste0('PARAMETER["latitude_of_origin",',orglat,'],')
   coniclon <- paste0('PARAMETER["central_meridian",',lon,'],')
+  coniclatcenter <- paste0('PARAMETER["latitude_of_center",',lat,'],')
+  conicloncenter <- paste0('PARAMETER["longitude_of_center",',lon,'],')
 
   oblilat1 <- paste0('PARAMETER["latitude_of_point_1",',lat1,'],')
   oblilon1 <- paste0('PARAMETER["longitude_of_point_1",',lon1,'],')
@@ -131,12 +133,14 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
 
   ifaz <- paste0(azcentlat, azcentlon)
   ifcyl <- paste0(coniclat1, coniclon)
-  ifcon <- paste0(azcentlat, azcentlon, coniclat1, coniclat2)
+  ifcon <- paste0(coniclatcenter, conicloncenter, coniclat1, coniclat2)
   ifconf <- paste0(coniclat0, coniclon, coniclat1, coniclat2)
   ifutm <- paste0(coniclat0, coniclon, parscf)
   ifobl <- paste0(azcentlat, oblilat1, oblilon1, oblilat2, oblilon2, parscf)
   ifster <- paste0(coniclat0, coniclon)
-  pickparameters <- c(ifaz, ifcyl, ifcon, ifconf, ifutm, ifobl, ifster)
+  ifmerc <- paste0(coniclat1,  coniclon)
+
+  pickparameters <- c(ifaz, ifcyl, ifcon, ifconf, ifutm, ifobl, ifster, ifmerc)
 
 
 
@@ -150,41 +154,41 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
   }
   if(prj %in% 'conformal.point'){
     prochoice <- 3
-    pramchoice <- 2
+    pramchoice <- 7
   }
 
   if(prj %in% 'cylinder.equalarea'){
     prochoice <- 4
-    pramchoice <- 3
+    pramchoice <- 2
   }
   if(prj %in% 'cylinder.equaldistant'){
     prochoice <- 5
-    pramchoice <- 3
+    pramchoice <- 2
   }
   if(prj %in% 'conformal.cylindric'){
     prochoice <- 6
-    pramchoice <- 4
+    pramchoice <- 2
   }
   if(prj %in% 'cone.equalarea'){
     prochoice <- 7
-    pramchoice <- 5
+    pramchoice <- 3
   }
   if(prj %in% 'cone.equaldistant'){
     prochoice <- 8
-    pramchoice <- 5
+    pramchoice <- 3
   }
   if(prj %in% 'conformal.conic'){
     prochoice <- 9
-    pramchoice <- 6
+    pramchoice <- 4
   }
 
   if(prj %in% 'conformal.transverse'){
     prochoice <- 10
-    pramchoice <- 7
+    pramchoice <- 5
   }
   if(prj %in% 'conformal.oblique'){
     prochoice <- 11
-    pramchoice <- 8
+    pramchoice <- 6
   }
 
 
@@ -229,7 +233,9 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, dat
     lon <- pt.trans[,1]
   }
 
-  wkt.new <- setProjection(prj=prj, datum=datum,unit=unit, lat=lat, lon=lon)
+wkt.new <- setProjection(prj=prj, datum=datum,unit=unit, lat=lat, lon=lon)
+  #  wkt.new <- crs('ESRI:102010')
+  #    wkt.new <- "+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +datum=WGS84"
 
   #find units and resolution of current projection
   ishfeet <- (grepl('unit.*"foot".*vertcrs',tolower(st_crs(dem))) | !grepl('vertcrs',tolower(st_crs(dem))) & grepl('unit.*"foot"',tolower(st_crs(dem))))
@@ -243,28 +249,28 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, dat
 
 
   #find extent after projection
-  ex <- data.frame(rname=c('ul','ll','ur','lr'),
-                   xcoord=c(ext(dem)[1],ext(dem)[1],ext(dem)[2],ext(dem)[2]),
-                   ycoord=c(ext(dem)[3],ext(dem)[4],ext(dem)[3],ext(dem)[4])
-  )
+  ex <- data.frame(rname=c('center','ul','ll','ur','lr'),
+                   xcoord=c(lon, ext(dem)[1],ext(dem)[1],ext(dem)[2],ext(dem)[2]),
+                   ycoord=c(lat, ext(dem)[3],ext(dem)[4],ext(dem)[3],ext(dem)[4]))
+
   ex <- sf::st_as_sf(as.data.frame(ex), coords = c("xcoord","ycoord"), crs=st_crs(dem))
   ex.trans <- (st_transform(ex,crs=wkt.new))
   ex.trans <- as.data.frame(st_coordinates(ex.trans))
-
+  #st_crs(wkt.new) #st_crs('EPSG:3083')
   #set final extent
   if(is.na(h)){
     ymn= min(ex.trans$Y)
     ymx= max(ex.trans$Y)
   }else{
-    ymn= -h/2
-    ymx= h/2
+    ymn= ex.trans$Y[1]-h/2
+    ymx= ex.trans$Y[1]+h/2
   }
   if(is.na(w)){
     xmn= min(ex.trans$X)
     xmx= max(ex.trans$X)
   }else{
-    xmn= -w/2
-    xmx= w/2
+    xmn= ex.trans$X[1]-w/2
+    xmx= ex.trans$X[1]+w/2
   }
 
   #set final resolution
