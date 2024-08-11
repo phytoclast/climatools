@@ -25,7 +25,7 @@ if(i==1){df=df0}else{df=rbind(df,df0)}
 
 
 
-for(k in 1:nrow(mts)){#k=58
+for(k in 1:nrow(mts)){#k=9
 thismts <- mts[k,]
 cropdeg = 5
 thisfile <- subset(df, west <= thismts$Longitude &
@@ -61,8 +61,8 @@ for(i in 1:length(demlist)){
 }
 plot(dem)
 rg <- minmax(dem)[2]-minmax(dem)[1]
-scale <- rg*15+10000
-demx <- reproject(dem=dem, rs=250, w=scale, h=scale, lat=thismts$Latitude, lon=thismts$Longitude)
+scl <- rg*15+10000
+demx <- reproject(dem=dem, rs=250, w=scl, h=scl, lat=thismts$Latitude, lon=thismts$Longitude)
 
 plot(demx)
 prebreaks = c(150,300,500,1000,2000,3000,4000,5000,6000,7000,8000)
