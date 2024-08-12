@@ -19,7 +19,7 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
                                   'cone.equalarea','cone.equaldistant','conformal.conic',
                                   'conformal.transverse','conformal.oblique','geographic'),
                           datum = c('WGS84','NAD83','NAD27'),unit=c('m','ft','usft'),
-                          lat=NA, lon=NA, lat2=NA,lon2=NA,feast=0,fnorth=0,orglat=NA){
+                          lat=NA, lon=NA, lat2=NA,lon2=NA,feast=0,fnorth=0, orglat=NA, scf=0.9996){
   prj <- prj[1];datum <- datum[1];unit <- unit[1]
   #alternative numeric parameter assigned to text
   if(is.numeric(prj)){
@@ -38,7 +38,7 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
     unit <- which(preunit %in% unit)
   }
 
-  da=datum
+  da <- datum
 
   un <- unit
 
@@ -72,8 +72,8 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
 
 
   unitss <- c('UNIT["metre",1,AUTHORITY["EPSG","9001"]]',
-             'UNIT["foot",0.3048, AUTHORITY["EPSG","9002"]]',
-             'UNIT["US survey foot",0.304800609601219,AUTHORITY["EPSG","9003"]]')
+              'UNIT["foot",0.3048, AUTHORITY["EPSG","9002"]]',
+              'UNIT["US survey foot",0.304800609601219,AUTHORITY["EPSG","9003"]]')
 
 
 
@@ -104,12 +104,12 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
 
 
 
-  if(is.na(lat1)){lat1 <- lat - 8}
-  if(is.na(lon1)){lon1 <- lon - 3}
+  if(is.na(lat2)){lat1 <- lat - 8}else{lat1 <- lat}
+  if(is.na(lon2)){lon1 <- lon - 3}else{lon1 <- lon}
   if(is.na(lat2)){lat2 <- lat + 8}
   if(is.na(lon2)){lon2 <- lon + 3}
   if(is.na(orglat)){orglat <- lat}
-
+  lat <- mean(lat1,lat2);lon <- mean(lon1,lon2)
 
   azcentlat <- paste0('PARAMETER["latitude_of_center",',lat,'],')
   azcentlon <- paste0('PARAMETER["longitude_of_center",',lon,'],')
@@ -209,7 +209,7 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
 
 
 
-reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, datum=NA, unit=NA){
+reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj = NA){
   require(terra)
   require(sf)
 
@@ -233,9 +233,20 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, dat
     lon <- pt.trans[,1]
   }
 
-wkt.new <- setProjection(prj=prj, datum=datum,unit=unit, lat=lat, lon=lon)
-  #  wkt.new <- crs('ESRI:102010')
-  #    wkt.new <- "+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +datum=WGS84"
+  if(is.na(prj)){
+    wkt.new <- paste0('PROJCS["Centered Equal Area",
+    GEOGCS["WGS 84",
+        DATUM["WGS_1984",
+            SPHEROID["WGS 84",6378137,298.257223563]],
+        PRIMEM["Greenwich",0],
+        UNIT["Degree",0.0174532925199433]],
+    PROJECTION["Lambert_Azimuthal_Equal_Area"],
+    PARAMETER["latitude_of_center",',lat,'],
+    PARAMETER["longitude_of_center",',lon,'],
+    PARAMETER["false_easting",0],
+    PARAMETER["false_northing",0],
+    UNIT["metre",1]]')}else{wkt.new <- prj}
+
 
   #find units and resolution of current projection
   ishfeet <- (grepl('unit.*"foot".*vertcrs',tolower(st_crs(dem))) | !grepl('vertcrs',tolower(st_crs(dem))) & grepl('unit.*"foot"',tolower(st_crs(dem))))
