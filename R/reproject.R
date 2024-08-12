@@ -14,12 +14,13 @@
 #' @param rs resolution of raster in meters (default is converted from existing raster)
 #' @param h extent north to south in meters (default is converted from existing raster)
 #' @param w extent east to west in meters (default is converted from existing raster)
+#' @param prj Coordinate reference system (crs); Defaults to equal area azimuth.
 #'
 #' @return new raster with Lambert_Azimuthal_Equal_Area projection
 #' @export
 #'
 #' @examples
-reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA){
+reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA){
   require(terra)
   require(sf)
 
@@ -42,7 +43,7 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA){
   if(is.na(lon)){
     lon <- pt.trans[,1]
   }
-
+if(is.na(prj)){
   wkt.new <- paste0('PROJCS["Centered Equal Area",
     GEOGCS["WGS 84",
         DATUM["WGS_1984",
@@ -54,7 +55,7 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA){
     PARAMETER["longitude_of_center",',lon,'],
     PARAMETER["false_easting",0],
     PARAMETER["false_northing",0],
-    UNIT["metre",1]]')
+    UNIT["metre",1]]')}else{wkt.new <- prj}
 
   #find units and resolution of current projection
   ishfeet <- (grepl('unit.*"foot".*vertcrs',tolower(st_crs(dem))) | !grepl('vertcrs',tolower(st_crs(dem))) & grepl('unit.*"foot"',tolower(st_crs(dem))))
@@ -68,10 +69,10 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA){
 
 
   #find extent after projection
-  ex <- data.frame(rname=c('ul','ll','ur','lr'),
-                   xcoord=c(ext(dem)[1],ext(dem)[1],ext(dem)[2],ext(dem)[2]),
-                   ycoord=c(ext(dem)[3],ext(dem)[4],ext(dem)[3],ext(dem)[4])
-  )
+  ex <- data.frame(rname=c('center','ul','ll','ur','lr'),
+                   xcoord=c(lon, ext(dem)[1],ext(dem)[1],ext(dem)[2],ext(dem)[2]),
+                   ycoord=c(lat, ext(dem)[3],ext(dem)[4],ext(dem)[3],ext(dem)[4]))
+
   ex <- sf::st_as_sf(as.data.frame(ex), coords = c("xcoord","ycoord"), crs=st_crs(dem))
   ex.trans <- (st_transform(ex,crs=wkt.new))
   ex.trans <- as.data.frame(st_coordinates(ex.trans))
@@ -81,15 +82,15 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA){
     ymn= min(ex.trans$Y)
     ymx= max(ex.trans$Y)
   }else{
-    ymn= -h/2
-    ymx= h/2
+    ymn= ex.trans$Y[1]-h/2
+    ymx= ex.trans$Y[1]+h/2
   }
   if(is.na(w)){
     xmn= min(ex.trans$X)
     xmx= max(ex.trans$X)
   }else{
-    xmn= -w/2
-    xmx= w/2
+    xmn= ex.trans$X[1]-w/2
+    xmx= ex.trans$X[1]+w/2
   }
 
   #set final resolution
