@@ -50,8 +50,9 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
     'GEOGCS["WGS 84",
         DATUM["WGS_1984",
             SPHEROID["WGS 84",6378137,298.257223563]],
-        PRIMEM["Greenwich",0],
-        UNIT["Degree",0.0174532925199433]],',
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4326]],',
     #NAD83
     'BASEGEOGCRS["NAD83",
         DATUM["North American Datum 1983",
@@ -69,6 +70,7 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
                    ANGLEUNIT["degree",0.0174532925199433]],
             ID["EPSG",4267]],'
   )
+  datums2 <- c('EPSG:4326','EPSG:4269','EPSG:4267')
 
 
   unitss <- c('UNIT["metre",1,AUTHORITY["EPSG","9001"]]',
@@ -190,13 +192,18 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
     prochoice <- 11
     pramchoice <- 6
   }
+  if(prj %in% 'geographic'){
+    assembly <- crs(datums2[da])
+  }else{
+    assembly <- paste0(begin,
+                       datums[da],
+                       projections[prochoice],
+                       pickparameters[pramchoice],
+                       parfeast, parfnorth, unitss[un],axises)
+  }
 
 
-  assembly <- paste0(begin,
-                     datums[da],
-                     projections[prochoice],
-                     pickparameters[pramchoice],
-                     parfeast, parfnorth, unitss[un],axises)
+
 
   return(assembly)
 

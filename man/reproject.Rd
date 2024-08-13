@@ -4,7 +4,7 @@
 \alias{reproject}
 \title{Reproject any raster to Lambert_Azimuthal_Equal_Area with specified center and extent.}
 \usage{
-reproject(dem, lat = NA, lon = NA, rs = NA, h = NA, w = NA)
+reproject(dem, lat = NA, lon = NA, rs = NA, h = NA, w = NA, prj = NA)
 }
 \arguments{
 \item{dem}{Digital elevation model or other type of raster}
@@ -18,6 +18,8 @@ reproject(dem, lat = NA, lon = NA, rs = NA, h = NA, w = NA)
 \item{h}{extent north to south in meters (default is converted from existing raster)}
 
 \item{w}{extent east to west in meters (default is converted from existing raster)}
+
+\item{prj}{Coordinate reference system (crs); Defaults to equal area azimuth.}
 }
 \value{
 new raster with Lambert_Azimuthal_Equal_Area projection
