@@ -106,13 +106,24 @@ proms3 <- subset(proms3, select=c(Peak, State, lat, lon, ht))
 proms4 <- subset(proms4, select=c(Peak, State, lat, lon, ht))
 proms5 <- subset(proms5, select=c(Peak, Range, lat, lon, ht))
 promx <- bind_rows(proms, proms2, proms3, proms4,proms5)
+promx2 <- promx
+# #thin redundancy
+for (i in 1:nrow(promx)){#i=3
+p0 <- promx[i,]
+promx2 <- promx2 |> mutate(dis = 10000/90*((lat-p0$lat)^2+((lon-p0$lon)/0.8)^2)^0.5)
+ind <-  which(promx2$dis < 1)
+promx2[ind,] <- promx2[ind,] |> mutate(Peak=p0$Peak, lat = mean(lat), lon = mean(lon), ht=round(mean(ht,0)))
+}
+promx <- promx2 |> subset(select = c(Peak,lat,lon,ht)) |> unique()
+
+
 library(sf)
 states <- st_read('C:/a/geo/world/level4/level4.shp')
 promsf <- st_as_sf(promx, coords = c("lon", "lat"), crs = 4326)
 st_crs(states) <- st_crs(4326); states <- st_make_valid(states);# plot(st_geometry(states))
 promsf <- st_join(promsf, states)
-promsf <- promsf |> mutate(State=ifelse(is.na(State), LEVEL_4_NA, State))
-promsf <- promsf |> subset(select=c(Peak,Range,State,CONTINENT, ht))
+promsf <- promsf |> mutate(State=LEVEL_4_NA)
+promsf <- promsf |> subset(select=c(Peak,State,CONTINENT, ht))
 st_write(promsf, dsn = "output/corrected", layer = "mountains.shp", driver = 'ESRI Shapefile', append = F)
 #rasters
 library(terra)
