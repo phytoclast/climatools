@@ -1,0 +1,57 @@
+State	Peak	Ht	coord
+Alabama	Cheaha Mountain[4][5]	733 m	33.4854°N 85.8086°W
+Alaska[g]	Denali[6][h]	6190.5 m	63.0690°N 151.0063°W
+Arizona	Humphreys Peak[8][9]	3851.8 m	35.3464°N 111.6780°W
+Arkansas	Mount Magazine[10][11][i]	839 m	35.1671°N 93.6447°W
+California[j]	Mount Whitney[12][13][k]	4421.0 m	36.5786°N 118.2924°W
+Colorado[m]	Mount Elbert[15][16][n]	4401.2 m	39.1178°N 106.4453°W
+Connecticut	Mount Frissell	727 m	42.0496°N 73.4828°W
+Delaware[q]	Near the Ebright Azimuth[19][20][21]	137 m	39.8360°N 75.5222°W
+District of Columbia	Point Reno[22][23]	126 m	38.9517°N 77.0760°W
+Florida[r]	Britton Hill[24][s]	105 m	30.9848°N 86.2824°W
+Georgia	Brasstown Bald[25]	1458 m	34.8744°N 83.8111°W
+Guam	Mount Lamlam[26][t]	406 m	13.3397°N 144.6655°E
+Hawaii	Mauna Kea[27][28][u]	4207.3 m	19.8207°N 155.4680°W
+Idaho	Borah Peak[31][32]	3861.2 m	44.1374°N 113.7811°W
+Illinois	Charles Mound[33][34][v]	376.4 m	42.5041°N 90.2398°W
+Indiana	Hoosier Hill[35]	383 m	40.0012°N 84.8487°W
+Iowa	Hawkeye Point[36]	509 m	43.4602°N 95.7089°W
+Kansas	Mount Sunflower[37][w]	1232 m	39.0220°N 102.0371°W
+Kentucky	Black Mountain[38]	1262 m	36.9142°N 82.8938°W
+Louisiana[x]	Driskill Mountain[39]	163 m	32.4249°N 92.8967°W
+Maine	Mount Katahdin[40][41][y]	1606.4 m	45.9044°N 68.9214°W
+Maryland	Hoye-Crest[42]	1027 m	39.2374°N 79.4855°W
+Massachusetts	Mount Greylock[43][44][z]	1063 m	42.6373°N 73.1659°W
+Michigan	Mount Arvon[45][aa]	603 m	46.7557°N 88.1553°W
+Minnesota	Eagle Mountain[46]	702 m	47.8974°N 90.5606°W
+Mississippi	Woodall Mountain[47][48]	246.0 m	34.7877°N 88.2416°W
+Missouri	Taum Sauk Mountain[49][ab]	540 m	37.5713°N 90.7291°W
+Montana	Granite Peak[50][51][ac]	3903.5 m	45.1635°N 109.8076°W
+Nebraska	Panorama Point[52][ad]	1656 m	41.0077°N 104.0314°W
+Nevada	Boundary Peak[53][54][ae]	4007 m	37.8461°N 118.3514°W
+New Hampshire	Mount Washington[55][56][af]	1915.92 m	44.2705°N 71.3034°W
+New Jersey	High Point[57]	549 m	41.3209°N 74.6616°W
+New Mexico	Wheeler Peak[58][59][ag]	4013.3 m	36.5568°N 105.4169°W
+New York	Mount Marcy[60][61][ah]	1628.57 m	44.1129°N 73.9238°W
+North Carolina	Mount Mitchell[62][ai]	2037 m	35.7649°N 82.2651°W
+North Dakota	White Butte[63]	1069 m	46.3870°N 103.3027°W
+Northern Marianas	Mount Agrihan[64][aj]	977 m	18.7681°N 145.6732°E
+Ohio	Campbell Hill[66]	472 m	40.3703°N 83.7201°W
+Oklahoma	Black Mesa[67]	1516 m	36.9318°N 102.9979°W
+Oregon	Mount Hood[68][69][ak]	3428.8 m	45.3735°N 121.6960°W
+Pennsylvania	Mount Davis[70]	979 m	39.7860°N 79.1768°W
+Puerto Rico[al]	Cerro de Punta[71][am]	1338 m	18.1722°N 66.5917°W
+Rhode Island	Jerimoth Hill[72]	247 m	41.8493°N 71.7789°W
+South Carolina	Sassafras Mountain[73]	1083 m	35.0651°N 82.7773°W
+South Dakota	Black Elk Peak[74][75][an]	2208 m	43.8660°N 103.5312°W
+Tennessee	Clingmans Dome[76][ao]	2025 m	35.5629°N 83.4986°W
+Texas	Guadalupe Peak[77][78][ap]	2667.4 m	31.8915°N 104.8607°W
+United States Outlying islands	Navassa Island high point[91]	85 m	18.3968°N 75.0125°W
+United States Virgin Islands	Crown Mountain[82]	474 m	18.3571°N 64.9732°W
+Utah	Kings Peak[79][aq]	4125 m	40.7763°N 110.3729°W
+Vermont	Mount Mansfield[80][81][ar]	1339.69 m	44.5438°N 72.8144°W
+Virginia	Mount Rogers[83][84]	1740.6 m	36.6601°N 81.5449°W
+Washington	Mount Rainier[85][as]	4394 m	46.8529°N 121.7604°W
+West Virginia	Spruce Knob[86][87]	1482 m	38.6998°N 79.5330°W
+Wisconsin	Timms Hill[88]	595 m	45.4508°N 90.1954°W
+Wyoming	Gannett Peak[89][90][at]	4209.1 m	43.1844°N 109.6543°W

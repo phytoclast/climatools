@@ -1,0 +1,220 @@
+Peak	State	ht	coord
+Cuyahoga Peak	Michigan	485	46° 48' 49'' N, 89° 42' 47'' W
+Scafell Pike	England	978	54°27′15″N 3°12′42″W
+Carrauntoohil	Ireland	1039	51°59′58″N 9°44′34″W
+Ben Nevis	Scotland	1345	56°47′49″N 5°00′13″W
+Snowdon	Wales	1084.74	53°4′6.59″N 4°4′34.43″W
+Càrn Eige	Scotland	1183	57° 17′ 15.57″ N, 5° 6′ 57.88″ W
+Ben Macdui	Scotland	1309	57° 4′ 11.96″ N, 3° 40′ 8.63″ W
+Ben Lawers	Scotland	1214	56°32′44″N 4°13′15″W
+Empire Bluffs	Michigan	340	44° 47' 59'' N, 86° 4' 17'' W
+Briar Hill	Michigan	519	44° 21' 58'' N, 85° 40' 46'' W
+Matterhorn	Switzerland	4478	45°58′35″N 7°39′31″E
+Huron Mountain	Michigan	460	46° 52' 42'' N, 87° 55' 18'' W
+Mount Bohemia	Michigan	447	47° 23' 30'' N, 88° 0' 49'' W
+Cadillac Mountain	Maine	466	44° 21' 5'' N, 68° 13' 36'' W
+Moose Mountain	Minnesota	515	47° 39' 4'' N, 90° 44' 6'' W
+Devil's Lake West Bluff	Wisconsin	447	43° 25' 13'' N, 89° 44' 19'' W
+Mount Le Conte	Tennessee	2010	35° 39' 15'' N, 83° 26' 12'' W
+Mount Shuksan	Washington	2781	48° 49' 53'' N, 121° 36' 10'' W
+Cape Final	Arizona	2413	36° 8' 32'' N, 111° 54' 29'' W
+Mount Cleveland	Montana	3190	48° 55' 30'' N, 113° 50' 53'' W
+Monte Rosa	Switzerland	4633	45° 56' 13'' N, 7° 52' 0'' E
+Frozen Head	Tennessee	1013	36° 7' 21'' N, 84° 27' 28'' W
+Cross Mountain	Tennessee	1077	36° 11' 54'' N, 84° 13' 50'' W
+Kwagama Hill	Ontario	642	47° 24' 53'' N, 84° 33' 32'' W 
+Pie Island High Point	Ontario	455	48° 14' 7'' N, 89° 9' 39'' W
+Sleeping Giant	Ontario	563	48° 21' 3'' N, 88° 53' 51'' W 
+Silver Peak	Ontario	539	46° 6' 40'' N, 81° 17' 22'' W
+Peak 489	Ontario	489	46° 4' N, 81° 23' W
+Ishpatina Ridge	Ontario	693	47° 19' 1'' N, 80° 44' 56'' W 
+Mont Raoul-Blanchard	Québec	1175	47° 18' 34'' N, 70° 49' 56'' W
+Mont Jacques-Cartier	Québec	1276	48° 59' 14'' N, 65° 56' 53'' W
+Mont Tremblant	Québec	932	46° 14' 56'' N, 74° 33' 34'' W 
+Großglockner	Austria	3797	47° 4' 28'' N, 12° 41' 38'' E
+Rysy	Poland	2501	49°10′46″N 20°5′17″E
+Mount Kosciuszko	Australia	2228	36° 27' 22'' S, 148° 15' 48'' E
+Mount Ruapehu	New Zealand	2797	39° 17' 22'' S, 175° 33' 45'' E 
+Mount Ossa	Tasmania	1617	41° 52' 15'' S, 146° 2' 0'' E
+Mount Roraima	Guyana	2772	5° 12' 49'' N, 60° 44' 48'' W
+Monte Roraima	Venezuela	2810	5° 8' 31'' N, 60° 45' 51'' W
+Ojos del Salado	Chile	6893	27° 6' 35'' S, 68° 32' 33'' W
+Nevado Huascarán	Peru	6768	9° 7' 16'' S, 77° 36' 17'' W
+Nevado Sajama	Bolivia	6542	18° 6' 28'' S, 68° 52' 59'' W
+Pico da Neblina	Brazil	2995	0° 48' 0'' N, 66° 0' 27'' W 
+Volcán Barú	Panama	3474	8° 48' 32'' N, 82° 32' 34'' W 
+Cerro Las Minas	Honduras	2870	14° 32' 2'' N, 88° 40' 48'' W 
+Cerro El Pital	El Salvador	2730	14° 23' 4'' N, 89° 7' 45'' W
+Pic la Selle	Haiti	2674	18° 21' 37'' N, 71° 58' 36'' W 
+Blue Mountain Peak	Jamaica	2256	18° 2' 47'' N, 76° 34' 44'' W
+Pico Mogotón	Nicaragua	2106	13° 45' 47'' N, 86° 23' 54'' W
+Pico Turquino	Cuba	1974	19° 59' 23'' N, 76° 50' 9'' W 
+La Grande Soufrière	Guadeloupe	1467	16° 2' 42'' N, 61° 39' 50'' W
+Morne Diablotins	Dominica	1447	15° 30' 14'' N, 61° 23' 53'' W
+Montagne Pelée	Martinique	1395	14° 48' 33'' N, 61° 9' 56'' W
+La Soufrière	Saint Vincent and the Grenadines	1234	13° 20' 52'' N, 61° 10' 34'' W
+Julianatop	Suriname	1230	3° 40' 58'' N, 56° 32' 8'' W
+Doyle's Delight	Belize	1174	16° 29' 39'' N, 89° 2' 44'' W
+Mount Liamuiga	Saint Kitts and Nevis	1156	17° 22' 6'' N, 62° 48' 11'' W
+Mount Gimie	Saint Lucia	950	13° 51' 49'' N, 61° 0' 42'' W
+Aripo Peak	Trinidad and Tobago	940	10° 43' 23'' N, 61° 14' 42'' W
+Soufriere Hills Volcano	Montserrat	914	16° 42' 44'' N, 62° 10' 32'' W
+Mount Scenery	Saba	870	17° 38' 5'' N, 63° 14' 16'' W
+Bellevue de L'Inini	French Guiana	851	3° 32' 38'' N, 53° 34' 29'' W
+Cerro Tres Kandú	Paraguay	842	25° 54' 7'' S, 56° 9' 36'' W
+Mount Saint Catherine	Grenada	840	12° 9' 44'' N, 61° 40' 30'' W
+Mount Usborne	Falkland Islands	705	51° 41' 31'' S, 58° 50' 2'' W
+Mazinga	Sint Eustatius	600	17° 28' 35'' N, 62° 57' 35'' W
+Mount Sage	British Virgin Islands	521	18° 24' 34'' N, 64° 39' 20'' W
+Cerro Catedral	Uruguay	514	34° 22' 59'' S, 54° 40' 26'' W
+Shkhara	Russia/Georgia	5193	43° 0' 0'' N, 43° 6' 35'' E
+Bazar Dyuzi	Azerbaijan	4466	41° 13' 14'' N, 47° 51' 29'' E
+Aragats Lerr	Armenia	4090	40° 31' 23'' N, 44° 11' 43'' E 
+Zugspitze	Germany	2962	47° 25' 16'' N, 10° 59' 11'' E
+Pic de Coma Pedrosa	Andorra	2943	42° 35' 30'' N, 1° 26' 37'' E
+Musala	Bulgaria	2925	42° 10' 47'' N, 23° 35' 7'' E
+Olympus	Greece	2918	40° 5' 8'' N, 22° 21' 31'' E
+Triglav	Slovenia	2864	46° 22' 42'' N, 13° 50' 11'' E 
+Korab	Albania	2764	41° 47' 27'' N, 20° 32' 46'' E
+Velika Rudoka	Kosovo	2660	41° 55' 6'' N, 20° 46' 35'' E
+Grauspitz	Liechtenstein	2600	47° 3' 10'' N, 9° 34' 53'' E 
+Moldoveanu	Romania	2544	45° 36' 0'' N, 24° 44' 10'' E
+Zla Kolata	Montenegro	2525	42° 29' 6'' N, 19° 53' 46'' E 
+Galdhøpiggen	Norway	2469	61° 38' 11'' N, 8° 18' 45'' E
+Veliki Maglić	Bosnia and Herzegovina	2386	43° 16' 52'' N, 18° 43' 59'' E 
+Jan Mayen	Beerenberg	2277	71° 4' 56'' N, 8° 10' 42'' W
+Midžor	Serbia	2169	43° 23' 41'' N, 22° 40' 55'' E 
+Hvannadalshnúkur	Iceland	2110	64° 0' 51'' N, 16° 40' 39'' W 
+Kebnekaise – Nordtoppen	Sweden	2097	67° 54' 16'' N, 18° 31' 37'' E
+Gora Goverla	Ukraine	2061	48° 9' 36'' N, 24° 30' 1'' E
+Kangchenjunga	India	8586	27° 42' 10'' N, 88° 8' 51'' E
+Noshaq	Afghanistan	7492	36° 25' 59'' N, 71° 49' 42'' E 
+Pik Pobeda	Kyrgyzstan	7439	42° 2' 7'' N, 80° 7' 42'' E
+Khan Tengri	Kazakhstan	7010	42° 12' 39'' N, 80° 10' 27'' E
+Nevado de Colima		4260	19° 33' 48'' N, 103° 36' 31'' W
+Volcán La Malinche		4438	19° 13' 51'' N, 98° 1' 55'' W 
+Volcán Tacaná		4067	15° 7' 57'' N, 92° 6' 30'' W
+Volcán Iztaccíhuatl		5213	19° 10' 49'' N, 98° 38' 30'' W
+Nevado de Toluca		4680	19° 6' 7'' N, 99° 46' 4'' W
+Cerro Ajusco		3937	19° 12' 27'' N, 99° 15' 30'' W 
+Cerro Tancítaro		3840	19° 25' 0'' N, 102° 19' 11'' W 
+Volcán de Colima		3820	19° 30' 47'' N, 103° 37' 3'' W 
+Mount Columbia	Alberta	3741	52° 8' 50'' N, 117° 26' 30'' W
+Cerro Nube Flane		3721	16° 12' 52'' N, 96° 10' 56'' W
+Cerro el Potosí		3720	24° 52' 18'' N, 100° 13' 58'' W
+Cerro San Rafael		3715	25° 21' 49'' N, 100° 33' 25'' W 
+Cerro Tiotepec		3540	17° 28' 6'' N, 100° 8' 11'' W 
+Cerro Peña Nevada		3510	23° 46' 12'' N, 99° 51' 37'' W 
+Cerro La Peña de Tepozán		3370	19° 46' 11'' N, 98° 14' 51'' W
+Cerro El Zamorano		3366	20° 56' 1'' N, 100° 10' 50'' W 
+Cerro Gordo		3352	23° 12' 22'' N, 104° 56' 39'' W 
+Cerro Mohinora		3303	25° 57' 22'' N, 107° 2' 51'' W 
+Cerro El Refugio		3200	24° 34' 34'' N, 101° 6' 17'' W
+Cerro Grande		3170	23° 40' 1'' N, 100° 53' 14'' W
+Picacho del Diablo		3095	30° 59' 33'' N, 115° 22' 31'' W
+Sierra Fría		3020	22° 16' 26'' N, 102° 36' 26'' W 
+Sinaloa High Point		2920	24° 20' 19'' N, 106° 9' 9'' W
+Mount Nirvana	Northwest Territories	2773	61° 52' 31'' N, 127° 40' 50'' W
+Cerro Del Faro		2760	21° 18' 39'' N, 104° 2' 58'' W
+Cerro Pico Guacamayas		2620	29° 57' 12'' N, 108° 50' 22'' W
+Barbeau Peak	Nunavut	2616	81° 54' 53'' N, 75° 0' 33'' W
+Sierra La Laguna High Point		2080	23° 32' 21'' N, 109° 57' 15'' W
+Mount Caubvick	Newfoundland and Labrador	1652	58° 53' 16'' N, 63° 42' 35'' W 
+Mont D'Iberville	Québec	1652	58° 53' 16'' N, 63° 42' 35'' W 
+Saskatchewan High Point	Saskatchewan	1392	49° 33' 4'' N, 109° 59' 14'' W
+Tabasco High Point		1140	17° 24' 38'' N, 92° 50' 22'' W
+Baldy Mountain	Manitoba	831	51° 28' 12'' N, 100° 43' 12'' W
+Mount Carleton	New Brunswick	820	47° 22' 41'' N, 66° 52' 34'' W
+White Hill	Nova Scotia	533	46° 42' 21'' N, 60° 35' 55'' W
+Cerro Champerico		390	17° 54' 32'' N, 89° 28' 12'' W
+Cerro El Charro		240	18° 6' 7'' N, 88° 53' 35'' W
+Cerro Benito Juaréz		210	19° 56' 11'' N, 89° 19' 58'' W
+Prince Edward Island High Point	Prince Edward Island	140	46° 19' 52'' N, 63° 25' 8'' W
+Monte Pissis	Argentina	6793	27° 45' 20'' S, 68° 47' 54'' W
+Cerro Bonete	Argentina	6760	28° 1' 6'' S, 68° 45' 21'' W 
+Cerro Llullaillaco		6752	24° 43' 11'' S, 68° 32' 12'' W
+Tres Cruces		6748	27° 5' 52'' S, 68° 46' 44'' W
+Cerro Mercedario		6717	31° 58' 44'' S, 70° 6' 46'' W
+Cerro Cazadero		6663	27° 11' 40'' S, 68° 33' 39'' W 
+Nevado Huascarán - Pico Norte		6664	9° 6' 8'' S, 77° 37' 13'' W
+El Muerto		6502	27° 3' 26'' S, 68° 29' 4'' W
+Cerro del Nacimiento		6465	27° 16' 50'' S, 68° 30' 45'' W 
+Volcán Antofalla		6440	25° 33' 46'' S, 67° 52' 52'' W
+Mount Guyot		2019	35° 42' 19'' N, 83° 15' 27'' W 
+Mount Gibbes		2003	35° 44' 21'' N, 82° 17' 6'' W 
+Richland Balsam		1954	35° 22' 2'' N, 82° 59' 24'' W
+Waterrock Knob		1917	35° 27' 51'' N, 83° 8' 16'' W
+Roan High Knob		1915	36° 6' 16'' N, 82° 7' 20'' W 
+Mount Kephart		1895	35° 37' 51'' N, 83° 23' 23'' W 
+Unaka Mountain		1576	36° 8' 2'' N, 82° 17' 49'' W 
+Big Bald		1681	35° 59' 23'' N, 82° 29' 25'' W
+Gregory Bald		1509	35° 31' 14'' N, 83° 51' 55'' W
+Thunderhead Mountain		1684	35° 34' 7'' N, 83° 42' 23'' W
+Mount Adams		1767	44° 19' 14'' N, 71° 17' 30'' W
+Mount Lafayette		1598	44° 9' 38'' N, 71° 38' 40'' W
+Algonquin Peak		1559	44° 8' 37'' N, 73° 59' 12'' W 
+South Twin		1493	44° 11' 16'' N, 71° 33' 16'' W
+Whiteface Mountain		1482	44° 21' 57'' N, 73° 54' 11'' W
+Dix Mountain		1481	44° 4' 57'' N, 73° 47' 12'' W 
+Carter Dome		1475	44° 16' 3'' N, 71° 10' 45'' W
+Mount Moosilauke		1463	44° 1' 24'' N, 71° 49' 53'' W
+Giant Mountain		1411	44° 9' 40'' N, 73° 43' 13'' W
+Mount Carrigain		1426	44° 5' 37'' N, 71° 26' 49'' W
+Sugarloaf Mountain		1292	45° 1' 54'' N, 70° 18' 48'' W
+Killington Peak		1289	43° 36' 17'' N, 72° 49' 13'' W
+Slide Mountain		1275	41° 59' 57'' N, 74° 23' 9'' W
+Longs Peak		4346	40° 15' 18'' N, 105° 36' 54'' W
+Blanca Peak		4374	37° 34' 39'' N, 105° 29' 8'' W
+Etna		3357	37° 45' 1'' N, 14° 59' 41'' E
+North Palisade		4341	37° 5' 39'' N, 118° 30' 52'' W 
+Mount Ritter		4006	37° 41' 21'' N, 119° 11' 58'' W 
+Muztag		6973	36° 25' N, 87° 23' E
+Nevado Coropuna		6405	15° 32' 46'' S, 72° 39' 38'' W
+Amnye Maqen		6282	34° 44' 18'' N, 99° 30' 13'' E 
+Aucanquilcha		6176	21° 13' 15'' S, 68° 28' 7'' W
+Altun Shan		5830	39° 15' 3'' N, 93° 41' 47'' E
+Kangze'gyai		5808	38° 30' 1'' N, 97° 43' 29'' E
+Nevado del Huila		5390	2° 55' 25'' N, 76° 1' 42'' W
+Pico da Bandeira		2891	20° 26' 8'' S, 41° 47' 52'' W
+Volcán Wolf		1707	0° 2' 31'' N, 91° 20' 4'' W
+Cerro San Valentín		4058	46° 35' 42'' S, 73° 20' 44'' W
+Pico do Tracuá		1126	10° 49' 54'' S, 63° 34' 37'' W
+Serrania de Santiago		1320	18° 7' 11'' S, 60° 1' 13'' W 
+Nevado de Illimani		6438	16° 38' 53'' S, 67° 46' 51'' W
+Huayna Potosí		6088	16° 15' 44'' S, 68° 9' 14'' W 
+Nevado de Chiaraco		6104	15° 57' 38'' S, 68° 24' 47'' W
+Nevado Ancohuma		6427	15° 51' 15'' S, 68° 32' 27'' W
+Nevado Ancohuma		6427	15° 51' 15'' S, 68° 32' 27'' W
+Disteghil Sar		7885	36° 19' 33'' N, 75° 11' 17'' E
+Nevado del Ruiz		5311	4° 53' 30'' N, 75° 19' 7'' W
+Nevado del Huila		5390	2° 55' 25'' N, 76° 1' 42'' W
+Volcán Cayambe		5790	0° 1' 31'' N, 77° 59' 20'' W
+Volcán Cotopaxi		5897	0° 40' 50'' S, 78° 26' 17'' W
+Nevado Huandoy		6395	9° 1' 43'' S, 77° 39' 55'' W
+Hawksbill		1234	38° 33' 19'' N, 78° 23' 43'' W
+Vishnu Temple		2296	36° 5' 20'' N, 111° 56' 8'' W
+Mica Mountain		2641	32° 13' 12'' N, 110° 32' 36'' W 
+Mount Desor		425	47° 57' 21'' N, 89° 0' 42'' W
+Peninsula Hill		244	41° 14' 42'' N, 81° 33' 7'' W 
+Mount Conness		3839	37° 58' 1'' N, 119° 19' 17'' W 
+Mount Scott		2722	42° 55' 22'' N, 122° 0' 58'' W
+Blue Mounds		524	43° 1' 41'' N, 89° 51' 9'' W
+Grove Hill		521	44° 8' 15'' N, 85° 20' 41'' W
+Boundary Butte		774	48° 59' 58'' N, 100° 25' 48'' W
+Mudlick Mountain		400	37° 15' 43'' N, 90° 31' 28'' W
+Hogback Mountain		982	35° 10' 12'' N, 82° 17' 26'' W 
+Quirauk Mountain		652	39° 41' 48'' N, 77° 30' 45'' W
+Shade Mountain - Snyder County High Point		667	40° 41' 56'' N, 77° 13' 18'' W 
+Sugar Loaf Mountain		780	35° 1' 35'' N, 94° 28' 7'' W 
+Apple Orchard Mountain		1287	37° 31' 2'' N, 79° 30' 40'' W
+North Preston Hill		441	41° 43' 15'' N, 73° 30' 48'' W
+Cloud Peak		4014	44° 22' 56'' N, 107° 10' 26'' W
+Williams Hill		324	37° 34' 57'' N, 88° 28' 33'' W
+Washington County High Point		320	38° 38' 30'' N, 85° 59' 14'' W
+Choctaw County High Point		220	33° 7' 42'' N, 89° 18' 38'' W 
+Carroll County High Point		475	41° 59' 33'' N, 95° 4' 24'' W
+Beacon Pole Hill		168	41° 59' 43'' N, 71° 27' 6'' W 
+Pottawatomie County High Point		475	39° 30' 23'' N, 96° 23' 15'' W
+Sugarloaf Mountain		94	28° 38' 57'' N, 81° 43' 59'' W 
+Bossier Parish High Point		143	32° 56' 12'' N, 93° 44' 30'' W 
+Iron Hill		104	39° 38' 25'' N, 75° 45' 8'' W

@@ -1,0 +1,933 @@
+Rank	Mountain Peak	Region	Mountain Range	Elevation	Prominence	Isolation	Location
+1	Denali[7][8][a]	 Alaska	Alaska Range	6190.5 m
+20,310 ft	6141 m
+20,146 ft	7,450.24	63.0690°N 151.0063°W
+2	Gunnbjørn Fjeld[9][10][b][c]	 Greenland	Island of Greenland	3694 m
+12,119 ft	3694 m
+12,119 ft	3,254.13	68.9184°N 29.8991°W
+3	Pico de Orizaba[11][12][d]
+(Citlaltépetl)	 Puebla
+ Veracruz	Cordillera Neovolcanica	5636 m
+18,491 ft	4922 m
+16,148 ft	2,690.14	19.0305°N 97.2698°W
+4	Mount Whitney[13][14][15][e][f]	 California	Sierra Nevada	4421 m
+14,505 ft	3072 m
+10,080 ft	2,649.47	36.5786°N 118.2920°W
+5	Mount Mitchell[16][17][g][h][i]	 North Carolina	Blue Ridge Mountains	2037 m
+6,684 ft	1857 m
+6,092 ft	1,913.49	35.7649°N 82.2651°W
+6	Mount Washington[18][19][20][j][k][l]	 New Hampshire	White Mountains	1917 m
+6,288 ft	1877 m
+6,158 ft	1,318.95	44.2705°N 71.3032°W
+7	Mount Rainier[21][22][m][n]	 Washington	Cascade Range	4394 m
+14,417 ft	4026 m
+13,210 ft	1,176.72	46.8529°N 121.7604°W
+8	Mount Elbert[23][24][25][o]	 Colorado	Sawatch Range	4401.2 m
+14,440 ft	2772 m
+9,093 ft	1,079.15	39.1178°N 106.4454°W
+9	Pico Duarte[26][p]	 Dominican Republic	Cordillera Central, Hispaniola	3098 m
+10,164 ft	3098 m
+10,164 ft	941 km
+584 mi	19.0231°N 70.9977°W
+10	Chirripó Grande[27][q][r]
+(Cerro Chirripó)	 Costa Rica	Cordillera de Talamanca	3819 m
+12,530 ft	3755 m
+12,320 ft	878 km
+546 mi	9.4843°N 83.4889°W
+11	Shishaldin Volcano[28][29][s][t]	 Alaska	Unimak Island	2869 m
+9,414 ft	2869 m
+9,414 ft	877 km
+545 mi	54.7554°N 163.9709°W
+12	Barbeau Peak[30][31][u][v]	 Nunavut	Ellesmere Island	2616 m
+8,583 ft	2616 m
+8,583 ft	796 km
+495 mi	81.9148°N 75.0093°W
+13	Mount Caubvick[32][33][w]
+(Mont d'Iberville)	 Newfoundland and Labrador	Torngat Mountains	1652 m
+5,420 ft	1367 m
+4,485 ft	791 km
+492 mi	58.8878°N 63.7098°W
+14	Volcán Tajumulco[34][x][y]	 Guatemala	Sierra de las Nubes	4220 m
+13,845 ft	3990 m
+13,091 ft	722 km
+448 mi	15.0430°N 91.9037°W
+15	Melville Island High Point[35]	 Nunavut	Melville Island	762 m
+2,500 ft	762 m
+2,500 ft	717 km
+445 mi	75.3694°N 115.0827°W
+16	La Grande Soufrière[36][z][aa]	 Guadeloupe	île de Basse-Terre	1467 m
+4,813 ft	1467 m
+4,813 ft	699 km
+434 mi	16.0449°N 61.6638°W
+17	Tanaga Volcano[37][38][ab][ac]	 Alaska	Tanaga Island	1806 m
+5,925 ft	1806 m
+5,925 ft	656 km
+407 mi	51.8838°N 178.1429°W
+18	Avannaarsua High Point[39][ad]	 Greenland	Island of Greenland	2600 m
+8,530 ft	500 m
+1,640 ft	636 km
+395 mi	77.5000°N 47.6167°W
+19	Mount Isto[40][41][ae][af]	 Alaska	Brooks Range	2736 m
+8,976 ft	2408 m
+7,901 ft	634 km
+394 mi	69.2025°N 143.8020°W
+20	Mathiassen Mountain[42][ag]	 Nunavut	Southampton Island	625 m
+2,051 ft	625 m
+2,051 ft	627 km
+390 mi	64.7403°N 83.1573°W
+21	Mount Logan[43][44][ah]	 Yukon	Saint Elias Mountains	5956 m
+19,541 ft	5247 m
+17,215 ft	623 km
+387 mi	60.5671°N 140.4055°W
+22	Angilaaq Mountain[45][46][ai]	 Nunavut	Bylot Island	1944 m
+6,378 ft	1944 m
+6,378 ft	622 km
+387 mi	73.2298°N 78.6230°W
+23	Signal Hill[47][48][aj][ak]
+(Mount Magazine)	 Arkansas	Ouachita Mountains	839 m
+2,753 ft	653 m
+2,143 ft	613 km
+381 mi	35.1671°N 93.6447°W
+24	Mount Odin[49][50][al][am]	 Nunavut	Baffin Island	2143 m
+7,031 ft	2143 m
+7,031 ft	586 km
+364 mi	66.5468°N 65.4289°W
+25	Cerro El Potosí[51][52][an]	 Nuevo León	Sierra Madre Oriental	3720 m
+12,205 ft	1875 m
+6,152 ft	571 km
+355 mi	24.8719°N 100.2327°W
+26	Mount Waddington[53][54][ao][ap]	 British Columbia	Coast Mountains	4019 m
+13,186 ft	3289 m
+10,791 ft	562 km
+349 mi	51.3737°N 125.2636°W
+27	Melville Hills High Point[55]	 Northwest Territories	Melville Hills	876 m
+2,875 ft	500 m
+1,640 ft	551 km
+342 mi	69.2425°N 121.5391°W
+28	Keele Peak[56][57][aq][ar]	 Yukon	Mackenzie Mountains	2952 m
+9,685 ft	2161 m
+7,090 ft	543 km
+337 mi	63.4314°N 130.3243°W
+29	Mount Shasta[58][59][60][as]	 California	Cascade Range	4321.8 m
+14,179 ft	2979 m
+9,772 ft	539 km
+335 mi	41.4092°N 122.1949°W
+30	Perserajoq[61]	 Greenland	Island of Greenland	2259 m
+7,411 ft	2009 m
+6,591 ft	527 km
+328 mi	71.4000°N 51.9667°W
+31	Mealy Mountains High Point[62][at]	 Newfoundland and Labrador	Mealy Mountains	1190 m
+3,904 ft	832 m
+2,728 ft	519 km
+323 mi	53.6465°N 58.5536°W
+32	Peary Land High Point[63][au]	 Greenland	Island of Greenland	1910 m
+6,266 ft	500 m
+1,640 ft	509 km
+317 mi	83.3167°N 35.3333°W
+33	The Cabox[64][65][av][aw]	 Newfoundland and Labrador	Island of Newfoundland	812 m
+2,664 ft	812 m
+2,664 ft	501 km
+311 mi	48.8331°N 58.4843°W
+34	Volcán Everman[66][ax]	 Colima	Isla Socorro	1050 m
+3,445 ft	1050 m
+3,445 ft	500 km
+311 mi	18.8000°N 110.9833°W
+35	Greenland Ice Sheet High Point[67][ay]	 Greenland	Island of Greenland	3238 m
+10,623 ft	500 m
+1,640 ft	476 km
+296 mi	72.4667°N 37.1000°W
+36	Gannett Peak[68][69][70][az][ba]	 Wyoming	Wind River Range	4209.1 m
+13,809 ft	2157 m
+7,076 ft	467 km
+290 mi	43.1842°N 109.6542°W
+37	Mont Yapeitso[71][72][bb]	 Quebec	Monts Otish	1135 m
+3,725 ft	500 m
+1,640 ft	467 km
+290 mi	52.3223°N 70.4451°W
+38	Mount Robson[73][74][bc][bd]	 British Columbia	Canadian Rockies	3959 m
+12,989 ft	2829 m
+9,281 ft	460 km
+286 mi	53.1105°N 119.1566°W
+39	Mount Osborn[75][76][be]	 Alaska	Seward Peninsula	1437 m
+4,714 ft	1334 m
+4,377 ft	453 km
+282 mi	64.9922°N 165.3294°W
+40	Mount Igikpak[77][78][bf]	 Alaska	Brooks Range	2523 m
+8,276 ft	1867 m
+6,126 ft	453 km
+282 mi	67.4129°N 154.9656°W
+41	Ulysses Mountain[79][80][bg][bh]
+(Mount Ulysses)	 British Columbia	Muskwa Ranges	3024 m
+9,921 ft	2294 m
+7,526 ft	436 km
+271 mi	57.3464°N 124.0928°W
+42	Cerro de Punta[81][82][bi]	 Puerto Rico	Cordillera Central, Island of Puerto Rico	1338 m
+4,389 ft	1338 m
+4,389 ft	432 km
+268 mi	18.1722°N 66.5917°W
+43	Cerro Gordo[83][84][bj][bk]	 Durango	Sierra Madre Occidental	3357 m
+11,014 ft	1387 m
+4,551 ft	424 km
+263 mi	23.2060°N 104.9442°W
+44	Pico San Juan[85][bl]	 Cuba	Sierra Maestra, Island of Cuba	1140 m
+3,740 ft	500 m
+1,640 ft	408 km
+253 mi	21.9853°N 80.1327°W
+45	Mont Jacques-Cartier[86][87][bm][bn]	 Quebec	Chic-Choc Mountains	1268 m
+4,160 ft	1093 m
+3,585 ft	406 km
+252 mi	48.9879°N 65.9483°W
+46	Nevado de Colima[88][89][bo][bp]	 Jalisco	Cordillera Neovolcanica	4270 m
+14,009 ft	2720 m
+8,924 ft	405 km
+252 mi	19.5633°N 103.6087°W
+47	Sukkertoppen[90][bq]	 Greenland	Island of Greenland	2440 m
+8,005 ft	500 m
+1,640 ft	401 km
+249 mi	66.2000°N 52.3500°W
+48	Humphreys Peak[91][92][br][bs]	 Arizona	San Francisco Peaks	3852 m
+12,637 ft	1841 m
+6,039 ft	396 km
+246 mi	35.3464°N 111.6780°W
+49	Haffner Bjerg[93][bt]	 Greenland	Island of Greenland	1050 m
+3,445 ft	500 m
+1,640 ft	393 km
+244 mi	76.3426°N 62.3453°W
+50	Victoria Island High Point[94]	 Nunavut	Victoria Island	655 m
+2,149 ft	655 m
+2,149 ft	375 km
+233 mi	71.8528°N 112.6073°W
+51	Wheeler Peak[95][96][97][bu]	 Nevada	Snake Range	3982.3 m
+13,065 ft	2307 m
+7,568 ft	373 km
+232 mi	38.9858°N 114.3139°W
+52	Reval Toppen[98]	 Greenland	Island of Greenland	2320 m
+7,612 ft	500 m
+1,640 ft	368 km
+229 mi	76.6606°N 25.7067°W
+53	Kisimngiuqtuq Peak[99][100]	 Nunavut	Baffin Island	1905 m
+6,250 ft	1605 m
+5,266 ft	362 km
+225 mi	70.7993°N 71.6502°W
+54	Mount Vsevidof[101][102][bv][bw]	 Alaska	Umnak Island	2149 m
+7,051 ft	2149 m
+7,051 ft	358 km
+223 mi	53.1256°N 168.6938°W
+55	Mont Forel[103][bx]	 Greenland	Island of Greenland	3391 m
+11,125 ft	1581 m
+5,187 ft	357 km
+222 mi	66.9354°N 36.7873°W
+56	Beitstad Peak[104][105]	 Nunavut	Ellesmere Island	2347 m
+7,700 ft	2044 m
+6,706 ft	354 km
+220 mi	78.8007°N 79.5292°W
+57	Hahn Land High Point[106][by]	 Greenland	Island of Greenland	1744 m
+5,722 ft	1694 m
+5,558 ft	347 km
+216 mi	80.4333°N 19.8333°W
+58	Pico La Laguna[107][108][bz]	 Baja California Sur	Sierra La Laguna	2090 m
+6,857 ft	1920 m
+6,299 ft	343 km
+213 mi	23.5392°N 109.9542°W
+59	Volcán Las Tres Vírgenes[109]	 Baja California Sur	Tres Virgenes	1951 m
+6,401 ft	1626 m
+5,335 ft	340 km
+211 mi	27.4700°N 112.5919°W
+60	Isla Guadalupe High Point[110][ca]	 Baja California	Isla Guadalupe	1310 m
+4,298 ft	1310 m
+4,298 ft	340 km
+211 mi	29.1016°N 118.3132°W
+61	Mount Veniaminof[111][112][cb]	 Alaska	Alaska Peninsula	2507 m
+8,225 ft	2499 m
+8,200 ft	337 km
+209 mi	56.2194°N 159.2975°W
+62	Picacho del Diablo[113][114][cc][cd]	 Baja California	Sierra de San Pedro Mártir	3095 m
+10,154 ft	2125 m
+6,972 ft	335 km
+208 mi	30.9925°N 115.3753°W
+63	Cerro el Nacimiento[115][116][ce]	 Oaxaca	Sierra Madre del Sur	3710 m
+12,172 ft	2140 m
+7,021 ft	329 km
+205 mi	16.2115°N 96.1967°W
+64	Mount Ratz[117][118][cf]	 British Columbia	Coast Mountains	3090 m
+10,138 ft	2430 m
+7,972 ft	311 km
+193.4 mi	57.3930°N 132.3031°W
+65	Hall Island High Point[119]	 Alaska	Hall Island	507 m
+1,665 ft	507 m
+1,665 ft	310 km
+192.9 mi	60.6647°N 173.0887°W
+66	Kuskokwim High Point[120][cg]	 Alaska	Kuskokwim Mountains	1600 m
+5,250 ft	1364 m
+4,475 ft	308 km
+191.6 mi	60.1159°N 159.3241°W
+67	Patuersoq[121][ch]	 Greenland	Island of Greenland	2740 m
+8,990 ft	500 m
+1,640 ft	291 km
+181.1 mi	60.8333°N 44.2333°W
+68	Petermann Bjerg[122][ci]	 Greenland	Island of Greenland	2933 m
+9,623 ft	1200 m
+3,937 ft	288 km
+179.1 mi	73.0905°N 28.6187°W
+69	Spruce Knob[123][124][cj]	 West Virginia	Allegheny Mountains	1482.1 m
+4,863 ft	851 m
+2,791 ft	282 km
+175.4 mi	38.6999°N 79.5328°W
+70	Blue Mountain Peak[125][ck][cl]	 Jamaica	Island of Jamaica	2256 m
+7,402 ft	2256 m
+7,402 ft	273 km
+169.5 mi	18.0465°N 76.5788°W
+71	Kings Peak[126][127][cm][cn]	 Utah	Uinta Mountains	4125 m
+13,534 ft	1938 m
+6,358 ft	268 km
+166.6 mi	40.7763°N 110.3729°W
+72	Outlook Peak[128][129][co]	 Nunavut	Axel Heiberg Island	2210 m
+7,251 ft	2210 m
+7,251 ft	268 km
+166.3 mi	79.7397°N 91.4061°W
+73	Sierra Blanca Peak[130][131][132][cp]	 New Mexico	Sacramento Mountains	3651.8 m
+11,981 ft	1693 m
+5,553 ft	267 km
+165.7 mi	33.3743°N 105.8087°W
+74	Devon Ice Cap High Point[133][134][cq]	 Nunavut	Devon Island	1920 m
+6,300 ft	1920 m
+6,300 ft	265 km
+164.6 mi	75.3429°N 82.6186°W
+75	Point 1740[135]	 Greenland	Island of Greenland	1740 m
+5,709 ft	500 m
+1,640 ft	263 km
+163.4 mi	63.6667°N 50.2167°W
+76	San Gorgonio Mountain[136][137][cr][cs]	 California	San Bernardino Mountains	3506 m
+11,503 ft	2528 m
+8,294 ft	262 km
+162.5 mi	34.0992°N 116.8249°W
+77	Manuel Peak[138][ct]	 Yukon	Richardson Mountains	1722 m
+5,650 ft	1292 m
+4,239 ft	260 km
+161.6 mi	67.9833°N 136.5833°W
+78	Katahdin[139][140][cu][cv]	 Maine	Longfellow Mountains	1606.4 m
+5,270 ft	1309 m
+4,293 ft	255 km
+158.3 mi	45.9044°N 68.9213°W
+79	Peak 4030[141][cw]	 Alaska	Nulato Hills	1228 m
+4,030 ft	500 m
+1,640 ft	255 km
+158.2 mi	64.4535°N 159.4152°W
+80	Howson Peak[142][143][cx]	 British Columbia	Coast Mountains	2759 m
+9,052 ft	1829 m
+6,001 ft	254 km
+158 mi	54.4185°N 127.7441°W
+81	Mount Baldy[144][145][146][cy]	 Arizona	White Mountains	3477.4 m
+11,409 ft	1441 m
+4,728 ft	248 km
+154 mi	33.9059°N 109.5626°W
+82	Borah Peak[147][148][149][cz]	 Idaho	Lost River Range	3861.2 m
+12,668 ft	1829 m
+6,002 ft	243 km
+150.8 mi	44.1374°N 113.7811°W
+83	Sierra Fría[150][da]	 Aguascalientes	Sierra Madre Occidental	3030 m
+9,941 ft	500 m
+1,640 ft	234 km
+145.6 mi	22.2739°N 102.6073°W
+84	Cloud Peak[151][152][153][db][dc]	 Wyoming	Bighorn Mountains	4013.3 m
+13,167 ft	2157 m
+7,077 ft	233 km
+145 mi	44.3821°N 107.1739°W
+85	Cerro Mohinora[154][155][dd][de]	 Chihuahua	Sierra Madre Occidental	3308 m
+10,853 ft	858 m
+2,815 ft	231 km
+143.5 mi	25.9560°N 107.0476°W
+86	Fox Mountain[156][157][df]	 Yukon	Pelly Mountains	2404 m
+7,887 ft	1444 m
+4,738 ft	229 km
+142.5 mi	61.9224°N 133.3677°W
+87	Cap Mountain[158][159][dg]	 Northwest Territories	Franklin Mountains	1577 m
+5,175 ft	500 m
+1,640 ft	228 km
+141.5 mi	63.4063°N 123.2061°W
+88	Sierra la Madera[160]	 Coahuila	Mexican Plateau	3030 m
+9,941 ft	1905 m
+6,250 ft	226 km
+140.7 mi	27.0345°N 102.3922°W
+89	Black Elk Peak[161][162][163][dh]	 South Dakota	Black Hills	2208 m
+7,244 ft	894 m
+2,932 ft	226 km
+140.2 mi	43.8658°N 103.5324°W
+90	Mount Frank Rae[164][165][di]	 Yukon	Ogilvie Mountains	2362 m
+7,750 ft	1367 m
+4,486 ft	224 km
+139.4 mi	64.4706°N 138.5553°W
+91	Mount Nirvana[166][167][dj]	 Northwest Territories	Mackenzie Mountains	2773 m
+9,098 ft	1663 m
+5,456 ft	220 km
+136.8 mi	61.8752°N 127.6807°W
+92	Slide Mountain[168][169][dk]	 New York	Catskill Mountains	1274 m
+4,180 ft	1004 m
+3,295 ft	220 km
+136.4 mi	41.9992°N 74.3859°W
+93	Durham Heights[170][171][dl]	 Nunavut	Banks Island	724 m
+2,375 ft	724 m
+2,375 ft	218 km
+135.4 mi	71.1358°N 122.9531°W
+94	Mount Griggs[172][173]	 Alaska	Alaska Peninsula	2332 m
+7,650 ft	2225 m
+7,300 ft	218 km
+135.4 mi	58.3534°N 155.0958°W
+95	Charleston Peak[174][175][176][dm]
+(Mount Charleston)	 Nevada	Spring Mountains	3632 m
+11,916 ft	2517 m
+8,258 ft	218 km
+135.1 mi	36.2716°N 115.6956°W
+96	Pico Turquino[177][dn][do]	 Cuba	Sierra Maestra, Island of Cuba	1974 m
+6,476 ft	1974 m
+6,476 ft	217 km
+134.7 mi	19.9898°N 76.8360°W
+97	Pic Macaya[178][dp]	 Haiti	Massif de la Hotte, Island of Hispaniola	2347 m
+7,700 ft	2087 m
+6,847 ft	216 km
+134.5 mi	18.3822°N 74.0243°W
+98	Junipero Serra Peak[179][180][dq][dr]	 California	Santa Lucia Range	1788 m
+5,865 ft	1355 m
+4,447 ft	212 km
+131.8 mi	36.1457°N 121.4191°W
+99	Mount Baker[181][182][ds][dt]	 Washington	Skagit Range	3287 m
+10,786 ft	2696 m
+8,845 ft	212 km
+131.5 mi	48.7768°N 121.8145°W
+100	Mount Marcy[183][184][du]	 New York	Adirondack Mountains	1628.57 m
+5,343 ft	1499 m
+4,919 ft	209 km
+129.6 mi	44.1127°N 73.9237°W
+101	Mont Raoul-Blanchard[185][186][dv][dw]	 Quebec	Laurentian Mountains	1175 m
+3,855 ft	790 m
+2,592 ft	206 km
+128.2 mi	47.3100°N 70.8312°W
+102	Mount Marcus Baker[187][188][dx]	 Alaska	Chugach Mountains	4016 m
+13,176 ft	3277 m
+10,751 ft	203 km
+126.3 mi	61.4374°N 147.7525°W
+103	Mount Hayes[189][190][dy][dz]	 Alaska	Alaska Range	4216 m
+13,832 ft	3507 m
+11,507 ft	202 km
+125.5 mi	63.6203°N 146.7178°W
+104	Sacajawea Peak[191][192][ea][eb]	 Oregon	Wallowa Mountains	3000 m
+9,843 ft	1949 m
+6,393 ft	202 km
+125.5 mi	45.2450°N 117.2929°W
+105	Steens Mountain[193][194][ec]	 Oregon	Steens Mountain	2968 m
+9,738 ft	1336 m
+4,383 ft	201 km
+124.7 mi	42.6364°N 118.5767°W
+106	Mount Fairweather[195][196][ed]
+(Fairweather Mountain)	 Alaska
+ British Columbia	Saint Elias Mountains	4671 m
+15,325 ft	3961 m
+12,995 ft	200 km
+124.4 mi	58.9064°N 137.5265°W
+107	Mount Liamuiga[197][ee]
+(Mount Misery)	 Saint Kitts and Nevis	Saint Christopher Island
+(Island of Saint Kitts)	1156 m
+3,793 ft	1156 m
+3,793 ft	190.3 km
+118.2 mi	17.3685°N 62.8029°W
+108	Mount Macdonald[198][199][ef][eg]	 Yukon	Mackenzie Mountains	2760 m
+9,055 ft	1555 m
+5,102 ft	187.5 km
+116.5 mi	64.7256°N 132.7781°W
+109	Cerro El Centinela[200]	 Coahuila	Mexican Plateau	3122 m
+10,243 ft	1657 m
+5,436 ft	186.9 km
+116.1 mi	25.1359°N 103.2304°W
+110	Mont Veyrier[201][202][eh]	 Quebec	Canadian Shield	1104 m
+3,622 ft	500 m
+1,640 ft	185.2 km
+115.1 mi	51.5309°N 68.0763°W
+111	Cerro Teotepec[203][ei]	 Guerrero	Sierra Madre del Sur	3550 m
+11,647 ft	2180 m
+7,152 ft	185 km
+114.9 mi	17.4682°N 100.1364°W
+112	Mount Moresby[204][ej]	 British Columbia	Moresby Island	1164 m
+3,819 ft	1164 m
+3,819 ft	184.3 km
+114.5 mi	53.0191°N 132.0856°W
+113	Tooth Benchmark[205][206][ek]	 Alaska	Saint Lawrence Island	673 m
+2,207 ft	673 m
+2,207 ft	181.1 km
+112.5 mi	63.5920°N 170.3804°W
+114	Delano Peak[207][208][209][el]	 Utah	Tushar Mountains	3710.7 m
+12,174 ft	1435 m
+4,709 ft	180.5 km
+112.1 mi	38.3692°N 112.3714°W
+115	Sierra de Santa Martha[210]	 Veracruz	Cordillera Neovolcanica	1690 m
+5,545 ft	1620 m
+5,315 ft	180.1 km
+111.9 mi	18.3455°N 94.8576°W
+116	Grey Hunter Peak[211][212]	 Yukon	North Yukon Plateau	2214 m
+7,264 ft	1519 m
+4,984 ft	178.7 km
+111 mi	63.1357°N 135.6359°W
+117	Cerro la Muralla[213]	 Oaxaca	Sierra Madre del Sur	3370 m
+11,056 ft	1430 m
+4,692 ft	175.7 km
+109.2 mi	17.1344°N 97.6640°W
+118	Cerro Tacarcuna[214][em]	 Panama	Darién	1875 m
+6,152 ft	1770 m
+5,807 ft	174.4 km
+108.3 mi	8.1659°N 77.2959°W
+119	Mount Olympus[215][216][217][en]	 Washington	Olympic Mountains	2432.3 m
+7,980 ft	2389 m
+7,838 ft	173.7 km
+108 mi	47.8013°N 123.7108°W
+120	Isla Cedros High Point[218]	 Baja California	Isla Cedros	1200 m
+3,937 ft	1200 m
+3,937 ft	168.5 km
+104.7 mi	28.1301°N 115.2206°W
+121	Point 813[219][eo]	 Greenland	Island of Greenland	813 m
+2,667 ft	500 m
+1,640 ft	168 km
+104.4 mi	76.4035°N 68.7271°W
+122	Black Mountain[220][ep]	 Alaska	Brooks Range	1530 m
+5,020 ft	1020 m
+3,346 ft	166.6 km
+103.5 mi	68.5598°N 160.3281°W
+123	Blanca Peak[221][222][eq][er][es]	 Colorado	Sangre de Cristo Mountains	4374 m
+14,351 ft	1623 m
+5,326 ft	166.4 km
+103.4 mi	37.5775°N 105.4856°W
+124	Stauning Alper[223][et]	 Greenland	Island of Greenland	2831 m
+9,288 ft	2181 m
+7,156 ft	164.9 km
+102.5 mi	72.1167°N 24.9000°W
+125	Cerro Tzontehuitz[224]	 Chiapas	Sierra Madre de Chiapas	2910 m
+9,547 ft	1370 m
+4,495 ft	164.5 km
+102.2 mi	16.8358°N 92.5894°W
+126	La Soufrière[225][eu][ev]	 Saint Vincent and the Grenadines	Island of Saint Vincent	1234 m
+4,049 ft	1234 m
+4,049 ft	161.7 km
+100.5 mi	13.3477°N 61.1761°W
+127	Mount Tozi[226][ew]	 Alaska	Ray Mountains	1682 m
+5,519 ft	1271 m
+4,169 ft	160.1 km
+99.5 mi	65.6865°N 150.9498°W
+128	Mount Cleveland[227][228][229][ex]	 Montana	Lewis Range	3194 m
+10,479 ft	1599 m
+5,246 ft	159.9 km
+99.4 mi	48.9249°N 113.8482°W
+129	Mount Jefferson[230][231][ey][ez]	 Nevada	Toquima Range	3641 m
+11,946 ft	1789 m
+5,871 ft	158.7 km
+98.6 mi	38.7519°N 116.9267°W
+130	Mount Columbia[232][233][fa]	 Alberta
+ British Columbia	Canadian Rockies	3741 m
+12,274 ft	2371 m
+7,779 ft	158 km
+98.2 mi	52.1473°N 117.4416°W
+132	Mount Torbert[234][235][fb][fc]	 Alaska	Alaska Range	3479 m
+11,413 ft	2648 m
+8,688 ft	157.3 km
+97.7 mi	61.4086°N 152.4125°W
+133	Skihist Mountain[236][237][fd]	 British Columbia	Coast Mountains	2968 m
+9,738 ft	2458 m
+8,064 ft	157.1 km
+97.6 mi	50.1878°N 121.9032°W
+134	Mount Chiginagak[238][239]	 Alaska	Aleutian Range	2111 m
+6,925 ft	2035 m
+6,675 ft	157 km
+97.6 mi	57.1334°N 156.9912°W
+135	Baldy Peak[240][241][fe][ff]	 Texas	Davis Mountains	2554.5 m
+8,381 ft	1196 m
+3,923 ft	153.6 km
+95.4 mi	30.6356°N 104.1737°W
+136	Hualapai Peak[242][243][244][fg]	 Arizona	Hualapai Mountains	2568.2 m
+8,426 ft	1353 m
+4,439 ft	153.2 km
+95.2 mi	35.0751°N 113.8979°W
+137	Ruby Dome[245][246][247][fh][fi]	 Nevada	Ruby Mountains	3472 m
+11,392 ft	1466 m
+4,810 ft	152.5 km
+94.7 mi	40.6217°N 115.4754°W
+Cerro San José[248][249][fj]	 Chihuahua
+ Sonora	Mexican Plateau	2710 m
+8,891 ft	660 m
+2,165 ft	152.5 km
+94.7 mi	30.5483°N 108.6167°W
+139	Mount Pavlof[250][251][fk]	 Alaska	Alaska Peninsula	2515 m
+8,250 ft	2499 m
+8,200 ft	151.8 km
+94.3 mi	55.4173°N 161.8932°W
+140	Aripo Peak[252][fl][fm]	 Trinidad and Tobago	Northern Range, Island of Trinidad	940 m
+3,084 ft	940 m
+3,084 ft	151.6 km
+94.2 mi	10.7231°N 61.2499°W
+141	White Hill[253][fn][fo]	 Nova Scotia	Cape Breton Highlands, Cape Breton Island	535 m
+1,755 ft	535 m
+1,755 ft	151.6 km
+94.2 mi	46.7022°N 60.5989°W
+142	Pico Bonito[254][fp]	 Honduras	Cordillera Nombre de Dios	2450 m
+8,038 ft	1710 m
+5,610 ft	151 km
+93.8 mi	15.5575°N 86.8756°W
+143	Mount Crysdale[255][256]	 British Columbia	Misinchinka Ranges	2429 m
+7,969 ft	1554 m
+5,098 ft	147.3 km
+91.5 mi	55.9383°N 123.4210°W
+144	Qiajivik Mountain[257][258]	 Nunavut	Baffin Island	1905 m
+6,250 ft	1729 m
+5,673 ft	143.8 km
+89.3 mi	72.1809°N 75.9090°W
+145	Popocatépetl[259][260][fq][fr]	 México
+ Morelos
+ Puebla	Cordillera Neovolcanica	5410 m
+17,749 ft	3040 m
+9,974 ft	143 km
+88.8 mi	19.0225°N 98.6278°W
+146	Pico Mogotón[261][fs]	 Nicaragua
+ Honduras	Sierra de las Nubes	2106 m
+6,909 ft	1321 m
+4,334 ft	142 km
+88.2 mi	13.7631°N 86.3983°W
+147	Mount Assiniboine[262][263][ft]	 Alberta
+ British Columbia	Canadian Rockies	3616 m
+11,864 ft	2082 m
+6,831 ft	141.8 km
+88.1 mi	50.8696°N 115.6509°W
+148	South Baldy[264][265][266][fu]	 New Mexico	Magdalena Mountains	3288 m
+10,787 ft	1162 m
+3,813 ft	141.7 km
+88.1 mi	33.9910°N 107.1879°W
+149	Truuli Peak[267][268][fv]	 Alaska	Kenai Mountains	2015 m
+6,612 ft	1848 m
+6,062 ft	141.3 km
+87.8 mi	59.9129°N 150.4348°W
+150	Great Sitkin Volcano[269][270][fw]	 Alaska	Great Sitkin Island	1740 m
+5,710 ft	1740 m
+5,710 ft	141.3 km
+87.8 mi	52.0763°N 176.1108°W
+151	Eagle Peak[271][272][273][fx]	 California	Warner Mountains	3016 m
+9,895 ft	1330 m
+4,362 ft	140.6 km
+87.4 mi	41.2835°N 120.2007°W
+152	Azimuthbjerg[274][fy]	 Greenland	Island of Skjoldungen	1738 m
+5,702 ft	1738 m
+5,702 ft	140.5 km
+87.3 mi	63.4552°N 41.8508°W
+153	Mount Taylor[275][276][277][fz]	 New Mexico	San Mateo Mountains	3445.9 m
+11,305 ft	1248 m
+4,094 ft	139.6 km
+86.8 mi	35.2387°N 107.6085°W
+154	Accomplishment Peak[278][279][ga]	 Alaska	Brooks Range	2452 m
+8,045 ft	1279 m
+4,195 ft	139.2 km
+86.5 mi	68.4433°N 148.0947°W
+155	McBeth-Inugsuin Peak[280][281]
+(Peak 39-18)	 Nunavut	Baffin Island	1721 m
+5,646 ft	1564 m
+5,131 ft	138.5 km
+86.1 mi	69.6524°N 69.3059°W
+156	Granite Peak[282][283][284][gb]	 Montana	Beartooth Mountains	3903.5 m
+12,807 ft	1457 m
+4,779 ft	138.5 km
+86 mi	45.1634°N 109.8075°W
+157	Doyle's Delight[285][gc][gd]	 Belize	Yucatán Peninsula	1174 m
+3,852 ft	500 m
+1,640 ft	138.3 km
+85.9 mi	16.4941°N 89.0456°W
+158	Kiska Volcano[286][287][ge][gf]	 Alaska	Kiska Island	1220 m
+4,004 ft	1220 m
+4,004 ft	137.7 km
+85.6 mi	52.1027°N 177.6030°E
+159	Korovin Volcano[288][289][gg]	 Alaska	Atka Island	1533 m
+5,030 ft	1533 m
+5,030 ft	137.2 km
+85.2 mi	52.3816°N 174.1653°W
+160	Uncompahgre Peak[290][291][292][gh][gi]	 Colorado	San Juan Mountains	4365 m
+14,321 ft	1304 m
+4,277 ft	136.8 km
+85 mi	38.0717°N 107.4621°W
+161	Simpson Peak[293][294]	 British Columbia	Stikine Plateau	2170 m
+7,119 ft	985 m
+3,232 ft	136.6 km
+84.9 mi	59.7234°N 131.4480°W
+162	Devils Paw[295][296][gj]	 Alaska
+ British Columbia	Coast Mountains	2593 m
+8,507 ft	1703 m
+5,587 ft	136.3 km
+84.7 mi	58.7289°N 133.8402°W
+163	Volcán Tancítaro[297][298][gk]	 Michoacán	Cordillera Neovolcanica	3840 m
+12,598 ft	1665 m
+5,463 ft	136.3 km
+84.7 mi	19.4166°N 102.3198°W
+164	Cerro Hoya[299][gl]	 Panama	Azuero Peninsula	1559 m
+5,115 ft	500 m
+1,640 ft	135.7 km
+84.3 mi	7.3179°N 80.6810°W
+165	Gaaseland High Point[300]	 Greenland	Island of Greenland	2100 m
+6,890 ft	1550 m
+5,085 ft	135.6 km
+84.3 mi	70.2000°N 27.6667°W
+166	Koniag Peak[301][302][gm]	 Alaska	Kodiak Island	1378 m
+4,520 ft	1378 m
+4,520 ft	135.5 km
+84.2 mi	57.3548°N 153.3235°W
+167	Mount Saint Catherine[303][gn][go]	 Grenada	Mount St. Catherine Massif, Island of Grenada	840 m
+2,756 ft	840 m
+2,756 ft	135.2 km
+84 mi	12.1623°N 61.6750°W
+168	Mount Carleton[304][305][gp]	 New Brunswick	Notre Dame Mountains	820 m
+2,690 ft	625 m
+2,051 ft	134.7 km
+83.7 mi	47.3780°N 66.8761°W
+169	Volcán San Cristóbal[306]	 Nicaragua	Cordillera Los Maribios	1745 m
+5,725 ft	1665 m
+5,463 ft	134.5 km
+83.6 mi	12.7026°N 87.0057°W
+170	Golden Hinde[307][308][gq]	 British Columbia	Vancouver Island Ranges, Vancouver Island	2197 m
+7,208 ft	2197 m
+7,208 ft	134.3 km
+83.4 mi	49.6627°N 125.7470°W
+171	Makushin Volcano[309][310][gr]	 Alaska	Unalaska Island	1800 m
+5,905 ft	1800 m
+5,905 ft	133.8 km
+83.1 mi	53.8782°N 166.9299°W
+172	Mount Pinos[311][312][313][gs]	 California	San Emigdio Mountains	2696.5 m
+8,847 ft	1463 m
+4,800 ft	133.5 km
+82.9 mi	34.8128°N 119.1454°W
+173	Snowshoe Peak[314][315][gt][gu]	 Montana	Cabinet Mountains	2665 m
+8,743 ft	1658 m
+5,438 ft	133.5 km
+82.9 mi	48.2231°N 115.6890°W
+174	Cerro La Sandía[316]	 Baja California	Baja California Peninsula	1810 m
+5,938 ft	1400 m
+4,593 ft	133.2 km
+82.7 mi	28.4073°N 113.4387°W
+175	Mount Graham[317][318][319][gv]	 Arizona	Pinaleño Mountains	3268.6 m
+10,724 ft	1932 m
+6,340 ft	132.6 km
+82.4 mi	32.7017°N 109.8714°W
+176	Granite Peak[320][321][322][gw]	 Nevada	Santa Rosa Range	2966.3 m
+9,732 ft	1341 m
+4,400 ft	132.6 km
+82.4 mi	41.6681°N 117.5889°W
+177	Cerro Las Minas[323][gx]	 Honduras	Sierra de las Nubes	2849 m
+9,347 ft	2069 m
+6,788 ft	132 km
+82 mi	14.5340°N 88.6804°W
+178	Cache Peak[324][325][326][gy]	 Idaho	Albion Range	3152.5 m
+10,343 ft	1365 m
+4,479 ft	131.6 km
+81.8 mi	42.1856°N 113.6611°W
+179	West Butte[327][328][gz][ha]	 Montana	Sweetgrass Hills	2129 m
+6,986 ft	1109 m
+3,638 ft	130.2 km
+80.9 mi	48.9316°N 111.5324°W
+180	Cerro Tres Picos[329]	 Chiapas	Sierra Madre de Chiapas	2550 m
+8,366 ft	500 m
+1,640 ft	130 km
+80.8 mi	16.1970°N 93.6112°W
+181	Veniaminof Peak[330][331][hb]	 Alaska	Baranof Island	1643 m
+5,390 ft	1643 m
+5,390 ft	128.3 km
+79.7 mi	57.0151°N 134.9882°W
+182	McDonald Peak[332][333][hc][hd]	 Montana	Mission Range	2994 m
+9,824 ft	1722 m
+5,650 ft	127.8 km
+79.4 mi	47.3826°N 113.9191°W
+183	Pic la Selle[334][he][hf]	 Haiti	Chaîne de la Selle, Island of Hispaniola	2674 m
+8,773 ft	2644 m
+8,675 ft	126.6 km
+78.7 mi	18.3602°N 71.9767°W
+184	Volcán Acatenango[335][hg]	 Guatemala	Chimaltenango	3975 m
+13,041 ft	1835 m
+6,020 ft	125.9 km
+78.2 mi	14.5016°N 90.8755°W
+185	Picacho San Onofre[336]
+(Sierra Peña Nevada)	 Nuevo León	Sierra Madre Oriental	3550 m
+11,647 ft	1650 m
+5,413 ft	125 km
+77.6 mi	23.8007°N 99.8464°W
+186	Mount Jancowski[337][338]	 British Columbia	Coast Mountains	2729 m
+8,953 ft	2079 m
+6,821 ft	124 km
+77.1 mi	56.3372°N 129.9817°W
+187	Hilgard Peak[339][340][hh][hi]	 Montana	Madison Range	3451 m
+11,321 ft	1238 m
+4,063 ft	123 km
+76.4 mi	44.9166°N 111.4593°W
+188	Sierra de Agalta High Point[341]	 Honduras	Sierra de Agalta	2335 m
+7,661 ft	1505 m
+4,938 ft	122.6 km
+76.1 mi	14.9576°N 85.9165°W
+189	Point 574[342]	 Greenland	Island of Greenland	574 m
+1,883 ft	500 m
+1,640 ft	122.2 km
+76 mi	82.0000°N 59.1667°W
+190	Mount Nebo[343][344][hj][hk]	 Utah	Wasatch Range	3637 m
+11,933 ft	1679 m
+5,508 ft	121.6 km
+75.6 mi	39.8219°N 111.7603°W
+191	Tweedy Mountain[345][346][347][hl][hm]	 Montana	Pioneer Mountains	3401 m
+11,159 ft	1163 m
+3,814 ft	120.7 km
+75 mi	45.4805°N 112.9655°W
+192	Cerro Giganta[348][hn]	 Baja California Sur	Sierra de la Giganta	1690 m
+5,545 ft	1400 m
+4,593 ft	120.7 km
+75 mi	26.1064°N 111.5844°W
+193	Mount Sage[349][ho]	 British Virgin Islands	Island of Tortola	521 m
+1,709 ft	521 m
+1,709 ft	120.1 km
+74.6 mi	18.4095°N 64.6556°W
+194	J.A.D. Jensen Nunatakker[350]	 Greenland	Island of Greenland	1668 m
+5,472 ft	500 m
+1,640 ft	119.5 km
+74.2 mi	62.7920°N 48.8483°W
+195	Blackburn Hills[351][352]	 Alaska	Nulato Hills	1004 m
+3,295 ft	500 m
+1,640 ft	118.9 km
+73.9 mi	63.4107°N 159.6559°W
+196	Buldir Volcano[353][354][355][hp][hq]	 Alaska	Buldir Island	656 m
+2,152 ft	656 m
+2,152 ft	118.7 km
+73.8 mi	52.3482°N 175.9105°E
+197	Nevado de Toluca[356][357][hr]
+(Volcán Xinantécatl)	 México	Cordillera Neovolcanica	4690 m
+15,387 ft	2225 m
+7,300 ft	118.4 km
+73.6 mi	19.1020°N 99.7677°W
+198	Shedin Peak[358][359][hs]	 British Columbia	Skeena Mountains	2588 m
+8,491 ft	1798 m
+5,899 ft	118.2 km
+73.4 mi	55.9392°N 127.4799°W
+199	Mount Tom White[360][361]	 Alaska	Chugach Mountains	3411 m
+11,191 ft	2329 m
+7,641 ft	117.6 km
+73 mi	60.6518°N 143.6972°W
+200	Mount Peale[362][363][364][ht]	 Utah	La Sal Mountains	3879 m
+12,726 ft	1884 m
+6,181 ft	117.1 km
+72.8 mi	38.4385°N 109.2292°W
+201	Favres Bjerg[365][hu]	 Greenland	Island of Greenland	2000 m
+6,562 ft	1546 m
+5,072 ft	117.1 km
+72.8 mi	73.9500°N 23.2000°W
+202	Guadalupe Peak[366][367][368][hv][hw]	 Texas	Guadalupe Mountains	2667 m
+8,751 ft	926 m
+3,039 ft	116.9 km
+72.6 mi	31.8916°N 104.8606°W
+203	Cinnabar Mountain[369][370][hx]	 Idaho	Owyhee Mountains	2563.2 m
+8,409 ft	955 m
+3,133 ft	115.1 km
+71.5 mi	42.9805°N 116.6575°W
+204	Lassen Peak[371][372][373]	 California	Cascade Range	3188.7 m
+10,462 ft	1594 m
+5,229 ft	114.9 km
+71.4 mi	40.4882°N 121.5050°W
+205	Clingmans Dome[374][hy][hz]	 Tennessee
+ North Carolina	Great Smoky Mountains	2025 m
+6,643 ft	1376 m
+4,513 ft	113.9 km
+70.7 mi	35.5629°N 83.4986°W
+206	Anvil Peak[375][376][ia][ib]	 Alaska	Semisopochnoi Island	1221 m
+4,007 ft	1221 m
+4,007 ft	112.6 km
+70 mi	51.9859°N 179.6021°E
+207	Mount McLoughlin[377][378][379][ic][id]	 Oregon	Cascade Range	2895 m
+9,499 ft	1364 m
+4,475 ft	111.8 km
+69.5 mi	42.4445°N 122.3156°W
+208	Grand Teton[380][381][382][ie][if]	 Wyoming	Teton Range	4198.7 m
+13,775 ft	1995 m
+6,545 ft	111.6 km
+69.4 mi	43.7412°N 110.8024°W
+209	Kaibab Plateau High Point[383][384][ig]	 Arizona	Kaibab Plateau	2812 m
+9,224 ft	1100 m
+3,610 ft	111.2 km
+69.1 mi	36.3958°N 112.1509°W
+210	Star Peak[385][386][387][ih]	 Nevada	Humboldt Range	2999.1 m
+9,840 ft	1646 m
+5,400 ft	111.1 km
+69 mi	40.5224°N 118.1708°W
+211	Cerro Atravesado[388]
+(Sierra el Cerro Azul)	 Oaxaca	Oaxaca	2310 m
+7,579 ft	1510 m
+4,954 ft	109.6 km
+68.1 mi	16.7652°N 94.4514°W
+212	White Mountain Peak[389][390][391][ii]	 California	White Mountains	4344 m
+14,252 ft	2193 m
+7,196 ft	108.6 km
+67.4 mi	37.6341°N 118.2557°W
+213	Laramie Peak[392][393][394]	 Wyoming	Laramie Mountains	3132 m
+10,276 ft	1011 m
+3,317 ft	108.4 km
+67.4 mi	42.2681°N 105.4425°W
+214	Miller Peak[395][396][ij][ik]	 Arizona	Huachuca Mountains	2886 m
+9,470 ft	1527 m
+5,011 ft	107 km
+66.5 mi	31.3928°N 110.2930°W
+215	Kusilvak High Point[397]	 Alaska	Nulato Hills	885 m
+2,905 ft	558 m
+1,830 ft	105.8 km
+65.7 mi	62.9285°N 161.7461°W
+216	Copernicus Peak[398][399][400][il]	 California	Diablo Range	1336 m
+4,383 ft	951 m
+3,120 ft	104.9 km
+65.2 mi	37.3468°N 121.6300°W
+217	Cerro El Zamorano[401][402][im]	 Querétaro
+ Guanajuato	Mexican Plateau	3370 m
+11,056 ft	1450 m
+4,757 ft	104.8 km
+65.1 mi	20.9338°N 100.1805°W
+218	Sugarloaf Mountain[403][404][in]	 Maine	Longfellow Mountains	1295 m
+4,250 ft	969 m
+3,178 ft	104.3 km
+64.8 mi	45.0318°N 70.3132°W
+219	Man O'War Peak[405][406][io]	 Newfoundland and Labrador	Kiglapait Mountains	1050 m
+3,445 ft	974 m
+3,196 ft	103.9 km
+64.6 mi	56.9686°N 61.6692°W
+220	Thudaka Mountain[407][408][ip]	 British Columbia	Cassiar Mountains	2748 m
+9,016 ft	1739 m
+5,705 ft	103.5 km
+64.3 mi	57.9272°N 126.8485°W
+221	Chiricahua Peak[409][410][iq][ir]	 Arizona	Chiricahua Mountains	2976 m
+9,763 ft	1569 m
+5,149 ft	103.3 km
+64.2 mi	31.8456°N 109.2910°W
+222	Cerro Las Conchas[411][412]	 Michoacán	Michoacán	2890 m
+9,482 ft	1960 m
+6,430 ft	103.3 km
+64.2 mi	18.7215°N 102.9740°W
+223	Cerro Zempoaltépetl[413]	 Oaxaca	Sierra Madre de Oaxaca	3420 m
+11,220 ft	1580 m
+5,184 ft	103.2 km
+64.1 mi	17.1324°N 96.0125°W
+224	Cerro Grande[414][is]	 San Luis Potosí	Mexican Plateau	3190 m
+10,466 ft	500 m
+1,640 ft	103.1 km
+64.1 mi	23.6667°N 100.8873°W
+225	Mount Harper[415]	 Alaska	Yukon–Tanana Uplands	1994 m
+6,543 ft	500 m
+1,640 ft	102.7 km
+63.8 mi	64.2370°N 143.8442°W
+226	Mount Angayukaqsraq[416][417][it]	 Alaska	Brooks Range	1448 m
+4,750 ft	1067 m
+3,500 ft	102.4 km
+63.6 mi	67.7083°N 159.4053°W
+227	Mount Prindle[418]	 Alaska	Yukon–Tanana Uplands	1611 m
+5,286 ft	864 m
+2,836 ft	101.2 km
+62.9 mi	65.4610°N 146.4758°W
+228	Bearpaw Baldy[419][420][iu]	 Montana	Bearpaw Mountains	2109.4 m
+6,921 ft	1289 m
+4,229 ft	101 km
+62.8 mi	48.1487°N 109.6509°W
+229	Renland High Point[421]	 Greenland	Island of Greenland	2200 m
+7,218 ft	1950 m
+6,398 ft	100.8 km
+62.6 mi	71.3333°N 26.3333°W
+230	Gran Piedra[422][iv]	 Cuba	Island of Cuba	1249 m
+4,098 ft	500 m
+1,640 ft	100.7 km
+62.5 mi	20.0115°N 75.6270°W

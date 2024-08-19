@@ -1,0 +1,819 @@
+Rank	Mountain peak	State	Mountain Range	Elevation	Prominence	Isolation	Location
+1	Denali[5][6][a]	 Alaska	Alaska Range	"20,310 ft
+6190.5 m"	"20,146 ft
+6141 m"	"4,629 mi
+7,450 km"	63.0690°N 151.0063°W
+2	Mauna Kea[7][8][9][b][c]	 Hawaii	Island of Hawaiʻi	"13,803 ft
+4207.3 m"	"13,803 ft
+4207 m"	"2,453 mi
+3,947 km"	19.8207°N 155.4681°W
+3	Mount Rainier[10][11][d][e]	 Washington	Cascade Range	"14,417 ft
+4394 m"	"13,210 ft
+4026 m"	"731 mi
+1,177 km"	46.8529°N 121.7604°W
+4	"Mount Fairweather[12][13][f]
+(Fairweather Mountain)"	" Alaska
+ British Columbia"	Saint Elias Mountains	"15,325 ft
+4671 m"	"12,995 ft
+3961 m"	"124.4 mi
+200 km"	58.9064°N 137.5265°W
+5	Mount Blackburn[14][15][16][g]	 Alaska	Wrangell Mountains	"16,390 ft
+4996 m"	"11,640 ft
+3548 m"	"60.7 mi
+97.6 km"	61.7305°N 143.4031°W
+6	Mount Hayes[17][18][h][i]	 Alaska	Alaska Range	"13,832 ft
+4216 m"	"11,507 ft
+3507 m"	"125.5 mi
+202 km"	63.6203°N 146.7178°W
+7	Mount Saint Elias[19][20][j]	" Alaska
+ Yukon"	Saint Elias Mountains	"18,009 ft
+5489 m"	"11,250 ft
+3429 m"	"25.6 mi
+41.3 km"	60.2927°N 140.9307°W
+8	Mount Marcus Baker[21][22][k]	 Alaska	Chugach Mountains	"13,176 ft
+4016 m"	"10,751 ft
+3277 m"	"126.3 mi
+203 km"	61.4374°N 147.7525°W
+9	Mount Whitney[23][24][25][l][m]	 California	Sierra Nevada	"14,505 ft
+4421 m"	"10,080 ft
+3072 m"	"1,646 mi
+2,649 km"	36.5786°N 118.2920°W
+10	Haleakalā[26][27][n]	 Hawaii	Island of Maui	"10,023 ft
+3055 m"	"10,023 ft
+3055 m"	"76.3 mi
+122.9 km"	20.7097°N 156.2533°W
+11	Mount Shasta[28][29][30][o]	 California	Cascade Range	"14,179 ft
+4321.8 m"	"9,772 ft
+2979 m"	"335 mi
+539 km"	41.4092°N 122.1949°W
+12	Shishaldin Volcano[31][32][p][q]	 Alaska	Unimak Island	"9,414 ft
+2869 m"	"9,414 ft
+2869 m"	"545 mi
+877 km"	54.7554°N 163.9709°W
+13	Redoubt Volcano[33][34][r][s]	 Alaska	Chigmit Mountains	"10,197 ft
+3108 m"	"9,147 ft
+2788 m"	"58.7 mi
+94.5 km"	60.4854°N 152.7442°W
+14	Mount Elbert[35][36][37][t]	 Colorado	Sawatch Range	"14,440 ft
+4401.2 m"	"9,093 ft
+2772 m"	"671 mi
+1,079 km"	39.1178°N 106.4454°W
+15	Mount Baker[38][39][u][v]	 Washington	Skagit Range	"10,787 ft
+3288 m"	"8,845 ft
+2696 m"	"131.5 mi
+212 km"	48.7768°N 121.8145°W
+16	Mount Torbert[40][41][w][x]	 Alaska	Alaska Range	"11,413 ft
+3479 m"	"8,688 ft
+2648 m"	"97.7 mi
+157.3 km"	61.4086°N 152.4125°W
+17	San Jacinto Peak[42][43][44][y]	 California	San Jacinto Mountains	"10,834 ft
+3302.3 m"	"8,339 ft
+2542 m"	"20.3 mi
+32.7 km"	33.8147°N 116.6794°W
+18	San Gorgonio Mountain[45][46][z][aa]	 California	San Bernardino Mountains	"11,503 ft
+3506 m"	"8,294 ft
+2528 m"	"162.5 mi
+262 km"	34.0992°N 116.8249°W
+19	"Charleston Peak[47][48][49][ab]
+(Mount Charleston)"	 Nevada	Spring Mountains	"11,916 ft
+3632 m"	"8,258 ft
+2517 m"	"135.1 mi
+218 km"	36.2716°N 115.6956°W
+20	Mount Pavlof[50][51][ac]	 Alaska	Alaska Peninsula	"8,250 ft
+2515 m"	"8,200 ft
+2499 m"	"94.3 mi
+151.8 km"	55.4173°N 161.8932°W
+	Mount Veniaminof[52][53][ad]	 Alaska	Alaska Peninsula	"8,225 ft
+2507 m"	"8,200 ft
+2499 m"	"209 mi
+337 km"	56.2194°N 159.2975°W
+22	Mount Adams[54][55][56]	 Washington	Cascade Range	"12,281 ft
+3743.4 m"	"8,136 ft
+2480 m"	"45.8 mi
+73.6 km"	46.2024°N 121.4909°W
+23	Mount Hubbard[57][58]	" Alaska
+ Yukon"	Saint Elias Mountains	"14,951 ft
+4557 m"	"8,061 ft
+2457 m"	"21.3 mi
+34.4 km"	60.3194°N 139.0726°W
+24	Mount Isto[59][60][ae][af]	 Alaska	Brooks Range	"8,976 ft
+2736 m"	"7,901 ft
+2408 m"	"394 mi
+634 km"	69.2025°N 143.8020°W
+25	Iliamna Volcano[61][62][ag]	 Alaska	Chigmit Mountains	"10,016 ft
+3053 m"	"7,866 ft
+2398 m"	"33.6 mi
+54.1 km"	60.0321°N 153.0915°W
+26	Mount Olympus[63][64][65][ah]	 Washington	Olympic Mountains	"7,980 ft
+2432.3 m"	"7,838 ft
+2389 m"	"108 mi
+173.7 km"	47.8013°N 123.7108°W
+27	Mount Cook[66][67]	" Alaska
+ Yukon"	Saint Elias Mountains	"13,760 ft
+4194 m"	"7,710 ft
+2350 m"	"14.54 mi
+23.4 km"	60.1816°N 139.9811°W
+28	Mount Hood[68][69][70][ai]	 Oregon	Cascade Range	"11,249 ft
+3428.8 m"	"7,706 ft
+2349 m"	"57.3 mi
+92.2 km"	45.3735°N 121.6959°W
+29	Mount Sanford[71][72]	 Alaska	Wrangell Mountains	"16,237 ft
+4949 m"	"7,687 ft
+2343 m"	"40.3 mi
+64.8 km"	62.2132°N 144.1292°W
+30	Mount Tom White[73][74]	 Alaska	Chugach Mountains	"11,191 ft
+3411 m"	"7,641 ft
+2329 m"	"73 mi
+117.6 km"	60.6518°N 143.6972°W
+31	Wheeler Peak[75][76][77][aj]	 Nevada	Snake Range	"13,065 ft
+3982.3 m"	"7,568 ft
+2307 m"	"232 mi
+373 km"	38.9858°N 114.3139°W
+32	Glacier Peak[78][79][80][ak]	 Washington	Cascade Range	"10,545 ft
+3214 m"	"7,518 ft
+2291 m"	"56 mi
+90.2 km"	48.1125°N 121.1138°W
+33	Mount Kimball[81][82][al]	 Alaska	Alaska Range	"10,350 ft
+3155 m"	"7,425 ft
+2263 m"	"55.8 mi
+89.8 km"	63.2390°N 144.6419°W
+34	Mount Griggs[83][84]	 Alaska	Alaska Peninsula	"7,650 ft
+2332 m"	"7,300 ft
+2225 m"	"135.4 mi
+218 km"	58.3534°N 155.0958°W
+35	Mount Foraker[85][86][am]	 Alaska	Alaska Range	"17,400 ft
+5304 m"	"7,250 ft
+2210 m"	"14.27 mi
+23 km"	62.9604°N 151.3998°W
+36	White Mountain Peak[87][88][89][an]	 California	White Mountains	"14,252 ft
+4344 m"	"7,196 ft
+2193 m"	"67.4 mi
+108.6 km"	37.6341°N 118.2557°W
+37	Mount Crillon[90][91]	 Alaska	Saint Elias Mountains	"12,726 ft
+3879 m"	"7,176 ft
+2187 m"	"19.52 mi
+31.4 km"	58.6625°N 137.1712°W
+38	Mauna Loa[92][93][ao][ap]	 Hawaii	Island of Hawaiʻi	"13,679 ft
+4169 m"	"7,099 ft
+2164 m"	"25.4 mi
+40.8 km"	19.4756°N 155.6054°W
+39	Cloud Peak[94][95][96][aq][ar]	 Wyoming	Bighorn Mountains	"13,167 ft
+4013.3 m"	"7,077 ft
+2157 m"	"145 mi
+233 km"	44.3821°N 107.1739°W
+40	Gannett Peak[97][98][99][as][at]	 Wyoming	Wind River Range	"13,809 ft
+4209.1 m"	"7,076 ft
+2157 m"	"290 mi
+467 km"	43.1842°N 109.6542°W
+41	Mount Vsevidof[100][101][au][av]	 Alaska	Umnak Island	"7,051 ft
+2149 m"	"7,051 ft
+2149 m"	"223 mi
+358 km"	53.1256°N 168.6938°W
+42	Mount Hesperus[102][103][aw][ax]	 Alaska	Alaska Range	"9,828 ft
+2996 m"	"6,978 ft
+2127 m"	"58.1 mi
+93.5 km"	61.8036°N 154.1469°W
+43	Mount Bona[104][105][ay]	 Alaska	Saint Elias Mountains	"16,550 ft
+5044 m"	"6,900 ft
+2103 m"	"49.7 mi
+80 km"	61.3856°N 141.7495°W
+44	Mount Drum[106][107]	 Alaska	Wrangell Mountains	"12,010 ft
+3661 m"	"6,760 ft
+2060 m"	"17.73 mi
+28.5 km"	62.1159°N 144.6394°W
+45	Mount Chiginagak[108][109]	 Alaska	Aleutian Range	"6,925 ft
+2111 m"	"6,675 ft
+2035 m"	"97.6 mi
+157 km"	57.1334°N 156.9912°W
+46	Grand Teton[110][111][112][az][ba]	 Wyoming	Teton Range	"13,775 ft
+4198.7 m"	"6,545 ft
+1995 m"	"69.4 mi
+111.6 km"	43.7412°N 110.8024°W
+47	Sacajawea Peak[113][114][bb][bc]	 Oregon	Wallowa Mountains	"9,843 ft
+3000 m"	"6,393 ft
+1949 m"	"125.5 mi
+202 km"	45.2450°N 117.2929°W
+48	Mount Neacola[115][116][bd]	 Alaska	Aleutian Range	"9,426 ft
+2873 m"	"6,376 ft
+1943 m"	"31 mi
+49.9 km"	60.7981°N 153.3959°W
+49	Kings Peak[117][118][be][bf]	 Utah	Uinta Mountains	"13,534 ft
+4125 m"	"6,358 ft
+1938 m"	"166.6 mi
+268 km"	40.7763°N 110.3729°W
+50	Mount Graham[119][120][121][bg]	 Arizona	Pinaleño Mountains	"10,724 ft
+3268.6 m"	"6,340 ft
+1932 m"	"82.4 mi
+132.6 km"	32.7017°N 109.8714°W
+51	Mount Douglas[122][123]	 Alaska	Alaska Peninsula	"7,050 ft
+2149 m"	"6,300 ft
+1920 m"	"42.9 mi
+69 km"	58.8598°N 153.5353°W
+52	Mount San Antonio[124][125][bh][bi]	 California	San Gabriel Mountains	"10,068 ft
+3069 m"	"6,244 ft
+1903 m"	"42.5 mi
+68.4 km"	34.2891°N 117.6463°W
+53	Kichatna Spire[126][127]	 Alaska	Alaska Range	"8,985 ft
+2739 m"	"6,235 ft
+1900 m"	"37.3 mi
+60 km"	62.4231°N 152.7231°W
+54	"Mount Chosin Few[128]
+(Peak 8084)"	 Alaska	Chugach Mountains	"8,084 ft
+2464 m"	"6,234 ft
+1900 m"	"43.1 mi
+69.3 km"	60.8299°N 145.1335°W
+55	Telescope Peak[129][130][131][bj]	 California	Panamint Range	"11,043 ft
+3366 m"	"6,188 ft
+1886 m"	"57.2 mi
+92 km"	36.1698°N 117.0892°W
+56	Mount Peale[132][133][134][bk]	 Utah	La Sal Mountains	"12,726 ft
+3879 m"	"6,181 ft
+1884 m"	"72.8 mi
+117.1 km"	38.4385°N 109.2292°W
+	Pogromni Volcano[135][136][137]	 Alaska	Unimak Island	"6,531 ft
+1991 m"	"6,181 ft
+1884 m"	"31.7 mi
+50.9 km"	54.5705°N 164.6926°W
+58	Peak 8010 (Alaska)[138]	 Alaska	Chugach Mountains	"8,010 ft
+2441 m"	"6,160 ft
+1878 m"	"25.3 mi
+40.7 km"	61.1605°N 144.8129°W
+59	Mount Washington[139][140][141][bl][bm][bn]	 New Hampshire	White Mountains	"6,288 ft
+1917 m"	"6,158 ft
+1877 m"	"820 mi
+1,319 km"	44.2705°N 71.3032°W
+60	Mount Igikpak[142][143][bo]	 Alaska	Brooks Range	"8,276 ft
+2523 m"	"6,126 ft
+1867 m"	"282 mi
+453 km"	67.4129°N 154.9656°W
+61	Snow Tower[144][145]	 Alaska	Coast Mountains	"6,572 ft
+2003 m"	"6,122 ft
+1866 m"	"10.12 mi
+16.28 km"	58.1724°N 133.4009°W
+62	Mount Mitchell[146][147][bp][bq][br]	 North Carolina	Blue Ridge Mountains	"6,684 ft
+2037 m"	"6,092 ft
+1857 m"	"1,189 mi
+1,913 km"	35.7649°N 82.2651°W
+63	Truuli Peak[148][149][bs]	 Alaska	Kenai Mountains	"6,612 ft
+2015 m"	"6,062 ft
+1848 m"	"87.8 mi
+141.3 km"	59.9129°N 150.4348°W
+64	Humphreys Peak[150][151][bt][bu]	 Arizona	San Francisco Peaks	"12,637 ft
+3852 m"	"6,039 ft
+1841 m"	"246 mi
+396 km"	35.3464°N 111.6780°W
+65	Borah Peak[152][153][154][bv]	 Idaho	Lost River Range	"12,668 ft
+3861.2 m"	"6,002 ft
+1829 m"	"150.8 mi
+243 km"	44.1374°N 113.7811°W
+66	Mount Natazhat[155][156]	 Alaska	Saint Elias Mountains	"13,435 ft
+4095 m"	"5,985 ft
+1824 m"	"15.49 mi
+24.9 km"	61.5217°N 141.1030°W
+67	Hanagita Peak[157][158][159]	 Alaska	Chugach Mountains	"8,504 ft
+2592 m"	"5,954 ft
+1815 m"	"22 mi
+35.3 km"	61.0670°N 143.7075°W
+68	Tanaga Volcano[160][161][bw][bx]	 Alaska	Tanaga Island	"5,925 ft
+1806 m"	"5,925 ft
+1806 m"	"407 mi
+656 km"	51.8838°N 178.1429°W
+69	Makushin Volcano[162][163][by]	 Alaska	Unalaska Island	"5,905 ft
+1800 m"	"5,905 ft
+1800 m"	"83.1 mi
+133.8 km"	53.8782°N 166.9299°W
+70	Sovereign Mountain[164][165][bz]	 Alaska	Talkeetna Mountains	"8,849 ft
+2697 m"	"5,874 ft
+1790 m"	"45.6 mi
+73.5 km"	62.1311°N 148.6044°W
+71	Mount Jefferson[166][167][ca][cb]	 Nevada	Toquima Range	"11,946 ft
+3641 m"	"5,871 ft
+1789 m"	"98.6 mi
+158.7 km"	38.7519°N 116.9267°W
+72	Mount Ellen[168][169][cc][cd]	 Utah	Henry Mountains	"11,527 ft
+3513 m"	"5,862 ft
+1787 m"	"56 mi
+90.2 km"	38.1089°N 110.8136°W
+73	Isanotski Peaks[170][171]	 Alaska	Unimak Island	"8,106 ft
+2471 m"	"5,856 ft
+1785 m"	"9.71 mi
+15.62 km"	54.7680°N 163.7291°W
+74	Deseret Peak[172][173][ce]	 Utah	Stansbury Mountains	"11,035 ft
+3364 m"	"5,812 ft
+1772 m"	"46 mi
+74 km"	40.4595°N 112.6264°W
+75	Mount Jefferson[174][175][176][cf]	 Oregon	Cascade Range	"10,502 ft
+3201 m"	"5,797 ft
+1767 m"	"48.1 mi
+77.5 km"	44.6743°N 121.7996°W
+76	Isthmus Peak[177][178]	 Alaska	Kenai Mountains	"6,532 ft
+1991 m"	"5,782 ft
+1762 m"	"32.3 mi
+52 km"	60.5772°N 148.8915°W
+77	Frosty Peak[179][180]	 Alaska	Aleutian Range	"5,803 ft
+1769 m"	"5,753 ft
+1754 m"	"35.4 mi
+56.9 km"	55.0672°N 162.8351°W
+78	Pilot Peak[181][182][183][cg]	 Nevada	Pilot Range	"10,720 ft
+3267.6 m"	"5,731 ft
+1747 m"	"53.7 mi
+86.4 km"	41.0211°N 114.0774°W
+79	Crazy Peak[184][185][ch][ci]	 Montana	Crazy Mountains	"11,214 ft
+3418 m"	"5,719 ft
+1743 m"	"44.6 mi
+71.8 km"	46.0181°N 110.2768°W
+80	Great Sitkin Volcano[186][187][cj]	 Alaska	Great Sitkin Island	"5,710 ft
+1740 m"	"5,710 ft
+1740 m"	"87.8 mi
+141.3 km"	52.0763°N 176.1108°W
+81	Puʻu Kukui[188][189]	 Hawaii	Island of Maui	"5,788 ft
+1764 m"	"5,678 ft
+1731 m"	"23.5 mi
+37.9 km"	20.8904°N 156.5863°W
+82	Mount Cleveland[190][191][192][ck]	 Alaska	Chuginadak Island	"5,675 ft
+1730 m"	"5,675 ft
+1730 m"	"56.3 mi
+90.6 km"	52.8230°N 169.9465°W
+83	McDonald Peak[193][194][cl][cm]	 Montana	Mission Range	"9,824 ft
+2994 m"	"5,650 ft
+1722 m"	"79.4 mi
+127.8 km"	47.3826°N 113.9191°W
+84	Mount Wrangell[195][196]	 Alaska	Wrangell Mountains	"14,163 ft
+4317 m"	"5,613 ft
+1711 m"	"14.79 mi
+23.8 km"	62.0059°N 144.0187°W
+85	South Sister[197][198][199]	 Oregon	Cascade Range	"10,363 ft
+3158.5 m"	"5,593 ft
+1705 m"	"39.4 mi
+63.4 km"	44.1035°N 121.7693°W
+86	Devils Paw[200][201][cn]	" Alaska
+ British Columbia"	Coast Mountains	"8,507 ft
+2593 m"	"5,587 ft
+1703 m"	"84.7 mi
+136.3 km"	58.7289°N 133.8402°W
+87	Mount Seattle[202][203]	 Alaska	Saint Elias Mountains	"10,350 ft
+3155 m"	"5,561 ft
+1695 m"	"11.97 mi
+19.26 km"	60.0680°N 139.1893°W
+88	Sierra Blanca Peak[204][205][206][co]	 New Mexico	Sacramento Mountains	"11,981 ft
+3651.8 m"	"5,553 ft
+1693 m"	"165.7 mi
+267 km"	33.3743°N 105.8087°W
+89	Pikes Peak[207][208][209][cp]	 Colorado	Front Range	"14,115 ft
+4302.31 m"	"5,530 ft
+1686 m"	"60.6 mi
+97.6 km"	38.8405°N 105.0442°W
+90	Mount Russell[210][211][cq]	 Alaska	Alaska Range	"11,670 ft
+3557 m"	"5,520 ft
+1682 m"	"14.07 mi
+22.7 km"	62.7984°N 151.8845°W
+91	Mount Nebo[212][213][cr][cs]	 Utah	Wasatch Range	"11,933 ft
+3637 m"	"5,508 ft
+1679 m"	"75.6 mi
+121.6 km"	39.8219°N 111.7603°W
+92	Snowshoe Peak[214][215][ct][cu]	 Montana	Cabinet Mountains	"8,743 ft
+2665 m"	"5,438 ft
+1658 m"	"82.9 mi
+133.5 km"	48.2231°N 115.6890°W
+93	North Schell Peak[216][217][218][cv]	 Nevada	Schell Creek Range	"11,895 ft
+3625.6 m"	"5,413 ft
+1650 m"	"23.5 mi
+37.9 km"	39.4132°N 114.5997°W
+94	Hayford Peak[219][220][221][cw]	 Nevada	Sheep Range	"9,924 ft
+3024.9 m"	"5,412 ft
+1650 m"	"33.8 mi
+54.3 km"	36.6577°N 115.2008°W
+95	Mount Foresta[222][223]	 Alaska	Saint Elias Mountains	"11,050 ft
+3368 m"	"5,400 ft
+1646 m"	"12.51 mi
+20.1 km"	60.1912°N 139.4323°W
+	Star Peak[224][225][226][cx]	 Nevada	Humboldt Range	"9,840 ft
+2999.1 m"	"5,400 ft
+1646 m"	"69 mi
+111.1 km"	40.5224°N 118.1708°W
+97	"Peak 5390[227][228][cy]
+(Veniaminof Peak)"	 Alaska	Baranof Island	"5,390 ft
+1643 m"	"5,390 ft
+1643 m"	"79.7 mi
+128.3 km"	57.0151°N 134.9882°W
+98	Diamond Peak[229][230][231][cz]	 Idaho	Lemhi Range	"12,202 ft
+3719.3 m"	"5,387 ft
+1642 m"	"31.8 mi
+51.2 km"	44.1414°N 113.0827°W
+99	Flat Top Mountain[232][233][da][db]	 Utah	Oquirrh Mountains	"10,624 ft
+3238 m"	"5,383 ft
+1641 m"	"23.8 mi
+38.4 km"	40.3724°N 112.1888°W
+100	"8517 Peak[234][235][dc]
+(Bearhole Peak)"	 Alaska	Saint Elias Mountains	"8,517 ft
+2596 m"	"5,367 ft
+1636 m"	"9.71 mi
+15.62 km"	60.9283°N 142.5237°W
+101	Mount Steller[236][237][dd]	 Alaska	Chugach Mountains	"10,515 ft
+3205 m"	"5,365 ft
+1635 m"	"22.5 mi
+36.2 km"	60.5199°N 143.0932°W
+102	Mount Stuart[238][239][240][de][df]	 Washington	Wenatchee Mountains	"9,420 ft
+2871 m"	"5,354 ft
+1632 m"	"44.5 mi
+71.6 km"	47.4751°N 120.9024°W
+103	Blanca Peak[241][242][dg][dh][di]	 Colorado	Sangre de Cristo Mountains	"14,351 ft
+4374 m"	"5,326 ft
+1623 m"	"103.4 mi
+166.4 km"	37.5775°N 105.4856°W
+104	Mount Miller[243][244][dj]	 Alaska	Chugach Mountains	"10,750 ft
+3277 m"	"5,300 ft
+1615 m"	"40.3 mi
+64.9 km"	60.4605°N 142.3012°W
+105	Mount Carlisle[245][246][247][dk]	 Alaska	Carlisle Island	"5,283 ft
+1610 m"	"5,283 ft
+1610 m"	"6.64 mi
+10.68 km"	52.8913°N 170.0580°W
+106	Mount Timpanogos[248][249][250][dl]	 Utah	Wasatch Range	"11,752 ft
+3582 m"	"5,279 ft
+1609 m"	"39.6 mi
+63.8 km"	40.3908°N 111.6459°W
+107	Bashful Peak[251][252][dm]	 Alaska	Chugach Mountains	"8,005 ft
+2440 m"	"5,275 ft
+1608 m"	"22.1 mi
+35.5 km"	61.3076°N 148.8697°W
+108	Ibapah Peak[253][254][dn][do]	 Utah	Deep Creek Range	"12,092 ft
+3686 m"	"5,267 ft
+1605 m"	"61.2 mi
+98.5 km"	39.8282°N 113.9200°W
+109	Mount Cleveland[255][256][257][dp]	 Montana	Lewis Range	"10,479 ft
+3194 m"	"5,246 ft
+1599 m"	"99.4 mi
+159.9 km"	48.9249°N 113.8482°W
+110	Kawaikini[258][259][dq]	 Hawaii	Island of Kauaʻi	"5,243 ft
+1598 m"	"5,243 ft
+1598 m"	"204 mi
+328 km"	22.0586°N 159.4973°W
+111	She Devil[260][261][dr][ds]	 Idaho	Seven Devils Mountains	"9,424 ft
+2873 m"	"5,240 ft
+1597 m"	"31.5 mi
+50.6 km"	45.3240°N 116.5406°W
+	Tetlin Peak[262][263]	 Alaska	Alaska Range	"8,365 ft
+2550 m"	"5,240 ft
+1597 m"	"25.5 mi
+41.1 km"	62.6215°N 143.1084°W
+113	Arc Dome[264][265][dt][du]	 Nevada	Toiyabe Range	"11,778 ft
+3590 m"	"5,233 ft
+1595 m"	"23.1 mi
+37.2 km"	38.8327°N 117.3531°W
+114	Lassen Peak[266][267][268]	 California	Cascade Range	"10,462 ft
+3188.7 m"	"5,229 ft
+1594 m"	"71.4 mi
+114.9 km"	40.4882°N 121.5050°W
+115	Mount Deborah[269][270][dv]	 Alaska	Alaska Range	"12,339 ft
+3761 m"	"5,189 ft
+1582 m"	"16.08 mi
+25.9 km"	63.6377°N 147.2384°W
+116	"Necons Peak[271][272]
+(Peak 8336)"	 Alaska	Alaska Range	"8,336 ft
+2541 m"	"5,186 ft
+1581 m"	"21.9 mi
+35.3 km"	61.1125°N 153.4690°W
+117	Abercrombie Mountain[273][274][dw]	 Washington	Columbia Mountains	"7,312 ft
+2229 m"	"5,178 ft
+1578 m"	"14.04 mi
+22.6 km"	48.9284°N 117.4600°W
+118	Mount Lemmon[275][276][dx][dy]	 Arizona	Santa Catalina Mountains	"9,160 ft
+2792 m"	"5,177 ft
+1578 m"	"51.5 mi
+82.9 km"	32.4430°N 110.7885°W
+119	Gareloi Volcano[277][278][279][dz][ea]	 Alaska	Gareloi Island	"5,160 ft
+1573 m"	"5,160 ft
+1573 m"	"28.6 mi
+46.1 km"	51.7880°N 178.7940°W
+120	Chiricahua Peak[280][281][eb][ec]	 Arizona	Chiricahua Mountains	"9,763 ft
+2976 m"	"5,149 ft
+1569 m"	"64.2 mi
+103.3 km"	31.8456°N 109.2910°W
+121	"Stony Peak[282][283]
+(Peak 8488)"	 Alaska	Alaska Range	"8,488 ft
+2587 m"	"5,138 ft
+1566 m"	"11.92 mi
+19.19 km"	61.4950°N 153.6224°W
+122	Mount Eddy[284][285][286][ed]	 California	Klamath Mountains	"9,037 ft
+2754.6 m"	"5,125 ft
+1562 m"	"14.58 mi
+23.5 km"	41.3196°N 122.4790°W
+123	Mount Augusta[287][288]	" Alaska
+ Yukon"	Saint Elias Mountains	"14,070 ft
+4289 m"	"5,082 ft
+1549 m"	"14.41 mi
+23.2 km"	60.3074°N 140.4584°W
+124	"Copper Peak[289][290]
+(Peak 6915)"	 Alaska	Chugach Mountains	"6,915 ft
+2108 m"	"5,065 ft
+1544 m"	"11.1 mi
+17.87 km"	61.3297°N 144.9599°W
+125	Mount Bear[291][292]	 Alaska	Saint Elias Mountains	"14,831 ft
+4520 m"	"5,054 ft
+1540 m"	"20.1 mi
+32.4 km"	61.2834°N 141.1433°W
+126	Korovin Volcano[293][294][ee]	 Alaska	Atka Island	"5,030 ft
+1533 m"	"5,030 ft
+1533 m"	"85.2 mi
+137.2 km"	52.3816°N 174.1653°W
+127	Miller Peak[295][296][ef][eg]	 Arizona	Huachuca Mountains	"9,470 ft
+2886 m"	"5,011 ft
+1527 m"	"66.5 mi
+107 km"	31.3928°N 110.2930°W
+128	Kamakou[297][298][eh]	 Hawaii	Island of Molokaʻi	"4,961 ft
+1512 m"	"4,961 ft
+1512 m"	"23.5 mi
+37.8 km"	21.1065°N 156.8682°W
+129	Mount Marcy[299][300][ei]	 New York	Adirondack Mountains	"5,343 ft
+1628.57 m"	"4,919 ft
+1499 m"	"129.6 mi
+209 km"	44.1127°N 73.9237°W
+130	Mount Moriah[301][302][303]	 Nevada	Snake Range	"12,072 ft
+3679.6 m"	"4,909 ft
+1496 m"	"20.3 mi
+32.7 km"	39.2732°N 114.1988°W
+131	Jackson Mountain[304][305][ej][ek]	 Nevada	Black Rock Desert	"9,099 ft
+2773 m"	"4,879 ft
+1487 m"	"29.2 mi
+46.9 km"	41.3033°N 118.4163°W
+132	Mount Linn[306][307][el][em]	 California	Northern California Coast Range	"8,098 ft
+2468 m"	"4,854 ft
+1480 m"	"61.5 mi
+98.9 km"	40.0365°N 122.8542°W
+133	Mount Tobin[308][309][310][en]	 Nevada	Tobin Range	"9,778 ft
+2980.4 m"	"4,851 ft
+1479 m"	"35.4 mi
+57 km"	40.3765°N 117.5261°W
+134	Kootznoowoo Peak[311][eo]	 Alaska	Admiralty Island	"4,850 ft
+1478.3 m"	"4,850 ft
+1478 m"	"35.7 mi
+57.5 km"	57.7891°N 134.4546°W
+135	Hole in the Mountain Peak[312][313][ep][eq]	 Nevada	East Humboldt Range	"11,311 ft
+3448 m"	"4,849 ft
+1478 m"	"26.6 mi
+42.8 km"	40.9508°N 115.1224°W
+136	Culebra Peak[314][315][er][es][et]	 Colorado	Culebra Range	"14,053 ft
+4283 m"	"4,827 ft
+1471 m"	"35.4 mi
+56.9 km"	37.1224°N 105.1858°W
+137	Hyndman Peak[316][317][eu]	 Idaho	Pioneer Mountains (Idaho)	"12,008 ft
+3660 m"	"4,810 ft
+1466 m"	"30.2 mi
+48.6 km"	43.7495°N 114.1311°W
+	Ruby Dome[318][319][320][ev][ew]	 Nevada	Ruby Mountains	"11,392 ft
+3472 m"	"4,810 ft
+1466 m"	"94.7 mi
+152.5 km"	40.6217°N 115.4754°W
+	Round Mountain[321][322][ex]	 Washington	Cascade Range	"5,344 ft
+1629 m"	"4,810 ft
+1466 m"	"8.67 mi
+13.95 km"	48.3265°N 121.7507°W
+140	Mount Pinos[323][324][325][ey]	 California	San Emigdio Mountains	"8,847 ft
+2696.5 m"	"4,800 ft
+1463 m"	"82.9 mi
+133.5 km"	34.8128°N 119.1454°W
+141	Mount Spickard[326][327][328]	 Washington	Skagit Range	"8,980 ft
+2737.2 m"	"4,799 ft
+1463 m"	"18.78 mi
+30.2 km"	48.9697°N 121.2405°W
+142	Troy Peak[329][330][331][ez]	 Nevada	Grant Range	"11,302 ft
+3445 m"	"4,790 ft
+1460 m"	"40 mi
+64.3 km"	38.3194°N 115.5019°W
+143	Granite Peak[332][333][334][fa]	 Montana	Beartooth Mountains	"12,807 ft
+3903.5 m"	"4,779 ft
+1457 m"	"86 mi
+138.5 km"	45.1634°N 109.8075°W
+	"Cleave Peak[335][336]
+(Peak 7500)"	 Alaska	Chugach Mountains	"7,550 ft
+2301 m"	"4,779 ft
+1457 m"	"11.86 mi
+19.08 km"	61.1256°N 145.3006°W
+145	Mount Jarvis[337][338]	 Alaska	Wrangell Mountains	"13,421 ft
+4091 m"	"4,771 ft
+1454 m"	"11.15 mi
+17.95 km"	62.0234°N 143.6198°W
+146	Copper Butte[339][340][341][fb]	 Washington	Columbia Mountains	"7,150 ft
+2179.3 m"	"4,760 ft
+1451 m"	"30.2 mi
+48.7 km"	48.7025°N 118.4656°W
+147	Chunekukleik Mountain[342][343]	 Alaska	Saint Elias Mountains	"5,780 ft
+1762 m"	"4,730 ft
+1442 m"	"7.61 mi
+12.24 km"	59.2919°N 135.9529°W
+148	Mount Baldy[344][345][346][fc]	 Arizona	White Mountains	"11,409 ft
+3477.4 m"	"4,728 ft
+1441 m"	"154 mi
+248 km"	33.9059°N 109.5626°W
+149	Delano Peak[347][348][349][fd]	 Utah	Tushar Mountains	"12,174 ft
+3710.7 m"	"4,709 ft
+1435 m"	"112.1 mi
+180.5 km"	38.3692°N 112.3714°W
+150	Double Peak[350][351]	 Alaska	Chigmit Mountains	"6,818 ft
+2078 m"	"4,701 ft
+1433 m"	"17.75 mi
+28.6 km"	60.7296°N 152.5861°W
+151	Matterhorn[352][353][fe][ff]	 Nevada	Jarbidge Mountains	"10,843 ft
+3305 m"	"4,688 ft
+1429 m"	"60.4 mi
+97.2 km"	41.8107°N 115.3745°W
+152	Mount Aylesworth[354][355]	" Alaska
+ British Columbia"	Saint Elias Mountains	"9,285 ft
+2830 m"	"4,659 ft
+1420 m"	"16.81 mi
+27.1 km"	59.9242°N 138.7985°W
+153	Mount Hunter[356][357]	 Alaska	Alaska Range	"14,573 ft
+4442 m"	"4,653 ft
+1418 m"	"6.88 mi
+11.07 km"	62.9504°N 151.0915°W
+154	Mount Saint Helens[358][359][fg]	 Washington	Cascade Range	"8,363 ft
+2549 m"	"4,593 ft
+1400 m"	"32 mi
+51.5 km"	46.1914°N 122.1956°W
+155	Mount Reid[360][fh]	 Alaska	Revillagigedo Island	"4,592 ft
+1399.6 m"	"4,592 ft
+1400 m"	"23.3 mi
+37.5 km"	55.7065°N 131.2472°W
+156	Mount Wrightson[361][362][fi][fj]	 Arizona	Santa Rita Mountains	"2882 m
+9,457 ft"	"1399 m
+4,591 ft"	"62.5 km
+38.8 mi"	31.6959°N 110.8482°W
+157	Currant Mountain[363][364][365][fk]	 Nevada	White Pine Range	"11,518 ft
+3510.7 m"	"4,575 ft
+1394 m"	"52.8 mi
+85 km"	38.9097°N 115.4246°W
+158	Abajo Peak[366][367][368][fl]	 Utah	Abajo Mountains	"11,362 ft
+3463 m"	"4,555 ft
+1388 m"	"39.9 mi
+64.2 km"	37.8395°N 109.4624°W
+159	Crestone Peak[369][370][fm][fn]	 Colorado	Sangre de Cristo Range	"14,300 ft
+4359 m"	"4,554 ft
+1388 m"	"27.4 mi
+44 km"	37.9669°N 105.5855°W
+160	Kates Needle[371][372]	" Alaska
+ British Columbia"	Coast Mountains	"10,016 ft
+3053 m"	"4,537 ft
+1383 m"	"26 mi
+41.8 km"	57.0449°N 132.0451°W
+161	Koniag Peak[373][374][fo]	 Alaska	Kodiak Island	"4,520 ft
+1378 m"	"4,520 ft
+1378 m"	"84.2 mi
+135.5 km"	57.3548°N 153.3235°W
+162	Clingmans Dome[375][fp][fq]	" North Carolina
+ Tennessee"	Great Smoky Mountains	"6,643 ft
+2025 m"	"4,513 ft
+1376 m"	"70.7 mi
+113.9 km"	35.5629°N 83.4986°W
+163	Emory Peak[376][377][378][fr][fs]	 Texas	Chisos Mountains	"7,812 ft
+2381 m"	"4,495 ft
+1370 m"	"46.2 mi
+74.3 km"	29.2460°N 103.3053°W
+164	Cache Peak[379][380][381][ft]	 Idaho	Albion Range	"10,343 ft
+3152.5 m"	"4,479 ft
+1365 m"	"81.8 mi
+131.6 km"	42.1856°N 113.6611°W
+165	Mount McLoughlin[382][383][384][fu][fv]	 Oregon	Cascade Range	"9,499 ft
+2895 m"	"4,475 ft
+1364 m"	"69.5 mi
+111.8 km"	42.4445°N 122.3156°W
+	Kuskokwim high point[385][fw]	 Alaska	Kuskokwim Mountains	"5,250 ft
+1600 m"	"4,475 ft
+1364 m"	"191.6 mi
+308 km"	60.1159°N 159.3241°W
+167	Northwest Peak[386][387][388][fx][fy]	 Montana	Columbia Mountains	"7,709 ft
+2350 m"	"4,455 ft
+1358 m"	"24.1 mi
+38.8 km"	48.9632°N 115.9683°W
+168	Junipero Serra Peak[389][390][fz][ga]	 California	Santa Lucia Range	"5,865 ft
+1788 m"	"4,447 ft
+1355 m"	"131.8 mi
+212 km"	36.1457°N 121.4191°W
+169	Hualapai Peak[391][392][393][gb]	 Arizona	Hualapai Mountains	"8,426 ft
+2568.2 m"	"4,439 ft
+1353 m"	"95.2 mi
+153.2 km"	35.0751°N 113.8979°W
+170	Mount Shuksan[394][395][396][gc]	 Washington	Skagit Range	"9,135 ft
+2784 m"	"4,431 ft
+1351 m"	"10.36 mi
+16.68 km"	48.8315°N 121.6032°W
+171	Table Mountain[397][398][399][gd][ge]	 Montana	Highland Mountains	"10,228 ft
+3117 m"	"4,422 ft
+1348 m"	"19.3 mi
+31.1 km"	45.7426°N 112.4619°W
+172	Mount Stimson[400][401][402]	 Montana	Lewis Range	"10,146 ft
+3092.6 m"	"4,402 ft
+1342 m"	"30 mi
+48.3 km"	48.5142°N 113.6104°W
+173	Kintla Peak[403][404][gf][gg]	 Montana	Livingston Range	"10,106 ft
+3080 m"	"4,401 ft
+1341 m"	"14.78 mi
+23.8 km"	48.9437°N 114.1714°W
+174	Granite Peak[405][406][407][gh]	 Nevada	Santa Rosa Range	"9,732 ft
+2966.3 m"	"4,400 ft
+1341 m"	"82.4 mi
+132.6 km"	41.6681°N 117.5889°W
+175	Santiago Peak[408][409][410][gi]	 California	Santa Ana Mountains	"5,690 ft
+1734.36 m"	"4,397 ft
+1340 m"	"33.6 mi
+54.1 km"	33.7105°N 117.5342°W
+176	Regal Mountain[411][412][413]	 Alaska	Wrangell Mountains	"13,845 ft
+4220 m"	"4,395 ft
+1340 m"	"12.25 mi
+19.72 km"	61.7438°N 142.8675°W
+177	Remmel Mountain[414][415][416][gj]	 Washington	Okanogan Range	"8,691 ft
+2649.16 m"	"4,385 ft
+1337 m"	"16.83 mi
+27.1 km"	48.9234°N 120.1968°W
+178	Steens Mountain[417][418][gk]	 Oregon	Steens Mountain	"9,738 ft
+2968 m"	"4,383 ft
+1336 m"	"124.7 mi
+201 km"	42.6364°N 118.5767°W
+179	Mount Osborn[419][420][gl]	 Alaska	Seward Peninsula	"4,714 ft
+1437 m"	"4,377 ft
+1334 m"	"282 mi
+453 km"	64.9922°N 165.3294°W
+180	Eagle Peak[421][422][423][gm]	 California	Warner Mountains	"9,895 ft
+3016 m"	"4,362 ft
+1330 m"	"87.4 mi
+140.6 km"	41.2835°N 120.2007°W
+181	Herbert Volcano[424][425][gn]	 Alaska	Herbert Island	"4,300 ft
+1310.6 m"	"4,300 ft
+1311 m"	"9.07 mi
+14.59 km"	52.7405°N 170.1142°W
+182	Katahdin[426][427][go][gp]	 Maine	Longfellow Mountains	"5,270 ft
+1606.4 m"	"4,293 ft
+1309 m"	"158.3 mi
+255 km"	45.9044°N 68.9213°W
+183	Chicoma Mountain[428][429][430][gq]	 New Mexico	Jemez Mountains	"11,561 ft
+3523.8 m"	"4,291 ft
+1308 m"	"35.3 mi
+56.8 km"	36.0073°N 106.3846°W
+184	Mount Kanaga[431][432][gr]	 Alaska	Kanaga Island	"4,287 ft
+1306.7 m"	"4,287 ft
+1307 m"	"42 mi
+67.6 km"	51.9238°N 177.1623°W
+185	Uncompahgre Peak[433][434][435][gs][gt]	 Colorado	San Juan Mountains	"14,321 ft
+4365 m"	"4,277 ft
+1304 m"	"85 mi
+136.8 km"	38.0717°N 107.4621°W
+186	Clark Mountain[436][437][438][gu]	 California	Clark Mountain Range	"7,933 ft
+2418.1 m"	"4,255 ft
+1297 m"	"29.1 mi
+46.9 km"	35.5256°N 115.5887°W
+187	Mount Akutan[439][440][gv]	 Alaska	Akutan Island	"4,251 ft
+1295.7 m"	"4,251 ft
+1296 m"	"42.3 mi
+68.1 km"	54.1330°N 165.9854°W
+188	Navajo Mountain[441][442][443]	 Utah	Colorado Plateau	"10,348 ft
+3154.2 m"	"4,236 ft
+1291 m"	"58.6 mi
+94.3 km"	37.0343°N 110.8697°W
+189	Bearpaw Baldy[444][445][gw]	 Montana	Bearpaw Mountains	"6,921 ft
+2109.4 m"	"4,229 ft
+1289 m"	"62.8 mi
+101 km"	48.1487°N 109.6509°W
+190	Jack Mountain[446][447][448][gx]	 Washington	Hozameen Range	"9,075 ft
+2766 m"	"4,211 ft
+1284 m"	"16.32 mi
+26.3 km"	48.7728°N 120.9562°W
+191	Accomplishment Peak[449][450][gy]	 Alaska	Brooks Range	"8,045 ft
+2452 m"	"4,195 ft
+1279 m"	"86.5 mi
+139.2 km"	68.4433°N 148.0947°W
+192	Mount Patterson[451][452][gz][ha]	 California	Sweetwater Range	"11,679 ft
+3560 m"	"4,173 ft
+1272 m"	"18.5 mi
+29.8 km"	38.4366°N 119.3052°W
+193	Mount Tozi[453][hb]	 Alaska	Ray Mountains	"5,519 ft
+1682 m"	"4,169 ft
+1271 m"	"99.5 mi
+160.1 km"	65.6865°N 150.9498°W
+194	Mount Chamberlin[454][455][hc][hd]	 Alaska	Brooks Range	"8,901 ft
+2713 m"	"4,151 ft
+1265 m"	"27.2 mi
+43.9 km"	69.2775°N 144.9107°W
+195	Mount Edith[456][457][he][hf]	 Montana	Big Belt Mountains	"9,504 ft
+2897 m"	"4,110 ft
+1253 m"	"37 mi
+59.5 km"	46.4318°N 111.1862°W
+196	Sandia Crest[458][459][460][hg]	 New Mexico	Sandia Mountains	"10,682 ft
+3256 m"	"4,098 ft
+1249 m"	"45.3 mi
+72.9 km"	35.2100°N 106.4495°W
+197	Mount Taylor[461][462][463][hh]	 New Mexico	San Mateo Mountains	"11,305 ft
+3445.9 m"	"4,094 ft
+1248 m"	"86.8 mi
+139.6 km"	35.2387°N 107.6085°W
+198	Hilgard Peak[464][465][hi][hj]	 Montana	Madison Range	"11,321 ft
+3451 m"	"4,063 ft
+1238 m"	"76.4 mi
+123 km"	44.9166°N 111.4593°W
+199	Kaʻala[466][hk]	 Hawaii	Island of Oʻahu	"4,060 ft
+1237 m"	"4,060 ft
+1237 m"	"84.4 mi
+135.8 km"	21.5079°N 158.1426°W
+200	Francs Peak[467][468][469][hl]	 Wyoming	Absaroka Range	"13,164 ft
+4012.3 m"	"4,056 ft
+1236 m"	"47.2 mi
+76 km"	43.9613°N 109.3392°W

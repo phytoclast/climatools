@@ -1,0 +1,141 @@
+No.	Peak	Range (or island)	Location	"Coordinates
+[1]"	Prominence (m)	Height (m)	Col (m)	Encirclement parent	Prominence parent
+1	Mount Everest	Himalayas	 Nepal	27°59′17″N 86°55′30″E	8848.86	8848.86	0	None	None
+2	Aconcagua	Andes	 Argentina	32°39′11″S 70°0′42″W	6960.8	6960.8	0	None	None
+3	Denali / Mount McKinley*	Alaska Range	 United States	63°4′10″N 151°0′26″W	6155	6191	47	Aconcagua	Aconcagua
+4	Mount Kilimanjaro*	Eastern Rift mountains	 Tanzania	3°4′0″S 37°21′33″E	5895	5895	0	Everest	Everest
+5	Pico Cristóbal Colón	Sierra Nevada de Santa Marta	 Colombia	10°50′18″N 73°41′12″W	5509	5700	191	Aconcagua	Aconcagua
+6	Mount Logan	Saint Elias Mountains	 Canada	60°34′2″N 140°24′10″W	5250	5959	709	Denali	Denali
+7	Pico de Orizaba	Trans-Mexican Volcanic Belt	 Mexico	19°1′48″N 97°16′12″W	4922	5636	714	Mount Logan	Mount Logan
+8	Vinson Massif	Sentinel Range	 Antarctica	78°31′32″S 85°37′2″W	4892	4892	0	None	None
+9	Puncak Jaya	Sudirman Range, New Guinea	 Indonesia	4°5′S 137°11′E	4884	4884	0	None	None
+10	Mount Elbrus	Caucasus Mountains	 Russia	43°21′9.144″N 42°26′16.350″E	4741	5642	901	Everest	Everest
+11	Mont Blanc	Alps	" France
+ Italy"	45°49′58″N 6°51′54″E	4695	4808	113	Everest	Everest
+12	Mount Damavand	Alborz	 Iran	35°57′19″N 52°6′33″E	4667	5610	943	Mount Elbrus	Mount Elbrus
+13	Klyuchevskaya Sopka	Kamchatka	 Russia	56°4′N 160°38′E	4649	4750	101	Everest	Everest
+14	Nanga Parbat	Himalayas	 Pakistan	35°14′21″N 74°35′24″E	4608	8125	3517	Everest	Everest
+15	Mauna Kea	Hawaii, Hawaiian Islands	 United States	19°49′14″N 155°28′5″W	4205	4205	0	None	None
+16	Jengish Chokusu	Kakshaal Too	" China
+ Kyrgyzstan"	42°2′5″N 80°7′43″E	4148	7439	3291	Everest	Everest
+17	Bogda Peak	Bogda Shan	 China	43°48′6″N 88°20′6″E	4122	5445	1323	Everest	Everest
+18	Chimborazo	Cordillera Occidental	 Ecuador	1°28′9″S 78°49′3″W	4118	6263	2145	Aconcagua	Aconcagua
+19	Namcha Barwa	Himalayas	 China	29°37′50″N 95°3′19″E	4106	7782	3676	Everest	Everest
+20	Mount Kinabalu	Crocker Range, Borneo	 Malaysia	6°4′30″N 116°33′31″E	4095	4095	0	None	None
+21	Mount Rainier	Cascade Range	 United States	46°51′11″N 121°45′38″W	4029	4393	370	Denali	Orizaba
+22	K2	Karakoram	" China
+ Pakistan"	35°52′52″N 76°30′48″E	4020	8611	4594	Everest	Everest
+23	Ras Dashen	Semien Mountains	 Ethiopia	13°14′12″N 38°22′21″E	3997	4550	553	Kilimanjaro	Kilimanjaro
+24	Volcán Tajumulco	Sierra Madre de Chiapas	 Guatemala	15°2′N 91°54′W	3980	4220	240	Denali	Orizaba
+25	Pico Bolívar	Sierra Nevada de Mérida	 Venezuela	8°32′27.1″N 71°2′47.4″W	3957	4981	1024	Aconcagua	Chimborazo
+26	Mount Fairweather	Saint Elias Mountains	" Canada
+ United States"	58°54′23″N 137°31′36″W	3946	4671	722	Mount Logan	Mount Logan
+27	Yushan	Yushan Range	 Taiwan	23°28′12.00″N 120°57′26.16″E	3952	3952	0	None	None
+28	Mount Stanley	Rwenzori Mountains	" DR Congo
+ Uganda"	0°23′9″N 29°52′18″E	3951	5109	1158	Kilimanjaro	Kilimanjaro
+29	Kanchenjunga	Himalayas	" India
+ Nepal"	27°42′0.00″N 88°7′59.99″E	3922	8586	4664	Everest	Everest
+30	Tirich Mir	Hindu Kush	 Pakistan	36°14′45″N 71°50′38″E	3908	7708	3800	Everest	K2
+31	Mount Cameroon	Cameroon line	 Cameroon	4°13′0″N 9°10′21″E	3901	4040	139	Kilimanjaro	Stanley
+32	Mount Kenya	Eastern Rift mountains	 Kenya	0°6′S 37°12′E	3825	5199	1374	Kilimanjaro	Kilimanjaro
+33	Mount Kerinci	Barisan Mountains, Sumatra	 Indonesia	1°41′48.998″S 101°15′51.998″E	3805	3805	0	None	None
+34	Mount Erebus	Ross Island	 Antarctica	77°32′S 167°17′E	3794	3794	0	None	None
+35	Mount Fuji	Honshu	 Japan	35°21′38″N 138°43′39″E	3776	3776	0	None	None
+36	Toubkal	Atlas Mountains	 Morocco	31°3′43″N 7°54′58″W	3757	4167	410	Kilimanjaro	Stanley
+37	Cerro Chirripó	Cordillera de Talamanca	 Costa Rica	9°29′3″N 83°29′19″W	3727	3820	93	Aconcagua	Chimborazo
+38	Mount Rinjani	Lombok, Lesser Sunda Islands	 Indonesia	8°25′0″S 116°28′0″E	3726	3726	0	None	None
+39	Aoraki/Mount Cook	Southern Alps	 New Zealand	43°35′42″S 170°8′31″E	3724	3724	0	None	None
+40	Teide	Tenerife	 Spain	28°16′21.5″N 16°38′37.0″W	3715	3715	0	None	None
+41	Mount Boising	Finisterre Range	 Papua New Guinea	5°48′S 146°6′E	3709	4150	441	Puncak Jaya	Puncak Jaya
+42	Monte San Valentin	Andes	 Chile	46°35′42″S 73°20′45″W	3696	4058	362	Aconcagua	Aconcagua
+43	Gunnbjørn Fjeld	Watkins Range	 Greenland	68°55′10.20″N 29°53′54.72″W	3694	3694	0	None	None
+44	Ojos del Salado	Andes	" Argentina
+ Chile"	27°6′34″S 68°32′32″W	3688	6893	3205	Aconcagua	Aconcagua
+45	Semeru	Java	 Indonesia	8°6′0″S 112°55′0″E	3676	3676	0	None	None
+46	Ritacuba Blanco	Cordillera Oriental	 Colombia	6°29′39″N 72°17′51″W	3645	5410	1765	Aconcagua	Chimborazo
+47	Mount Gongga	Daxue Mountains	 China	29°35′45″N 101°52′45″E	3642	7556	3914	Everest	K2
+48	Mount Ararat	Armenian Highlands	 Turkey	39°42′0″N 44°18′0″E	3611	5137	1526	Damavand	Damavand
+49	Kongur Tagh	Kongur Shan	 China	38°35′38″N 75°18′48″E	3585	7649	4064	Everest	K2
+50	Mount Blackburn	Wrangell Mountains	 United States	61°43′54″N 143°25′59″W	3535	4996	1461	Mount Logan	Mount Logan
+51	Mount Hayes	Alaska Range	 United States	63°37′15″N 146°42′54″W	3501	4216	715	Denali	Denali
+52	Mount Latimojong	Sulawesi	 Indonesia	3°23′6″S 120°1′27″E	3478	3478	0	None	None
+53	Mount Saint Elias	Saint Elias Mountains	" Canada
+ United States"	60°17′36″N 140°55′46″W	3448	5489	2041	Mount Logan	Mount Logan
+54	Ismoil Somoni Peak	Pamir Mountains	 Tajikistan	38°56′34″N 72°0′55″E	3402	7495	4093	Everest	K2
+55	Dhaulagiri	Himalayas	 Nepal	28°41′48″N 83°29′24″E	3357	8167	4810	K2	K2
+56	Mount Etna	Sicily	 Italy	37°45′3.00424″N 14°59′35.59304″E	3357	3357	0	None	None
+57	Mercedario	Cordillera de la Ramada	 Argentina	31°58′44″S 70°6′46″W	3353	6720	3367	Aconcagua	Aconcagua
+58	Lautaro	Andes	 Chile	49°1′8.4″S 73°30′14.4″W	3345	3623	278	Aconcagua	Aconcagua
+59	Belukha Mountain	Altai Mountains	" Kazakhstan
+ Russia"	49°48′25″N 86°35′23″E	3343	4506	1163	Everest	K2
+60	Monte San Lorenzo	Andes	" Argentina
+ Chile"	47°35′30″S 72°18′24″W	3319	3706	387	Aconcagua	Aconcagua
+61	Mount Karisimbi	Virunga Mountains	" DR Congo
+ Rwanda"	1°30′S 29°27′E	3312	4507	1195	Mount Stanley	Mount Stanley
+62	Jabal An-Nabi Shu'ayb	Sarawat Mountains	 Yemen	15°16′45″N 43°58′33″E	3311	3666	355	Everest	Ararat
+63	Mount Waddington	Coast Mountains	 Canada	51°22′25″N 125°15′48″W	3289	4019	730	Mount Fairweather	Mount Fairweather
+64	Mulhacén	Sierra Nevada	 Spain	37°3′12″N 3°18′41″W	3285	3479	194	Mont Blanc	Mont Blanc
+65	Mount Slamet	Java	 Indonesia	7°14′20.40″S 109°13′12.00″E	3284	3428	144	Semeru	Semeru
+66	Sabalan	Sabalan	 Iran	38°16′1″N 47°50′13″E	3283	4811	1528	Mount Ararat	Mount Ararat
+67	Mount Marcus Baker	Chugach Mountains	 United States	61°26′16″N 147°45′4″W	3269	3991	747	Mount Hayes	Mount Hayes
+68	Sauyr Zhotasy	Saur Mountains	" China
+ Kazakhstan"	47°2′57″N 85°34′0″E	3252	3840	588	Everest	Belukha
+69	Cerro del Bolsón	Andes	 Argentina	27°12′51″S 66°5′39″W	3252	5552	2300	Aconcagua	Ojos del Salado
+70	Tomort	Tian Shan	 China	43°4′24″N 94°20′48″E	3243	4886	1643	Bogda Feng	Bogda Feng
+71	Jade Dragon Snow Mountain	Yun Range	 China	27°5′54″N 100°10′30″E	3202	5596	2394	Everest	K2
+72	Mount Meru	Eastern Rift mountains	 Tanzania	3°14′48.41″S 36°45′36.90″E	3170	4565	1395	Mount Kenya	Mount Kenya
+73	Shiveluch	Kamchatka	 Russia	56°39′13.08″N 161°21′46.68″E	3168	3307	139	Klyuchevskaya	Klyuchevskaya
+74	Nanda Devi	Himalayas	 India	30°22′26″N 79°58′15″E	3139	7816	4677	K2	Dhaulagiri
+75	Ichinsky	Sredinny Range	 Russia	55°40′40″N 157°43′18″E	3125	3607	482	Klyuchevskaya	Klyuchevskaya
+76	Mount Lawu	Java	 Indonesia	7°37′30″S 111°11′30″E	3118	3265	147	Semeru	Semeru
+77	Batura Sar	Karakoram	 Pakistan	36°30′36″N 74°31′21″E	3118	7795	4677	K2	K2
+78	Mount Siple	Siple Island	 Antarctica	73°26′S 126°40′W	3110	3110	0	None	None
+79	Pico Duarte	Cordillera Central, Hispaniola	 Dominican Republic	19°1′59″N 71°0′19″W	3098	3098	0	None	None
+80	Manaslu	Himalayas	 Nepal	28°33′0″N 84°33′35″E	3092	8163	5071	Everest	Everest
+81	Mount Whitney	Sierra Nevada	 United States	36°34′43″N 118°17′31″W	3073	4418	1345	Orizaba	Orizaba
+82	Piton des Neiges	Réunion	 France	21°5′56″S 55°28′44″E	3069	3069	0	None	None
+83	Raung	Java	 Indonesia	8°7′30″S 114°2′30″E	3069	3332	263	Semeru	Semeru
+84	Xuelian Feng	Tian Shan	 China	42°15′42″N 80°53′24″E	3068	6627	3559	Jengish Chokusu	Jengish Chokusu
+85	Haleakalā	Maui, Hawaiian Islands	 United States	20°42′48″N 156°15′27″W	3055	3055	0	None	None
+86	Mount Lucania	Saint Elias Mountains	 Canada	61°1′24″N 140°27′56″W	3046	5226	2180	Mount Logan	Mount Logan
+87	Mount Agung	Bali	 Indonesia	8°20′31″S 115°30′28″E	3031	3031	0	None	None
+88	Mount Binaiya	Seram	 Indonesia	3°10′24″S 129°27′18″E	3027	3027	0	None	None
+89	Popocatepetl	Trans-Mexican Volcanic Belt	 Mexico	19°1′19.99″N 98°37′40.01″W	3020	5400	2380	Orizaba	Orizaba
+90	Pico Basilé	Bioko, Cameroon Line	 Equatorial Guinea	3°35′0″N 8°46′0″E	3011	3011	0	None	None
+91	Koryaksky	Sredinny Range	 Russia	53°19′N 158°41′E	2999	3456	457	Klyuchevskaya	Klyuchevskaya
+92	Gangkhar Puensum	Himalayas	" China
+ Bhutan"	28°2′49″N 90°27′18″E	2995	7570	4575	Kangchenjunga	Kangchenjunga
+93	Mount Stephenson	Douglas Range, Alexander Island	 Antarctica	69°49′S 69°43′W	2987	2987	0	None	None
+94	Annapurna	Himalayas	 Nepal	28°35′46″N 83°49′26″E	2984	8091	5107	Everest	Everest
+95	Pik Talgar	Trans-Ili Alatau	 Kazakhstan	43°7′4.22″N 77°20′28.80″E	2982	4979	1997	Everest	Jengish Chokusu
+96	Mount Shasta	Cascade Range	 United States	41°24′33.11″N 122°11′41.60″W	2977	4317	1340	Orizaba	Whitney
+97	Mount Wilhelm	Bismarck Range	 Papua New Guinea	5°48′0″S 145°2′0″E	2969	4509	1540	Puncak Jaya	Puncak Jaya
+98	Pico do Ramelau	Timor	 Timor-Leste	8°54′24″S 125°29′36″E	2963	2963	0	None	None
+99	Mount Apo	Apo–Talomo, Mindanao	 Philippines	6°59′15″N 125°16′15″E	2954	2954	0	None	None
+100	Gyala Peri	Nyenchen Tanglha Mountains	 China	29°48′51″N 94°58′6″E	2942	7294	4352	K2	Dhaulagiri
+101	Mount Leuser	Sumatra	 Indonesia	3°47′51″N 97°13′9″E	2941	3466	525	Mount Kerinci	Mount Kerinci
+102	Mount Paget	Allardyce Range	 South Georgia	54°26′27″S 36°33′19″W	2934	2934	0	None	None
+103	Chakragil	Kunlun Mountains	 China	38°51′57″N 75°6′30″E	2934	6760	3826	Everest	Gongga
+104	Emi Koussi	Tibesti Mountains	 Chad	19°47′22″N 18°33′4″E	2934	3445	511	Kilimanjaro	Karisimbi
+105	Monarch Mountain	Coast Mountains	 Canada	51°53′58″N 125°52′33″W	2930	3555	625	Denali	Waddington
+106	Mount Suckling	Owen Stanley Range	 Papua New Guinea	9°40′9″S 149°0′39″E	2925	3676	751	Puncak Jaya	Puncak Jaya
+107	Mount Pulag	Cordillera Central, Luzon	 Philippines	16°35′1″N 120°53′1″E	2922	2922	0	None	None
+108	El Melao	Sierras Pampeanas	 Argentina	28°52′3″S 67°7′39″W	2907	4150	1243	Aconcagua	Ojos del Salado
+109	Taftan	Baluchestan Mountains	 Iran	28°36′N 61°8′E	2901	3941	1040	Sabalan	Sabalan
+110	Jabal Shams	Al-Hajar Mountains	 Oman	23°14′14.5975″N 57°15′49.6573″E	2899	3019	120	Everest	Jabal An-Nabi Shu'ayb
+111	Shishapangma	Himalayas	 China	28°21′8″N 85°46′47″E	2897	8027	5130	Annapurna	Annapurna
+112	Pico da Neblina	Cerro de la Neblina	 Brazil	0°48′19.78″N 66°0′19.29″W	2886	2994	108	Aconcagua	Ritacuba Blanco
+113	Saramati	Patkai	" India
+ Myanmar"	25°44′N 95°2′E	2885	3826	941	Everest	Dhaulagiri
+114	Maromokotro	Madagascar	 Madagascar	14°1′22″S 48°57′57″E	2876	2876	0	None	None
+115	Mount Shishaldin	Aleutian Range	 United States	54°45′N 163°58′W	2869	2869	0	None	None
+116	Moncong Lompotabang	Sulawesi	 Indonesia	5°20′48.04465″S 119°55′53.99951″E	2857	2874	17	Latimojong	Latimojong
+117	Buni Zom	Hindu Raj	 Pakistan	36°9′15″N 72°19′39″E	2845	6542	3697	Everest	K2
+118	Kuh-e Bandaka	Hindu Kush	 Afghanistan	36°10′45″N 70°59′0″E	2834	6812	3978	Tirich Mir	Tirich Mir
+119	Mount Robson	Canadian Rockies	 Canada	53°6′38″N 119°9′24″W	2829	3959	1130	Orizaba	Whitney
+120	Pico do Fogo	Fogo	 Cape Verde	14°56′57.37″N 24°20′25.33″W	2829	2829	0	None	None
+121	Kamet	Himalayas	 India	30°55′12″N 79°35′36″E	2825	7756	4931	Nanda Devi	Nanda Devi
+122	Rakaposhi	Karakoram	 Pakistan	36°8′33″N 74°29′21″E	2818	7788	4970	K2	K2
+123	Aneto	Pyrenees	 Spain	42°37′51.57″N 0°39′24.07″E	2812	3404	592	Mulhacén	Mulhacén
+124	Arjuno-Welirang	Java	 Indonesia	7°45′54″S 112°35′23″E	2812	3339	527	Semeru	Semeru
+125	Jiuding Shan	Daxue Mountains	 China	31°32′36″N 103°51′12″E	2808	4969	2161	Everest	K2
