@@ -2,7 +2,7 @@ No.	Peak	Range (or island)	Location	"Coordinates
 [1]"	Prominence (m)	Height (m)	Col (m)	Encirclement parent	Prominence parent
 1	Mount Everest	Himalayas	 Nepal	27°59′17″N 86°55′30″E	8848.86	8848.86	0	None	None
 2	Aconcagua	Andes	 Argentina	32°39′11″S 70°0′42″W	6960.8	6960.8	0	None	None
-3	Denali / Mount McKinley*	Alaska Range	 United States	63°4′10″N 151°0′26″W	6155	6191	47	Aconcagua	Aconcagua
+3	Denali	Alaska Range	 United States	63°4′10″N 151°0′26″W	6155	6191	47	Aconcagua	Aconcagua
 4	Mount Kilimanjaro*	Eastern Rift mountains	 Tanzania	3°4′0″S 37°21′33″E	5895	5895	0	Everest	Everest
 5	Pico Cristóbal Colón	Sierra Nevada de Santa Marta	 Colombia	10°50′18″N 73°41′12″W	5509	5700	191	Aconcagua	Aconcagua
 6	Mount Logan	Saint Elias Mountains	 Canada	60°34′2″N 140°24′10″W	5250	5959	709	Denali	Denali

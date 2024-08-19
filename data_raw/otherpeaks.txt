@@ -218,3 +218,7 @@ Pottawatomie County High Point		475	39° 30' 23'' N, 96° 23' 15'' W
 Sugarloaf Mountain		94	28° 38' 57'' N, 81° 43' 59'' W 
 Bossier Parish High Point		143	32° 56' 12'' N, 93° 44' 30'' W 
 Iron Hill		104	39° 38' 25'' N, 75° 45' 8'' W
+Summit Peak		595	46° 44' 50'' N, 89° 46' 18'' W
+Mount Whittlesey		571	46° 18' 3'' N, 90° 37' 3'' W 
+Mount Curwood		603	46° 42' 11'' N, 88° 14' 22'' W
+
