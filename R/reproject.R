@@ -254,8 +254,8 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA){
   if(is.na(lon)){
     lon <- pt.trans[,1]
   }
-if(is.na(prj)){
-  wkt.new <- paste0('PROJCS["Centered Equal Area",
+  if(is.na(prj)){
+    wkt.new <- paste0('PROJCS["Centered Equal Area",
     GEOGCS["WGS 84",
         DATUM["WGS_1984",
             SPHEROID["WGS 84",6378137,298.257223563]],
@@ -280,9 +280,9 @@ if(is.na(prj)){
 
 
   #find extent after projection
-  ex <- data.frame(rname=c('center','ul','ll','ur','lr'),
-                   xcoord=c(lon, ext(dem)[1],ext(dem)[1],ext(dem)[2],ext(dem)[2]),
-                   ycoord=c(lat, ext(dem)[3],ext(dem)[4],ext(dem)[3],ext(dem)[4]))
+  ex <- data.frame(rname=c('ul','ll','ur','lr'),
+                   xcoord=c(ext(dem)[1],ext(dem)[1],ext(dem)[2],ext(dem)[2]),
+                   ycoord=c(ext(dem)[3],ext(dem)[4],ext(dem)[3],ext(dem)[4]))
 
   ex <- sf::st_as_sf(as.data.frame(ex), coords = c("xcoord","ycoord"), crs=st_crs(dem))
   ex.trans <- (st_transform(ex,crs=wkt.new))
