@@ -291,12 +291,12 @@ if(is.na(prj)){
   ex2 <- data.frame(rname=c('center'),
                     xcoord=c(lon),
                     ycoord=c(lat))
-  
+
   ex2 <- sf::st_as_sf(as.data.frame(ex2), coords = c("xcoord","ycoord"), crs=st_crs('EPSG:4326'))
   ex.trans2 <- (st_transform(ex2,crs=wkt.new))
   ex.trans2 <- as.data.frame(st_coordinates(ex.trans2))
-  ex.trans <- rbind(ex.trans, ex.trans2)
-  
+  ex.trans <- rbind(ex.trans2, ex.trans)
+
   #set final extent
   if(is.na(h)){
     ymn= min(ex.trans$Y)
