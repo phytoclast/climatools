@@ -1,6 +1,30 @@
 #Digital elevation model focal statistics tools using terra package
 #
 
+
+
+focalCircle <- function(x, r){
+  rs <- res(x)[1]
+  n = floor(r/rs)*2+1
+  mx <- matrix(0, nrow = n, ncol = n)
+  for(i in 1:n){
+    for(k in 1:n){
+      k0 <- (k - ceiling(n/2))/n*2
+      i0 <- (i - ceiling(n/2))/n*2
+      mx[i,k] <- (k0^2+i0^2) <= 1
+    }
+  }
+  return(mx)}
+
+
+
+
+
+
+
+
+
+
 #' Get focal maximum with specified radius
 #'
 #' @param x raster
@@ -31,8 +55,9 @@ focalmax <- function(x, r, p=c('low', 'medium', 'high','exact')){
     x1 <- aggregate(x, fact = fc, fun = 'max',  na.rm=TRUE)
   }
   #create a focal weights matrix of the appropriate size for given radius
-  fm <- focalMat(x1, d=r, type = 'circle')
-  #exclude outer portion of circle and ensure max/min values are only multplied by 1
+  #fm <- focalMat(x1, d=r, type = 'circle')
+  fm <- focalCircle(x1, r=r)
+    #exclude outer portion of circle and ensure max/min values are only multplied by 1
   fm.na <- ifelse(fm > 0, 1, NA)
   #reduce mat size if raster too small
   matsize = nrow(fm.na)
@@ -80,7 +105,8 @@ focalmin <- function(x, r, p=c('low', 'medium', 'high','exact')){
     x1 <- aggregate(x, fact = fc, fun = 'min',  na.rm=TRUE)
   }
   #create a focal weights matrix of the appropriate size for given radius
-  fm <- focalMat(x1, d=r, type = 'circle')
+  #fm <- focalMat(x1, d=r, type = 'circle')
+  fm <- focalCircle(x1, r=r)
   #exclude outer portion of circle and ensure max/min values are only multplied by 1
   fm.na <- ifelse(fm > 0, 1, NA)
   #reduce mat size if raster too small
@@ -131,7 +157,8 @@ focalmed <- function(x, r, p=c('low', 'medium', 'high','exact')){
     x1 <- aggregate(x, fact = fc, fun = 'mean',  na.rm=TRUE)
   }
   #create a focal weights matrix of the appropriate size for given radius
-  fm <- focalMat(x1, d=r, type = 'circle')
+  #fm <- focalMat(x1, d=r, type = 'circle')
+  fm <- focalCircle(x1, r=r)
   #exclude outer portion of circle and ensure max/min values are only multplied by 1
   fm.na <- ifelse(fm > 0, 1, NA)
   #reduce mat size if raster too small
