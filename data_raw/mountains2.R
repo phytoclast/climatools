@@ -27,46 +27,57 @@ if(i==1){df=df0}else{df=rbind(df,df0)}
 
 
 
-for(k in 1:nrow(mts)){#k=9
+for(k in 1:nrow(mts)){#k=634
 thismts <- mts[k,]
 cropdeg = 5
-thisfile <- subset(df, west <= thismts$Longitude &
-                     east >= thismts$Longitude &
-                     north >= thismts$Latitude &
-                     south <= thismts$Latitude)
-lefttop <- subset(df, west <= thismts$Longitude-cropdeg/2 &
-                     east >= thismts$Longitude-cropdeg/2 &
-                     north >= thismts$Latitude+cropdeg/2 &
-                     south <= thismts$Latitude+cropdeg/2)
-righttop <- subset(df, west <= thismts$Longitude+cropdeg/2 &
-                      east >= thismts$Longitude+cropdeg/2 &
-                      north >= thismts$Latitude+cropdeg/2 &
-                      south <= thismts$Latitude+cropdeg/2)
-leftbottom <- subset(df, west <= thismts$Longitude-cropdeg/2 &
-                     east >= thismts$Longitude-cropdeg/2 &
-                     north >= thismts$Latitude-cropdeg/2 &
-                     south <= thismts$Latitude-cropdeg/2)
-rightbottom <- subset(df, west <= thismts$Longitude+cropdeg/2 &
-                      east >= thismts$Longitude+cropdeg/2 &
-                      north >= thismts$Latitude-cropdeg/2 &
-                      south <= thismts$Latitude-cropdeg/2)
+thisfile <- subset(df, west <= thismts$lon &
+                     east >= thismts$lon &
+                     north >= thismts$lat &
+                     south <= thismts$lat)
+lefttop <- subset(df, west <= thismts$lon-cropdeg/2 &
+                     east >= thismts$lon-cropdeg/2 &
+                     north >= thismts$lat+cropdeg/2 &
+                     south <= thismts$lat+cropdeg/2)
+righttop <- subset(df, west <= thismts$lon+cropdeg/2 &
+                      east >= thismts$lon+cropdeg/2 &
+                      north >= thismts$lat+cropdeg/2 &
+                      south <= thismts$lat+cropdeg/2)
+leftbottom <- subset(df, west <= thismts$lon-cropdeg/2 &
+                     east >= thismts$lon-cropdeg/2 &
+                     north >= thismts$lat-cropdeg/2 &
+                     south <= thismts$lat-cropdeg/2)
+rightbottom <- subset(df, west <= thismts$lon+cropdeg/2 &
+                      east >= thismts$lon+cropdeg/2 &
+                      north >= thismts$lat-cropdeg/2 &
+                      south <= thismts$lat-cropdeg/2)
 dem <- rast(paste0(path,'/',thisfile$filename))
 demlist <- unique(c(paste0(path,'/',thisfile$filename),
 paste0(path,'/',lefttop$filename),
 paste0(path,'/',righttop$filename),
 paste0(path,'/',leftbottom$filename),
 paste0(path,'/',rightbottom$filename)))
-for(i in 1:length(demlist)){
+for(i in 1:length(demlist)){#i=1
   dem0 <- rast(demlist[i])
-  dem0 <- crop(dem0,ext(thismts$Longitude-cropdeg/2, thismts$Longitude+cropdeg/2, thismts$Latitude-cropdeg/2, thismts$Latitude+cropdeg/2))
-  if(i==1){dem <- dem0}else{dem <- merge(dem,dem0)}
+  dem0 <- crop(dem0,ext(thismts$lon-cropdeg/2, thismts$lon+cropdeg/2, thismts$lat-cropdeg/2, thismts$lat+cropdeg/2))
+  if(i==1){demy <- dem0}else{demy <- merge(demy,dem0)}
 }
-plot(dem)
-rg <- minmax(dem)[2]-minmax(dem)[1]
-scl <- rg*15+10000
-demx <- reproject(dem=dem, rs=250, w=scl, h=scl, lat=thismts$Latitude, lon=thismts$Longitude)
+plot(demy);plot(st_geometry(mts), add=T)
+#enhance peaks ----
+demax <- focalmax(demy, r=0.009)
+fake <- rast(xmin=ext(demy)[1], xmax=ext(demy)[2],
+             ymin=ext(demy)[3], ymax=ext(demy)[4], crs=crs(demy), res=res(demy)*4)
+dotrast <- rasterize(mts,fake, field="ht")
+dotrast <- project(dotrast, demax, method='near')
+dotrast0 <- focalmax(dotrast, r=0.009)
 
-plot(demx)
+newrast <- ifel(!is.na(dotrast0) & dotrast0 > demy & demax == demy, dotrast0, demy)
+plot(newrast)
+
+rg <- minmax(newrast)[2]-minmax(newrast)[1]
+scl <- rg*15+10000
+demx <- reproject(dem=newrast, rs=250, w=scl, h=scl, lat=thismts$lat, lon=thismts$lon)
+
+plot(demx);#plot(project(dotrast0, demx), add=T)
 prebreaks = c(150,300,500,1000,2000,3000,4000,5000,6000,7000,8000)
 maxrange <- max(minmax(demx)[2]-minmax(demx)[1],1000)
 breaks <- prebreaks[prebreaks <=maxrange]

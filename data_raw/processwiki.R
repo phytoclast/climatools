@@ -27,7 +27,7 @@ proms <- proms |> mutate(lat0 = stringr::str_split_fixed(Coords, 'N|S',2)[,1],
                          lon1 = as.numeric(trimws(lon1)),
                          lon2 = as.numeric(lon2),
                          lon3 = as.numeric(lon3),lon3 = ifelse(is.na(lon3),0,lon3),
-                         
+
                          lat = lat1+lat2/60+lat3/3600,lon = lon1+lon2/60+lon3/3600,
                          lat = ifelse(grepl('S',Coords),lat*-1,lat),
                          lon = ifelse(grepl('W',Coords),lon*-1,lon))
@@ -49,7 +49,7 @@ proms2 <- proms2 |> mutate(lat0 = stringr::str_split_fixed(Coords, 'N|S',2)[,1],
 
 proms3 <- proms3 |> mutate(lat0 = stringr::str_split_fixed(Coords, 'N|S',2)[,1],
                            lon0 = stringr::str_split_fixed(Coords, 'N|S',2)[,2],
-                           
+
                            lat = stringr::str_extract(lat0,'[:digit:]+\\.[:digit:]*'),
                            lon = stringr::str_extract(lon0,'[:digit:]+\\.[:digit:]*'),
                            lat = as.numeric(lat),lon = as.numeric(lon),
@@ -69,14 +69,14 @@ proms4 <- proms4 |> mutate(lat0 = stringr::str_split_fixed(Coords, 'N|S',2)[,1],
                            lon2 = stringr::str_split_fixed(lon0, '°|′|\'|\'\'|″|E|W',4)[,2],
                            lon3 = stringr::str_split_fixed(lon0, '°|′|\'|\'\'|″|E|W',4)[,3],
                            lon1 = stringr::str_extract(lon1,'[:digit:]+'),
-                           
+
                            lat1 = as.numeric(trimws(lat1)),
                            lat2 = as.numeric(lat2),
                            lat3 = as.numeric(lat3),lat3 = ifelse(is.na(lat3),0,lat3),
                            lon1 = as.numeric(trimws(lon1)),
                            lon2 = as.numeric(lon2),
                            lon3 = as.numeric(lon3),lon3 = ifelse(is.na(lon3),0,lon3),
-                           
+
                            lat = lat1+lat2/60+lat3/3600,lon = lon1+lon2/60+lon3/3600,
                            lat = ifelse(grepl('S',Coords),lat*-1,lat),
                            lon = ifelse(grepl('W',Coords),lon*-1,lon),
@@ -87,7 +87,7 @@ proms4 <- proms4 |> mutate(lat0 = stringr::str_split_fixed(Coords, 'N|S',2)[,1],
 
 proms5 <- proms5 |> mutate(lat0 = stringr::str_split_fixed(Coords, 'N|S',2)[,1],
                            lon0 = stringr::str_split_fixed(Coords, 'N|S',2)[,2],
-                           
+
                            lat = stringr::str_extract(lat0,'[:digit:]+\\.[:digit:]*'),
                            lon = stringr::str_extract(lon0,'[:digit:]+\\.[:digit:]*'),
                            lat = as.numeric(lat),lon = as.numeric(lon),
@@ -105,7 +105,7 @@ proms2 <- subset(proms2, select=c(Peak, Range, lat, lon, ht))
 proms3 <- subset(proms3, select=c(Peak, State, lat, lon, ht))
 proms4 <- subset(proms4, select=c(Peak, State, lat, lon, ht))
 proms5 <- subset(proms5, select=c(Peak, Range, lat, lon, ht))
-promx <- bind_rows(proms, proms2, proms3, proms4,proms5)
+promx <- bind_rows(proms, proms2, proms3, proms4,proms5) |> arrange(desc(ht))
 promx2 <- promx
 # #thin redundancy
 for (i in 1:nrow(promx)){#i=3
@@ -124,7 +124,7 @@ st_crs(states) <- st_crs(4326); states <- st_make_valid(states);# plot(st_geomet
 promsf <- st_join(promsf, states)
 promsf <- promsf |> mutate(State=LEVEL_4_NA)
 promsf <- promsf |> subset(select=c(Peak,State,CONTINENT, ht))
-st_write(promsf, dsn = "output/corrected", layer = "mountains.shp", driver = 'ESRI Shapefile', append = F)
+st_write(promsf, dsn = "C:/workspace2/climatools/data_raw", layer = "mountains.shp", driver = 'ESRI Shapefile', append = F)
 #rasters
 library(terra)
 path <- 'C:/workspace2/dem/input'
