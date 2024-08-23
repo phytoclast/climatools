@@ -57,7 +57,7 @@ focalmax <- function(x, r, p=c('low', 'medium', 'high','exact')){
   #create a focal weights matrix of the appropriate size for given radius
   #fm <- focalMat(x1, d=r, type = 'circle')
   fm <- focalCircle(x1, r=r)
-    #exclude outer portion of circle and ensure max/min values are only multplied by 1
+  #exclude outer portion of circle and ensure max/min values are only multplied by 1
   fm.na <- ifelse(fm > 0, 1, NA)
   #reduce mat size if raster too small
   matsize = nrow(fm.na)
@@ -340,6 +340,29 @@ AmplifiedReduction <- function(hires, fact = 5){
   ElevAmp <- ElevAmp1 * ElevBin + ElevAmp2 * (ElevBin-1)*-1
   return(ElevAmp)}
 
-# EnhancedResample <- function(e1,e2){
-#   #probably create maximum and minimum rasters of original raster, and then a relative elevation raster from the resampled/reprojected raster.
-# }
+#' Restore maximum and minimum values of a resampled raster
+#'
+#' @param x Original raster.
+#' @param y Resampled or reprojected raster.
+#'
+#' @return Resampled raster with original maximum and minimum extreme values restored.
+#' This function is used to correct for the loss in highest and lowest values within a local neighborhood after resampling (i.e. bilinear method) blends them with adjacent values (or substitutes with nearest neighbor in the case of resampling method = "near", or overshoots in the case of "cubic" methods.).This tool is intended to preserve full range of values when this is deemed more important.
+#' @export
+#'
+#' @examples
+RestoreMaxMin <- function(x,y){
+  xmax <- project(x, y, method='max')
+  xmin <- project(x, y, method='min')
+
+  xmax <- focalmax(xmax, r=res(y)[1]*3, p='medium')
+  xmin <- focalmin(xmin, r=res(y)[1]*3, p='medium')
+  ymax <- focalmax(y, r=res(y)[1]*3, p='medium')
+  ymin <- focalmin(y, r=res(y)[1]*3, p='medium')
+  #this method only increases range of maximum and minimum
+  # z <- ifel(xmax > ymax & ymax == y, xmax, y)
+  # z <- ifel(xmin < ymin & ymin == y, xmin, z)
+  #this method adjusts for both blended and overshot max/min values and adjusts for intermediate values.
+  z <- ifel(ymax-ymin == 0 | ymax-ymin == 0, y,(y - ymin)/(ymax-ymin)*(xmax-xmin)+xmin)
+
+  return(z)
+}
