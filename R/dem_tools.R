@@ -2,7 +2,7 @@
 #
 
 
-
+#focal neighborhood circle smoother than terra::focalMat() function
 focalCircle <- function(x, r){
   rs <- res(x)[1]
   n = floor(r/rs)*2+1
@@ -251,6 +251,16 @@ tpi = function(dm, r1, r2, r3){
 
 #e2 = elevation grid of higher resolution and cropped to an area of interest
 
+#' Enhance raster using trends with a higher resolution digital elevation model.
+#'
+#' @param t1 Climate or other types of grids that should have a tight relationship with elevation.
+#' @param e1 Elevation grid matching resolution and extent of climate grid of interest.
+#' @param e2 Elevation grid of higher resolution, cropped to an area of interest.
+#'
+#' @return High resolution climate grid.
+#' @export
+#'
+#' @examples
 enhanceRast <- function(t1,e1,e2){
   #create new extent to crop analysis
   expts <- data.frame(x = c(ext(e2)[1],ext(e2)[1],ext(e2)[2],ext(e2)[2]), y = c(ext(e2)[3],ext(e2)[4],ext(e2)[3],ext(e2)[4]))
@@ -295,6 +305,15 @@ enhanceRast <- function(t1,e1,e2){
 
 
 #Reduces the resolution of a raster but preserves the values of local high and low values.
+#' Reduction in horizontal resolution preserving vertical range.
+#'
+#' @param hires Input high resolution raster.
+#' @param fact Aggregation factor to reduce resolution by.
+#'
+#' @return Reduced resolution raster maintaining the vertical range of the parent raster.
+#' @export
+#'
+#' @examples
 AmplifiedReduction <- function(hires, fact = 5){
 
   lowres <- aggregate(hires, fact=fact, fun='mean',na.rm=TRUE)
@@ -320,3 +339,7 @@ AmplifiedReduction <- function(hires, fact = 5){
 
   ElevAmp <- ElevAmp1 * ElevBin + ElevAmp2 * (ElevBin-1)*-1
   return(ElevAmp)}
+
+# EnhancedResample <- function(e1,e2){
+#   #probably create maximum and minimum rasters of original raster, and then a relative elevation raster from the resampled/reprojected raster.
+# }

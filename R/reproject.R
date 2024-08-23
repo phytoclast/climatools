@@ -226,15 +226,16 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
 #' @param h extent north to south in meters (default is converted from existing raster)
 #' @param w extent east to west in meters (default is converted from existing raster)
 #' @param prj Coordinate reference system (crs); Defaults to equal area azimuth.
+#' @param method Resampling method: "near", "bilinear", "cubic", "cubicspline","lanczos", "min", "max", etc. See terra::project documentation.
 #'
 #' @return new raster with Lambert_Azimuthal_Equal_Area projection
 #' @export
 #'
 #' @examples
-reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA){
+reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, method=NA){
   require(terra)
   require(sf)
-
+  if(is.na(method)){method<-'bilinear'}
   #get lat/lon for center of dem by projecting to 'EPSG:4326'
   xcoord =(ext(dem)[1] + ext(dem)[2])/2
   ycoord =(ext(dem)[3] + ext(dem)[4])/2
@@ -320,6 +321,6 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA){
   y.rast <- rast(xmin=xmn, xmax=xmx,
                  ymin=ymn, ymax=ymx, crs=wkt.new, res=r)
   #project raster
-  dem2 <- project(dem, y.rast, method = 'bilinear')
+  dem2 <- project(dem, y.rast, method = method)
 
   return(dem2)}
