@@ -366,3 +366,21 @@ RestoreMaxMin <- function(x,y){
 
   return(z)
 }
+
+#' Create hillshade directly from DEM raster
+#'
+#' @param x Digital elevation model
+#' @param angle The elevation angle(s) of the light source (sun), in degrees
+#' @param direction The direction (azimuth) angle(s) of the light source (sun), in degrees
+#'
+#' @return Hillshade raster for use to visualize terrain texture.
+#' This function combines terra::terrain() function to create slope and aspect rasters, then employs the terra::shade() function to generate hillshade in one step.
+#' @export
+#'
+#' @examples
+hillshade <- function(x, angle=45, direction=0){
+  require(terra)
+  hsd <-  shade(slope=terrain(x, 'slope', unit="radians"), aspect= terrain(x, 'aspect', unit="radians"), angle=angle, direction = direction)
+  return(hsd)
+}
+
