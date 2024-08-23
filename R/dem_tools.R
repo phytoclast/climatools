@@ -356,14 +356,17 @@ RestoreMaxMin <- function(x,y){
 
   xmax <- focalmax(xmax, r=res(y)[1]*3, p='medium')
   xmin <- focalmin(xmin, r=res(y)[1]*3, p='medium')
+  ymean <- focalmed(y, r=res(y)[1]*3, p='medium')
   ymax <- focalmax(y, r=res(y)[1]*3, p='medium')
   ymin <- focalmin(y, r=res(y)[1]*3, p='medium')
   #this method only increases range of maximum and minimum
   # z <- ifel(xmax > ymax & ymax == y, xmax, y)
   # z <- ifel(xmin < ymin & ymin == y, xmin, z)
   #this method adjusts for both blended and overshot max/min values and adjusts for intermediate values.
-  z <- ifel(ymax-ymin == 0 | ymax-ymin == 0, y,(y - ymin)/(ymax-ymin)*(xmax-xmin)+xmin)
-
+  z <- ifel(ymax-ymean == 0 | ymean-ymin == 0, y,
+            ifel(y >= ymean,
+                 (y - ymean)/(ymax - ymean)*(xmax - ymean)+ymean,
+                 (y - ymean)/(ymean - ymin)*(ymean - xmin)+ymean))
   return(z)
 }
 
