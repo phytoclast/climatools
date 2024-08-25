@@ -1,9 +1,9 @@
 library(climatools)
-proms <- read.delim('C:/workspace2/dem/prom1.txt')
-proms2 <- read.delim('C:/workspace2/dem/usprompeaks.txt')
-proms3 <- read.delim('C:/workspace2/dem/statepeaks.txt')
-proms4 <- read.delim('C:/workspace2/dem/otherpeaks.txt')
-proms5 <- read.delim('C:/workspace2/dem/isolatedpeaks.txt')
+proms <- read.delim('C:/workspace2/climatools/data_raw/prom1.txt')
+proms2 <- read.delim('C:/workspace2/climatools/data_raw/usprompeaks.txt')
+proms3 <- read.delim('C:/workspace2/climatools/data_raw/statepeaks.txt')
+proms4 <- read.delim('C:/workspace2/climatools/data_raw/otherpeaks.txt')
+proms5 <- read.delim('C:/workspace2/climatools/data_raw/isolatedpeaks.txt')
 colnames(proms) <- c("No","Peak","Range","Location",
                      "Coords","Prominence","ht","Col",
                      "parent", "Prom.parent")
