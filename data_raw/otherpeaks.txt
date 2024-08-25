@@ -221,4 +221,5 @@ Iron Hill		104	39° 38' 25'' N, 75° 45' 8'' W
 Summit Peak		595	46° 44' 50'' N, 89° 46' 18'' W
 Mount Whittlesey		571	46° 18' 3'' N, 90° 37' 3'' W 
 Mount Curwood		603	46° 42' 11'' N, 88° 14' 22'' W
+Rib Mountain		586	44° 55' 15'' N, 89° 41' 42'' W
 
