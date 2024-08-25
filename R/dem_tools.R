@@ -344,31 +344,66 @@ AmplifiedReduction <- function(hires, fact = 5){
 #'
 #' @param x Original raster.
 #' @param y Resampled or reprojected raster.
+#' @param s Optional point simple feature vector (sf) with locations of known high points, to further enhance accuracy of elevation extremes that may have been smoothed out in DEM resampling.
+#' @param e Optional name of the column corresponding to elevation in the simple feature vector.
 #'
 #' @return Resampled raster with original maximum and minimum extreme values restored.
 #' This function is used to correct for the loss in highest and lowest values within a local neighborhood after resampling (i.e. bilinear method) blends them with adjacent values (or substitutes with nearest neighbor in the case of resampling method = "near", or overshoots in the case of "cubic" methods.).This tool is intended to preserve full range of values when this is deemed more important.
 #' @export
 #'
 #' @examples
-RestoreMaxMin <- function(x,y){
-  xmax <- project(x, y, method='max')
-  xmin <- project(x, y, method='min')
+RestoreMaxMin <- function(x,y,s=NA,e=NA){#experimental version that incorporates point data and maintains neighborhood relative to original resolution
+  hfactor <- ifelse(terra::linearUnits(x) == 0, 111111.1, terra::linearUnits(x))
+  rs <- res(x)[1]*hfactor
+  #dumb raster
+  y.rast <- rast(xmin=ext(y)[1]-rs, xmax=ext(y)[2]+rs,
+                 ymin=ext(y)[3]-rs, ymax=ext(y)[4]+rs, crs=crs(y), res=rs)
+  xmax <- project(x, y.rast, method='max')
+  xmin <- project(x, y.rast, method='min')
+  if(!is.na(e)){#incorporate point dataset if available
+    pts <- sf::st_transform(s, crs=crs(y))
+    pts <- rasterize(pts, y.rast, field = e)
+    xmax <- max(xmax, pts, na.rm = TRUE)
+  }
 
-  xmax <- focalmax(xmax, r=res(y)[1]*3, p='medium')
-  xmin <- focalmin(xmin, r=res(y)[1]*3, p='medium')
-  ymean <- focalmed(y, r=res(y)[1]*3, p='medium')
-  ymax <- focalmax(y, r=res(y)[1]*3, p='medium')
-  ymin <- focalmin(y, r=res(y)[1]*3, p='medium')
-  #this method only increases range of maximum and minimum
-  # z <- ifel(xmax > ymax & ymax == y, xmax, y)
-  # z <- ifel(xmin < ymin & ymin == y, xmin, z)
-  #this method adjusts for both blended and overshot max/min values and adjusts for intermediate values.
+  xmax <- focalmax(xmax, r=rs*2, p='medium')
+  xmin <- focalmin(xmin, r=rs*2, p='medium')
+
+  #extremes to allow in target raster based on original raster
+  supermax <- focalmax(xmax, r=rs*3, p='medium')
+  supermin <- focalmin(xmin, r=rs*3, p='medium')
+  #bring layers to target projection
+  supermax <- project(supermax, y, method='bilinear')
+  supermin <- project(supermin, y, method='bilinear')
+  xmax <- project(xmax, y, method='bilinear')
+  xmin <- project(xmin, y, method='bilinear')
+
+
+  #wider neighborhood of target raster to avoid edge artifacts when using neighborhood of original raster
+  ymean <- focalmed(y, r=rs*3, p='medium')
+  ymax <- focalmax(y, r=rs*3, p='medium')
+  ymin <- focalmin(y, r=rs*3, p='medium')
+  #weave in maxmin of target raster.
+  xmax <- max(xmax, ymax, na.rm = TRUE)
+  xmin <- min(xmin, ymin, na.rm = TRUE)
+  #push back any overshoots from target raster
+  xmax <- min(xmax, supermax, na.rm = TRUE)
+  xmin <- max(xmin, supermin, na.rm = TRUE)
+
   z <- ifel(ymax-ymean == 0 | ymean-ymin == 0, y,
             ifel(y >= ymean,
                  (y - ymean)/(ymax - ymean)*(xmax - ymean)+ymean,
                  (y - ymean)/(ymean - ymin)*(ymean - xmin)+ymean))
+
   return(z)
 }
+
+
+
+
+
+
+
 
 #' Create hillshade directly from DEM raster
 #'
