@@ -4,12 +4,16 @@
 \alias{RestoreMaxMin}
 \title{Restore maximum and minimum values of a resampled raster}
 \usage{
-RestoreMaxMin(x, y)
+RestoreMaxMin(x, y, s = NA, e = NA)
 }
 \arguments{
 \item{x}{Original raster.}
 
 \item{y}{Resampled or reprojected raster.}
+
+\item{s}{Optional point simple feature vector (sf) with locations of known high points, to further enhance accuracy of elevation extremes that may have been smoothed out in DEM resampling.}
+
+\item{e}{Optional name of the column corresponding to elevation in the simple feature vector.}
 }
 \value{
 Resampled raster with original maximum and minimum extreme values restored.
