@@ -353,8 +353,9 @@ AmplifiedReduction <- function(hires, fact = 5){
 #'
 #' @examples
 RestoreMaxMin <- function(x,y,s=NA,e=NA){#experimental version that incorporates point data and maintains neighborhood relative to original resolution
-  hfactor <- ifelse(terra::linearUnits(x) == 0, 111111.1, terra::linearUnits(x))
-  rs <- res(x)[1]*hfactor
+  hfactor1 <- ifelse(terra::linearUnits(x) == 0, 111111.1, terra::linearUnits(x))
+  hfactor2 <- ifelse(terra::linearUnits(y) == 0, 111111.1, terra::linearUnits(y))
+  rs <- pmax(res(x)[1]*hfactor1, res(y)[1]*hfactor2)
   #dumb raster
   y.rast <- rast(xmin=ext(y)[1]-rs, xmax=ext(y)[2]+rs,
                  ymin=ext(y)[3]-rs, ymax=ext(y)[4]+rs, crs=crs(y), res=rs)
