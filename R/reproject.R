@@ -270,13 +270,14 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, met
     UNIT["metre",1]]')}else{wkt.new <- prj}
 
   #find units and resolution of current projection
-  ishfeet <- (grepl('unit.*"foot".*vertcrs',tolower(st_crs(dem))) | !grepl('vertcrs',tolower(st_crs(dem))) & grepl('unit.*"foot"',tolower(st_crs(dem))))
-  ishusfeet <- (grepl('unit.*"us survey foot".*vertcrs',tolower(st_crs(dem)))| !grepl('vertcrs',tolower(st_crs(dem))) & grepl('unit.*"us survey foot"',tolower(dem)))
-  isprojected <- grepl('conversion',tolower(st_crs(dem)))
-
-  hfactor <- ifelse(!isprojected[length(st_crs(dem))], 111111.1,
-                    ifelse(ishfeet[length(st_crs(dem))], 0.3048,
-                           ifelse(ishusfeet[length(st_crs(dem))], 0.304800609601219, 1)))
+  # ishfeet <- (grepl('unit.*"foot".*vertcrs',tolower(st_crs(dem))) | !grepl('vertcrs',tolower(st_crs(dem))) & grepl('unit.*"foot"',tolower(st_crs(dem))))
+  # ishusfeet <- (grepl('unit.*"us survey foot".*vertcrs',tolower(st_crs(dem)))| !grepl('vertcrs',tolower(st_crs(dem))) & grepl('unit.*"us survey foot"',tolower(dem)))
+  # isprojected <- grepl('conversion',tolower(st_crs(dem)))
+  #
+  # hfactor <- ifelse(!isprojected[length(st_crs(dem))], 111111.1,
+  #                   ifelse(ishfeet[length(st_crs(dem))], 0.3048,
+  #                          ifelse(ishusfeet[length(st_crs(dem))], 0.304800609601219, 1)))
+  hfactor <- ifelse(terra::linearUnits(dem) == 0, 111111.1, terra::linearUnits(dem))
   r = mean(res(dem))*hfactor
 
 
