@@ -27,7 +27,7 @@ if(i==1){df=df0}else{df=rbind(df,df0)}
 
 
 
-for(k in 1:nrow(mts)){#k=634
+for(k in 1:nrow(mts)){#k=62
 thismts <- mts[k,]
 cropdeg = 5
 thisfile <- subset(df, west <= thismts$lon &
@@ -62,27 +62,15 @@ for(i in 1:length(demlist)){#i=1
   if(i==1){demy <- dem0}else{demy <- merge(demy,dem0)}
 }
 plot(demy);plot(st_geometry(mts), add=T)
-#enhance peaks ----
-demax <- focalmax(demy, r=0.009)
-demin <- focalmin(demy, r=0.009)
-fake <- rast(xmin=ext(demy)[1], xmax=ext(demy)[2],
-             ymin=ext(demy)[3], ymax=ext(demy)[4], crs=crs(demy), res=res(demy)*4)
-dotrast <- rasterize(mts,fake, field="ht")
-dotrast <- project(dotrast, demax, method='near')
-dotrast0 <- focalmax(dotrast, r=0.009)
-timeA <- Sys.time()
-newrast <- ifel(!is.na(dotrast0) & dotrast0 > demy & demax == demy, dotrast0, demy)
-# newrast <- ifel(!is.na(dotrast0) & dotrast0 > demy, (dotrast0-demax)*(demy-demin)/(demax-demin+0.1)+demy, demy)
-Sys.time() - timeA
-plot(newrast)
+#enhance peaks ---
 
 
-rg <- minmax(newrast)[2]-minmax(newrast)[1]
+rg <- minmax(demy)[2]-minmax(demy)[1]
 scl <- rg*15+10000
-demx0 <- reproject(dem=newrast, rs=250, w=scl, h=scl, lat=thismts$lat, lon=thismts$lon, method='bilinear')
-demx <- climatools::enhanceRast(newrast,newrast,demx0)
+demx0 <- reproject(dem=demy, rs=250, w=scl, h=scl, lat=thismts$lat, lon=thismts$lon, method='bilinear')
+demx <- climatools::RestoreMaxMin(demy,demx0,mts,'ht')
 
-plot(demx);#plot(project(dotrast0, demx), add=T)
+plot(demx-demx0);#plot(project(dotrast0, demx), add=T)
 prebreaks = c(50, 100,150,200,300,500,1000,2000,3000,4000,5000,6000,7000,8000)
 maxrange <- max(minmax(demx)[2]-minmax(demx)[1],1000)
 breaks <- prebreaks[prebreaks <=maxrange]
@@ -91,7 +79,7 @@ rng <- getrelief(demx, r1=1000, r2=maxrange, s=0.1, n=1, p='medium', breaks = br
 
 
 rng2 <- getrelief(demx, r1=1000, r2=maxrange, s=0.25, n=1, p='medium', breaks = breaks)
-# plot(rng2)
+plot(rng2)
 
 steepslope = minmax(rng2)[2]
 totalslope = minmax(rng)[2]
