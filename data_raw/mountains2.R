@@ -26,9 +26,10 @@ if(i==1){df=df0}else{df=rbind(df,df0)}
 
 
 
-
-for(k in 1:nrow(mts)){#k=62
+# for(k in c(1:2,400:410)){#k=251
+for(k in 86:nrow(mts)){#k=130
 thismts <- mts[k,]
+if(thismts$lat > -70){
 cropdeg = 5
 thisfile <- subset(df, west <= thismts$lon &
                      east >= thismts$lon &
@@ -61,82 +62,67 @@ for(i in 1:length(demlist)){#i=1
   dem0 <- crop(dem0,ext(thismts$lon-cropdeg/2, thismts$lon+cropdeg/2, thismts$lat-cropdeg/2, thismts$lat+cropdeg/2))
   if(i==1){demy <- dem0}else{demy <- merge(demy,dem0)}
 }
-plot(demy);plot(st_geometry(mts), add=T)
-#enhance peaks ---
+# plot(demy);plot(st_geometry(mts), add=T)
 
 
+
+#reproject
 rg <- minmax(demy)[2]-minmax(demy)[1]
-scl <- rg*15+10000
+scl <- rg*2*10+10000
 demx0 <- reproject(dem=demy, rs=250, w=scl, h=scl, lat=thismts$lat, lon=thismts$lon, method='bilinear')
 demx <- climatools::RestoreMaxMin(demy,demx0,mts,'ht')
 
-plot(demx-demx0);#plot(project(dotrast0, demx), add=T)
+#maximum circle
+mtcrop <- thismts |> vect() |> terra::project(demx) |> crop(ext(demx))
+mtbuff <- mtcrop |> buffer(width=rg*10.1)
+demx <- demx |> crop(mtbuff)
+mtzone <- mtbuff |> rasterize(demx) |> crop(ext(mtbuff))
+# plot(demx);plot(mtbuff, add=T)
+
+#get range within big circle
+crange <- minmax(demx*mtzone)
+rg2 <- crange[2]-crange[1]
+cutoff <- (crange[2]-crange[1])*0.5+crange[1]
+mtbuff2 <- mtcrop |> buffer(width=rg2*5.05)
+mtzone2 <- mtbuff2 |> rasterize(demx)
+#shave off tops of adjacent mountains
+demxcut <- ifel(demx > cutoff & is.na(mtzone2), cutoff, demx)
+# plot(demxcut)
+#get 10% range within mountain's zone
 prebreaks = c(50, 100,150,200,300,500,1000,2000,3000,4000,5000,6000,7000,8000)
-maxrange <- max(minmax(demx)[2]-minmax(demx)[1],1000)
+maxrange <- max(rg2,1000)
 breaks <- prebreaks[prebreaks <=maxrange]
-rng <- getrelief(demx, r1=1000, r2=maxrange, s=0.1, n=1, p='medium', breaks = breaks)
- plot(rng)
+rng <- getrelief(demxcut, r1=1000, r2=maxrange, s=0.1, n=1, p='medium', breaks = breaks)
+# plot(rng)
+
+#restrict range to near mountain
+rng <- mtzone2*rng
+# plot(rng)
+newrg <- minmax(rng)[2]
+mtbuff3 <- mtcrop |> buffer(width=newrg*5.05)
+mtzone3 <- mtbuff3 |> rasterize(demx)
+rng <- mtzone3*rng
+
+#25% relief
+rng2 <- getrelief(demxcut, r1=1000, r2=maxrange, s=0.25, n=1, p='medium', breaks = breaks)
+# plot(rng2)
+rng2 <- mtzone3*rng2
+# plot(rng2)
 
 
-rng2 <- getrelief(demx, r1=1000, r2=maxrange, s=0.25, n=1, p='medium', breaks = breaks)
-plot(rng2)
+steeprelief = minmax(rng2)[2]
+broadrelief = minmax(rng)[2]
 
-steepslope = minmax(rng2)[2]
-totalslope = minmax(rng)[2]
-minmax(demx)[2] - minmax(demx)[1]
-summit = minmax(demx)[2]
+# summit = minmax(demx)[2]
 
-summitcoord = getmaxcoords(demx)
-totalcoord = getmaxcoords(rng)
+# summitcoord = getmaxcoords(demx)
+broadcoord = getmaxcoords(rng)
 steepcoord = getmaxcoords(rng2)
 
-mountains0 <- data.frame(state=mts$State[k], Name=mts$Name[k], summit=summit,totalslope=totalslope,steepslope=steepslope,summitcoord=summitcoord,totalcoord=totalcoord,steepcoord=steepcoord)
+mountains0 <- data.frame(state=mts$State[k], Name=mts$Peak[k], summit=mts$ht[k],broadrelief=round(broadrelief,0),steeprelief=round(steeprelief,0),lat=mts$lat[k],lon=mts$lon[k],broadcoord=broadcoord,steepcoord=steepcoord)
 if(k==1){mountains=mountains0}else{mountains=rbind(mountains,mountains0)}
 
-}
-write.csv(mountains, 'C:/workspace2/dem/output/mountains.csv', row.names = F)
+}}
+write.csv(mountains, 'C:/workspace2/dem/output/worldpeaks.csv', row.names = F)
 
 
-sl<- terrain(demx, v="slope", unit="radians")
-as<- terrain(demx, v="aspect", unit="radians")
-hsd <- terra::shade(sl,as)
-plot(hsd)
-writeRaster(hsd,'C:/workspace2/dem/output/orizaba/hsd.tif')
-writeRaster(rng,'C:/workspace2/dem/output/orizaba/rng.tif')
-writeRaster(demx,'C:/workspace2/dem/output/orizaba/dem.tif')
-
-
-
-#----test----
-prebreaks = c(150,300,500,1000,2000,3000,4000,5000,6000,7000,8000)
-maxrange <- ceiling(max(minmax(demx)[2]-minmax(demx)[1],150))
-breaks <- prebreaks[prebreaks <=maxrange]
-rng <- getrelief(demx, r1=1000, r2=maxrange, s=0.1, n=1, p='medium', breaks = breaks)
-plot(rng)
-writeRaster(rng,paste0('C:/workspace2/dem/output/test/','rng','.tif'), overwrite=T)
-bks <- c(1000, breaks*10, maxrange*10)
-for(i in 1:length(bks)){
-rng <- getrelief(demx, r1=bks[i], s=0.1, n=0, p='medium')
-names(rng) <- paste0('r', bks[i])
-plot(rng)
-writeRaster(rng,paste0('C:/workspace2/dem/output/test/',paste0('r', bks[i]),'.tif'), overwrite=T)
-}
-path <- 'C:/workspace2/dem/output/test'
-input <- list.files(path)
-nms <- (stringr::str_split_fixed(input, '\\.', n=2)[,1])
-for (i in 1:length(input)){#i=1
-  x = rast(paste0(path,'/',input[i]))
-    assign(paste0(nms[i]), x)
-}
-rngstack <- rast(mget(nms))
-getsamp <- terra::spatSample(rngstack, 15)
-
-xrng <- getsamp[11,'rng']
-x2 <- getsamp[11,'r10000']
-x1 <- getsamp[11,'r5000']
-x2
-x2/10000
-x1
-x1/5000
-xrng
-x2*(x1/5000 - 0.1)/(x1/5000-x2/10000)+x1*(0.1 - x2/10000)/(x1/5000-x2/10000)
