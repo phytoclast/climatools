@@ -15,7 +15,9 @@ coord <- st_transform(coord, crs = 4326)
 coord <- st_coordinates(coord)
 return(coord)}
 
-
+# mts2 <- mountains |> subset(summit < broadrelief)
+mts2 <- read.csv('C:/workspace2/dem/output/worldpeaks.csv')
+mts3 <- subset(mts, Peak %in% mts2$Name )
 for(i in 1:length(input)){#i=1
 
   dem <- rast(paste0(path,'/',input[i]))
@@ -26,8 +28,7 @@ if(i==1){df=df0}else{df=rbind(df,df0)}
 
 
 
-# for(k in c(1:2,400:410)){#k=251
-for(k in 464:nrow(mts)){#k=668
+for(k in 527:nrow(mts)){#k=108
 thismts <- mts[k,]
 if(thismts$lat > -60){
 cropdeg = 5
@@ -68,7 +69,8 @@ for(i in 1:length(demlist)){#i=2
 
 
 #reproject
-rg <- minmax(demy)[2]-minmax(demy)[1]
+# rg <- minmax(demy)[2]-minmax(demy)[1]
+rg <- thismts$ht-minmax(demy)[1]
 if(rg > 0){
 scl <- rg*2*10+10000
 demx0 <- reproject(dem=demy, rs=250, w=scl, h=scl, lat=thismts$lat, lon=thismts$lon, method='bilinear')
@@ -83,12 +85,14 @@ mtzone <- mtbuff |> rasterize(demx) |> crop(ext(mtbuff))
 
 #get range within big circle
 crange <- minmax(demx*mtzone)
-rg2 <- crange[2]-crange[1]
-cutoff <- (crange[2]-crange[1])*0.5+crange[1]
+rg2 <- thismts$ht-crange[1]
+cutoff <- (thismts$ht-crange[1])*0.5+crange[1]
 mtbuff2 <- mtcrop |> buffer(pmax(width=rg2*5.05, 1010))
 mtzone2 <- mtbuff2 |> rasterize(demx)
+mtbuff2.5 <- mtcrop |> buffer(pmax(width=rg2*3.05, 1010))
+mtzone2.5 <- mtbuff2.5 |> rasterize(demx)
 #shave off tops of adjacent mountains
-demxcut <- ifel(demx > cutoff & is.na(mtzone2), cutoff, demx)
+demxcut <- ifel(demx > cutoff  & is.na(mtzone2.5), cutoff, demx)
 # plot(demxcut)
 #get 10% range within mountain's zone
 prebreaks = c(50, 100,150,200,300,500,1000,2000,3000,4000,5000,6000,7000,8000)
@@ -125,6 +129,6 @@ mountains0 <- data.frame(state=mts$State[k], Name=mts$Peak[k], summit=mts$ht[k],
 if(k==1){mountains=mountains0}else{mountains=rbind(mountains,mountains0)}
 
 }}}
-write.csv(mountains, 'C:/workspace2/dem/output/worldpeaks.csv', row.names = F)
+write.csv(mountains, 'C:/workspace2/dem/output/worldpeaks2.csv', row.names = F)
 
 
