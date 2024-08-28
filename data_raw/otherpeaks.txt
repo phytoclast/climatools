@@ -222,4 +222,29 @@ Summit Peak		595	46° 44' 50'' N, 89° 46' 18'' W
 Mount Whittlesey		571	46° 18' 3'' N, 90° 37' 3'' W 
 Mount Curwood		603	46° 42' 11'' N, 88° 14' 22'' W
 Rib Mountain		586	44° 55' 15'' N, 89° 41' 42'' W
+Mount Wood		3859	45° 16' 30'' N, 109° 48' 28'' W
+Canyon Rim View High Point		2707	36° 18' 5'' N, 111° 59' 47'' W
+Kanabownits Lookout		2512	36° 17' 24'' N, 112° 12' 45'' W
+The Priest		1240	37° 49' 11'' N, 79° 3' 44'' W
+Mount Porte Crayon		1454	38° 55' 44'' N, 79° 27' 22'' W
+Dans Mountain		882	39° 34' 54'' N, 78° 53' 51'' W
+Rich Mountain		815	34° 41' 16'' N, 94° 33' 37'' W
+Tuscarora Mountain		750	39° 57' 1'' N, 77° 56' 13'' W 
+Mount Frissell		747	42° 3' 5'' N, 73° 28' 55'' W 
+Mount Tammany		464	40° 58' 11'' N, 75° 6' 38'' W 
+Murphy Mountain		488	47° 45' 27'' N, 90° 26' 1'' W
+Black Mountain		458	37° 28' 9'' N, 90° 29' 46'' W 
+Sauk Point		486	43° 25' 40'' N, 89° 39' 15'' W
+West Rome Hill		354	38° 40' 39'' N, 83° 23' 55'' W 
+South Bluff		1435	41° 49' 15'' N, 103° 42' 53'' W
+Bald Knob		311	37° 33' 7'' N, 89° 20' 46'' W 
+Kildeer Mountain		1000	47° 26' 37'' N, 102° 56' 35'' W
+Williams Benchmark		296	38° 10' 25'' N, 85° 54' 48'' W
+Marching Bears Ridge		335	43° 3' 57'' N, 91° 11' 20'' W
+Goodwin Hill		415	39° 6' 26'' N, 96° 34' 16'' W
+Russell Benchmark		122	32° 31' 57'' N, 90° 39' 39'' W (
+Pocasset Hill		99	41° 39' 13'' N, 71° 11' 26'' W
+Brandywine Creek State Park High Point		122	39° 48' 45'' N, 75° 33' 29'' W
+Logan Hill		73	30° 33' 56'' N, 84° 57' 26'' W
+Bossier Parish High Point		143	32° 56' 12'' N, 93° 44' 30'' W
 

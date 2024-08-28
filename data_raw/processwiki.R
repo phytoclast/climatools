@@ -111,8 +111,8 @@ promx2 <- promx
 for (i in 1:nrow(promx)){#i=3
 p0 <- promx[i,]
 promx2 <- promx2 |> mutate(dis = 10000/90*((lat-p0$lat)^2+((lon-p0$lon)/0.8)^2)^0.5)
-ind <-  which(promx2$dis < 1)
-promx2[ind,] <- promx2[ind,] |> mutate(Peak=p0$Peak, lat = mean(lat), lon = mean(lon), ht=round(mean(ht,0)))
+ind <-  which(promx2$dis < 2)
+promx2[ind,] <- promx2[ind,] |> mutate(Peak=p0$Peak, lat = mean(lat), lon = mean(lon), ht=round(max(ht,0)))
 }
 promx <- promx2 |> subset(select = c(Peak,lat,lon,ht)) |> unique()
 
@@ -125,6 +125,7 @@ promsf <- st_join(promsf, states)
 promsf <- promsf |> mutate(State=LEVEL_4_NA)
 promsf <- promsf |> subset(select=c(Peak,State,CONTINENT, ht))
 st_write(promsf, dsn = "C:/workspace2/climatools/data_raw", layer = "mountains.shp", driver = 'ESRI Shapefile', append = F)
+saveRDS(promsf, 'C:/workspace2/climatools/data_raw/mountains.RDS')
 #rasters
 library(terra)
 path <- 'C:/workspace2/dem/input'

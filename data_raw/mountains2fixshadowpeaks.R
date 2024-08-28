@@ -6,6 +6,7 @@ path <- 'C:/workspace2/dem/input'
 input <- list.files(path)
 mts <- read.csv('C:/workspace2/ClimateClassification/terrain/statemountains.csv')
 mts <- st_read('C:/workspace2/climatools/data_raw/mountains.shp')
+mts <- readRDS('C:/workspace2/climatools/data_raw/mountains.RDS')
 mts <- mts |> mutate(lat = st_coordinates(mts)[,2], lon = st_coordinates(mts)[,1])
 
 getmaxcoords <- function(x){
@@ -28,7 +29,7 @@ if(i==1){df=df0}else{df=rbind(df,df0)}
 
 
 
-for(k in 527:nrow(mts)){#k=108
+for(k in 1:nrow(mts)){#k=108
 thismts <- mts[k,]
 if(thismts$lat > -60){
 cropdeg = 5
@@ -125,10 +126,10 @@ broadrelief = minmax(rng)[2]
 broadcoord = getmaxcoords(rng)
 steepcoord = getmaxcoords(rng2)
 
-mountains0 <- data.frame(state=mts$State[k], Name=mts$Peak[k], summit=mts$ht[k],broadrelief=round(broadrelief,0),steeprelief=round(steeprelief,0),lat=mts$lat[k],lon=mts$lon[k],broadcoord=broadcoord,steepcoord=steepcoord)
+mountains0 <- data.frame(Continent=mts$CONTINENT[k], state=mts$State[k], Name=mts$Peak[k], summit=mts$ht[k],broadrelief=round(broadrelief,0),steeprelief=round(steeprelief,0),lat=mts$lat[k],lon=mts$lon[k],broadcoord=broadcoord,steepcoord=steepcoord)
 if(k==1){mountains=mountains0}else{mountains=rbind(mountains,mountains0)}
 
 }}}
-write.csv(mountains, 'C:/workspace2/dem/output/worldpeaks2.csv', row.names = F)
+write.csv(mountains, 'C:/workspace2/climatools/data_raw/worldpeaks3.csv', row.names = F)
 
 
