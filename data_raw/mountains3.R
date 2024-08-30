@@ -159,9 +159,9 @@ Tw <- crop(temp, denali)
 plot(Tw)
 writeRaster(Tw, 'C:/workspace2/climatools/data_raw/Tw.tif', overwrite=T)
 Tw <- rast('C:/workspace2/climatools/data_raw/Tw.tif')
-
 usethis::use_data(Tw, overwrite = T)
 usethis::use_data(denali, overwrite = T)
+
 peaks <- read.csv('C:/workspace2/climatools/data_raw/worldpeaks3.csv')
 peaks <- peaks[,c("Continent","state","Name","summit","broadrelief","steeprelief","lat","lon")]
 colnames(peaks) <- c("continent","state","name","summit","relief.broad","relief.steep","lat","lon")
