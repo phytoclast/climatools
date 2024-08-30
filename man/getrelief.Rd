@@ -60,4 +60,23 @@ plot(rng)
 #get relief with a fixed radius of 2000 meters.
 rng <- getrelief(dem, r1=2000, s=0.1, n=0)
 plot(rng)
+
+#load package data for elevation
+data("denali")
+dem <- denali
+dem <- toraster(dem)
+plot(dem)
+#Reproject to get metric distance units.
+dem <- reproject(dem, rs=250)
+
+#Established desired vertical increment of focal range analysis.
+prebreaks = c(50, 100,150,200,300,500,1000,2000,3000,4000,5000,6000,7000,8000)
+maxrange <- max(minmax(dem)[2],1000)#Establish maximum relative to the highest elevation in DEM. This is to reduce the need for radii wider than required.
+breaks <- prebreaks[prebreaks <=maxrange]
+#Relief at a 10\% slope. Using "low" precision for faster performance
+rng10 <- getrelief(dem, r1=1000, r2=maxrange*10, s=0.1, n=1, p='low', breaks = breaks)
+plot(rng10)
+#Relief at a 25\% slope. Using "medium" precision for better quality.
+rng25 <- getrelief(dem, r1=1000, r2=maxrange*10, s=0.25, n=1, p='medium', breaks = breaks)
+plot(rng25)
 }

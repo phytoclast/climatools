@@ -220,7 +220,32 @@ minmax(denali1)
 hsd <- hillshade(denali0)
 plot(hsd)
 
+#load package data for elevation
+data("denali")
+dem0 <- denali
+dem0 <- toraster(dem0)
+dem <- reproject(dem0, rs=250)
+plot(dem)
 
+#load package data for July temperature
+data("Tw")
+temperature0 <- Tw
+temperature0 <- toraster(temperature0)
+
+#Original temperature is coarse resolution.
+plot(temperature0)
+
+#This resamples to match resolution of elevation, but it appears blurry.
+temperature <- project(temperature0, dem)
+plot(temperature)
+
+#prepare lower resolution elevation raster matching temperature resolution
+dem0 <- project(dem0, temperature0)
+plot(dem0)
+
+#This estimates a local relationship of temperature with elevation.
+temperature <- enhanceRast(temperature0, dem0,  dem)
+plot(temperature)
 
 
 data(Tw)
@@ -243,8 +268,24 @@ demcoarse <- terra::project(denali, Tw, method='bilinear')
 enhanceRast()
 
 
+#load package data for elevation
+data("denali")
+dem <- denali
+dem <- toraster(dem)
+plot(dem)
+#Reproject to get metric distance units.
+dem <- reproject(dem, rs=250)
 
-
+#Established desired vertical increment of focal range analysis.
+prebreaks = c(50, 100,150,200,300,500,1000,2000,3000,4000,5000,6000,7000,8000)
+maxrange <- max(minmax(dem)[2],1000)#Establish maximum relative to the highest elevation in DEM. This is to reduce the need for radii wider than required.
+breaks <- prebreaks[prebreaks <=maxrange]
+#Relief at a 10% slope. Using "low" precision for faster performance
+rng10 <- getrelief(dem, r1=1000, r2=maxrange*10, s=0.1, n=1, p='low', breaks = breaks)
+plot(rng10)
+#Relief at a 25% slope. Using "medium" precision for better quality.
+rng25 <- getrelief(dem, r1=1000, r2=maxrange*10, s=0.25, n=1, p='medium', breaks = breaks)
+plot(rng25)
 
 
 

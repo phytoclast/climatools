@@ -260,7 +260,32 @@ tpi = function(dm, r1, r2, r3){
 #' @return High resolution climate grid.
 #' @export
 #'
-#' @examples
+#' @examples #load package data for elevation
+#' data("denali")
+#' dem0 <- denali
+#' dem0 <- toraster(dem0)
+#' dem <- reproject(dem0, rs=250)
+#' plot(dem)
+#'
+#' #load package data for July temperature
+#' data("Tw")
+#' temperature0 <- Tw
+#' temperature0 <- toraster(temperature0)
+#'
+#' #Original temperature is coarse resolution.
+#' plot(temperature0)
+#'
+#' #This resamples to match resolution of elevation, but it appears blurry.
+#' temperature <- project(temperature0, dem)
+#' plot(temperature)
+#'
+#' #prepare lower resolution elevation raster matching temperature resolution
+#' dem0 <- project(dem0, temperature0)
+#' plot(dem0)
+
+#' #This estimates a local relationship of temperature with elevation.
+#' temperature <- enhanceRast(temperature0, dem0,  dem)
+#' plot(temperature)
 enhanceRast <- function(t1,e1,e2){
   #create new extent to crop analysis
   expts <- data.frame(x = c(ext(e2)[1],ext(e2)[1],ext(e2)[2],ext(e2)[2]), y = c(ext(e2)[3],ext(e2)[4],ext(e2)[3],ext(e2)[4]))
@@ -461,6 +486,7 @@ hillshade <- function(x, angle=45, direction=0){
 #'
 #' @examples
 fromraster <- function(x){
+  require(terra)
   y <- list(data = as.matrix(x,wide=TRUE),
             crs = crs(x),
             ext = t(as.matrix(ext(x))),
@@ -479,6 +505,7 @@ fromraster <- function(x){
 #' denali <- toraster(denali)
 #' plot(denali)
 toraster <- function(x){
+  require(terra)
   y <- rast(x$data, crs = x$crs, ext = ext(x$ext))
   names(y) <- x$names
   return(y)}

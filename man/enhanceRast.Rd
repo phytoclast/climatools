@@ -19,3 +19,30 @@ High resolution climate grid.
 \description{
 Enhance raster using trends with a higher resolution digital elevation model.
 }
+\examples{
+#load package data for elevation
+data("denali")
+dem0 <- denali
+dem0 <- toraster(dem0)
+dem <- reproject(dem0, rs=250)
+plot(dem)
+
+#load package data for July temperature
+data("Tw")
+temperature0 <- Tw
+temperature0 <- toraster(temperature0)
+
+#Original temperature is coarse resolution.
+plot(temperature0)
+
+#This resamples to match resolution of elevation, but it appears blurry.
+temperature <- project(temperature0, dem)
+plot(temperature)
+
+#prepare lower resolution elevation raster matching temperature resolution
+dem0 <- project(dem0, temperature0)
+plot(dem0)
+#This estimates a local relationship of temperature with elevation.
+temperature <- enhanceRast(temperature0, dem0,  dem)
+plot(temperature)
+}
