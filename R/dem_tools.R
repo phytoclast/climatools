@@ -351,7 +351,31 @@ AmplifiedReduction <- function(hires, fact = 5){
 #' This function is used to correct for the loss in highest and lowest values within a local neighborhood after resampling (i.e. bilinear method) blends them with adjacent values (or substitutes with nearest neighbor in the case of resampling method = "near", or overshoots in the case of "cubic" methods.).This tool is intended to preserve full range of values when this is deemed more important.
 #' @export
 #'
-#' @examples
+#' @examples data("denali")
+#' denali <- denali
+#' denali <- toraster(denali)
+#' minmax(denali)
+#' #reproject to a coarser resolution
+#' denali0 <- reproject(denali, lat = 63, lon = -151, rs = 1000,  h=100000, w=200000)
+#' #note values less extreme than original
+#' minmax(denali0)
+#' denali1 <- RestoreMaxMin(denali, denali0)
+#' #note max/min values are restored
+#' minmax(denali1)
+#'
+#' #supplemental point elevations
+#' data("peaks")
+#' peaks <- peaks
+#' #reproject to a finer resolution
+#' denali0 <- reproject(denali, lat = 63, lon = -151, rs = 100,  h=100000, w=200000)
+#' peaks <- st_transform(peaks, crs(denali0))
+#' plot(denali0); plot(st_geometry(peaks), add=TRUE)
+#' #Note that highest peak is known to be higher than raster indicates even if preserving original raster values when projected at higher resolution.
+#' peaks[peaks$name %in% 'Denali',]$summit
+#' minmax(denali0)
+#' denali1 <- RestoreMaxMin(x=denali, y=denali0, s=peaks, e='summit')
+#' #New high point is equal to supplemental point data.
+#' minmax(denali1)
 RestoreMaxMin <- function(x,y,s=NA,e=NA){#experimental version that incorporates point data and maintains neighborhood relative to original resolution
   hfactor1 <- ifelse(terra::linearUnits(x) == 0, 111111.1, terra::linearUnits(x))
   hfactor2 <- ifelse(terra::linearUnits(y) == 0, 111111.1, terra::linearUnits(y))
@@ -416,10 +440,46 @@ RestoreMaxMin <- function(x,y,s=NA,e=NA){#experimental version that incorporates
 #' This function combines terra::terrain() function to create slope and aspect rasters, then employs the terra::shade() function to generate hillshade in one step.
 #' @export
 #'
-#' @examples
+#' @examples data(denali)
+#' denali <- denali
+#' denali <- toraster(denali)
+#' hsd <- hillshade(denali)
+#' plot(hsd)
 hillshade <- function(x, angle=45, direction=0){
   require(terra)
   hsd <-  shade(slope=terrain(x, 'slope', unit="radians"), aspect= terrain(x, 'aspect', unit="radians"), angle=angle, direction = direction)
   return(hsd)
 }
+
+
+#' From raster to list object
+#'
+#' @param x Terra raster object.
+#'
+#' @return List object suitable for saving as package data.
+#' @export
+#'
+#' @examples
+fromraster <- function(x){
+  y <- list(data = as.matrix(x,wide=TRUE),
+            crs = crs(x),
+            ext = t(as.matrix(ext(x))),
+            names = names(x))
+  return(y)}
+
+#' To raster from list object
+#'
+#' @param x List object imported from package data.
+#'
+#' @return Terra raster object.
+#' @export
+#'
+#' @examples data(denali)
+#' denali <- denali
+#' denali <- toraster(denali)
+#' plot(denali)
+toraster <- function(x){
+  y <- rast(x$data, crs = x$crs, ext = ext(x$ext))
+  names(y) <- x$names
+  return(y)}
 

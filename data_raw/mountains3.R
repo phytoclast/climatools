@@ -154,12 +154,21 @@ steepcoord = getmaxcoords(rng2)
 
 
 temp <- rast('C:/workspace2/processclimategrids/output/Tw.tif')
-denali <- rast('C:/workspace2/climatools/data_raw/denali.tif')
-Tw <- crop(temp, denali)
+denali0 <- rast('data_raw/denali.tif')
+Tw <- crop(temp, denali0)
 plot(Tw)
 writeRaster(Tw, 'C:/workspace2/climatools/data_raw/Tw.tif', overwrite=T)
-Tw <- rast('C:/workspace2/climatools/data_raw/Tw.tif')
+
+
+Tw0 <- rast('data_raw/Tw.tif')
+Tw <- list(data = as.matrix(Tw0,wide=TRUE), crs = crs(Tw0), ext = t(as.matrix(ext(Tw0))), names = "Temperature.WarmMonth.Worldclim2")
 usethis::use_data(Tw, overwrite = T)
+
+denali0 <- rast('data_raw/denali.tif')
+denali <- list(data = as.matrix(denali0,wide=TRUE),
+               crs = crs(denali0),
+               ext = t(as.matrix(ext(denali0))),
+               names = names(denali0))
 usethis::use_data(denali, overwrite = T)
 
 peaks <- read.csv('C:/workspace2/climatools/data_raw/worldpeaks3.csv')
@@ -169,11 +178,61 @@ peaks <- peaks |> mutate(x=lon,y=lat)
 peaks <- st_as_sf(peaks, coords = c("x","y"), crs = 4326)
 usethis::use_data(peaks, overwrite = T)
 
+fromraster <- function(x){
+  y <- list(data = as.matrix(x,wide=TRUE),
+            crs = crs(x),
+            ext = t(as.matrix(ext(x))),
+            names = names(x))
+  return(y)}
 
-data(denali)
-data(peaks)
+toraster <- function(x){
+  y <- rast(x$data, crs = x$crs, ext = ext(x$ext))
+  names(y) <- x$names
+  return(y)}
+
+
+data("denali")
+denali <- denali
+denali <- toraster(denali)
+minmax(denali)
+#reproject to a coarser resolution
+denali0 <- reproject(denali, lat = 63, lon = -151, rs = 1000,  h=100000, w=200000)
+#note values less extreme than original
+minmax(denali0)
+denali1 <- RestoreMaxMin(denali, denali0)
+#note max/min values are restored
+minmax(denali1)
+
+#supplemental point elevations
+data("peaks")
+peaks <- peaks
+#reproject to a finer resolution
+denali0 <- reproject(denali, lat = 63, lon = -151, rs = 100,  h=100000, w=200000)
+peaks <- st_transform(peaks, crs(denali0))
+plot(denali0); plot(st_geometry(peaks), add=TRUE)
+#Note that highest peak is known to be higher than raster indicates even if preserving original raster values when projected at higher resolution.
+peaks[peaks$name %in% 'Denali',]$summit
+minmax(denali0)
+denali1 <- RestoreMaxMin(x=denali, y=denali0, s=peaks, e='summit')
+#New high point is equal to supplemental point data.
+minmax(denali1)
+
+hsd <- hillshade(denali0)
+plot(hsd)
+
+
+
+
 data(Tw)
+Tw0 <- Tw
+Tw <- rast(Tw0$dem, crs = Tw0$crs, ext = ext(Tw0$ext))
+names(denali) <- denali0$names; rm(denali0)
+plot(denali)
 
+
+
+hsd <- hillshade(denali)
+plot(hsd)
 dem <- reproject(dem=denali, rs=250, w=100000, h=50000, lat= 63, lon= -151, method='bilinear')
 peaks2 <- st_transform(peaks, crs=crs(dem))
 plot(dem); plot(st_geometry(peaks2), add=TRUE)

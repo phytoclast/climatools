@@ -20,3 +20,10 @@ This function combines terra::terrain() function to create slope and aspect rast
 \description{
 Create hillshade directly from DEM raster
 }
+\examples{
+data(denali)
+denali <- denali
+denali <- toraster(denali)
+hsd <- hillshade(denali)
+plot(hsd)
+}

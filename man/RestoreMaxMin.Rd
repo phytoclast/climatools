@@ -22,3 +22,30 @@ This function is used to correct for the loss in highest and lowest values withi
 \description{
 Restore maximum and minimum values of a resampled raster
 }
+\examples{
+data("denali")
+denali <- denali
+denali <- toraster(denali)
+minmax(denali)
+#reproject to a coarser resolution
+denali0 <- reproject(denali, lat = 63, lon = -151, rs = 1000,  h=100000, w=200000)
+#note values less extreme than original
+minmax(denali0)
+denali1 <- RestoreMaxMin(denali, denali0)
+#note max/min values are restored
+minmax(denali1)
+
+#supplemental point elevations
+data("peaks")
+peaks <- peaks
+#reproject to a finer resolution
+denali0 <- reproject(denali, lat = 63, lon = -151, rs = 100,  h=100000, w=200000)
+peaks <- st_transform(peaks, crs(denali0))
+plot(denali0); plot(st_geometry(peaks), add=TRUE)
+#Note that highest peak is known to be higher than raster indicates even if preserving original raster values when projected at higher resolution.
+peaks[peaks$name \%in\% 'Denali',]$summit
+minmax(denali0)
+denali1 <- RestoreMaxMin(x=denali, y=denali0, s=peaks, e='summit')
+#New high point is equal to supplemental point data.
+minmax(denali1)
+}

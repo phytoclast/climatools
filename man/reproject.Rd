@@ -38,3 +38,10 @@ new raster with Lambert_Azimuthal_Equal_Area projection
 \description{
 Reproject any raster to Lambert_Azimuthal_Equal_Area with specified center and extent.
 }
+\examples{
+data(denali)
+denali <- denali
+denali <- toraster(denali)
+denali <- reproject(denali, lat = 63, lon = -151, rs = 1000,  h=100000, w=200000)
+plot(denali)
+}

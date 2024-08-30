@@ -231,7 +231,11 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
 #' @return new raster with Lambert_Azimuthal_Equal_Area projection
 #' @export
 #'
-#' @examples
+#' @examples data(denali)
+#' denali <- denali
+#' denali <- toraster(denali)
+#' denali <- reproject(denali, lat = 63, lon = -151, rs = 1000,  h=100000, w=200000)
+#' plot(denali)
 reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, method=NA){
   require(terra)
   require(sf)
