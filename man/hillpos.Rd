@@ -17,3 +17,12 @@ Raster with relative slope position 0 to 1.
 \description{
 Calculate hillslope position
 }
+\examples{
+data("denali")
+dem <- denali
+dem <- toraster(dem)
+dem <- reproject(dem, rs=250)
+plot(dem)
+x <- climatools::hillpos(dem, 2000)
+plot(x)
+}

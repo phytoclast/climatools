@@ -20,3 +20,12 @@ This function makes use of lower resolution aggregated rasters to speed up calcu
 \description{
 Get focal minimum with specified radius
 }
+\examples{
+data("denali")
+dem <- denali
+dem <- toraster(dem)
+dem <- reproject(dem, rs=250)
+plot(dem)
+x <- climatools::focalmin(dem, 2000)
+plot(x)
+}

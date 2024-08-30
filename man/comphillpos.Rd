@@ -22,3 +22,12 @@ This function gives more weight to neighborhoods with higher relative relief.
 \description{
 Compound hillslope position using 3 neighborhood scales
 }
+\examples{
+data("denali")
+dem <- denali
+dem <- toraster(dem)
+dem <- reproject(dem, rs=250)
+plot(dem)
+x <- climatools::comphillpos(dem, 500, 2000, 5000)
+plot(x)
+}

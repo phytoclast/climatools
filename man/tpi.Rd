@@ -22,3 +22,12 @@ This function simply averages the hillslope positions for all 3 neighborhoods.
 \description{
 Topographic position index using 3 neighborhood scales
 }
+\examples{
+data("denali")
+dem <- denali
+dem <- toraster(dem)
+dem <- reproject(dem, rs=250)
+plot(dem)
+x <- climatools::tpi(dem, 500, 2000, 5000)
+plot(x)
+}

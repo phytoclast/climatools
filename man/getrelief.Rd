@@ -36,31 +36,7 @@ Topographic relief of either a fixed radius or for a fixed slope for a range of 
 Get topographic relief
 }
 \examples{
-library(terra)
-#create fake raster
-x <- (1:10)/10-0.5
-y <- x
-df <- merge(x,y)
-df$z <- 1000/((df$x-0.25)^2+(df$y-0.40)^2+1)^2
-set.seed(1)
-df$z <- df$z +rnorm(10*10, sd = 100)
-df$x <- df$x*10 -85
-df$y <- df$y*10 +20
-dem <- rast(cbind(x=df$x,y=df$y,z=df$z), type="xyz", crs='EPSG:4326')
-dem <- reproject(dem=dem, rs = 250)
-plot(dem)
-#get relief with a 10\% slope using 10 intervals between focal radii and default low precision.
-rng <- getrelief(dem, r1=1000, r2=100000, s=0.1, n=10)
-#get relief with a 25\% slope using 10 intervals between focal radii and default low precision.
-rng <- getrelief(dem, r1=1000, r2=100000, s=0.25, n=10)
-plot(rng)
-#get 10\% relief using specific break points of vertical relief and medium precision.
-rng <- getrelief(dem, r1=1000, r2=100000, s=0.1, n=1, p='medium', breaks = c(300, 1000, 2500, 5000))
-plot(rng)
-#get relief with a fixed radius of 2000 meters.
-rng <- getrelief(dem, r1=2000, s=0.1, n=0)
-plot(rng)
-
+library(terra)#'
 #load package data for elevation
 data("denali")
 dem <- denali
@@ -79,4 +55,17 @@ plot(rng10)
 #Relief at a 25\% slope. Using "medium" precision for better quality.
 rng25 <- getrelief(dem, r1=1000, r2=maxrange*10, s=0.25, n=1, p='medium', breaks = breaks)
 plot(rng25)
+
+#get relief with a 10\% slope using 10 intervals between focal radii and default low precision.
+rng <- getrelief(dem, r1=1000, r2=100000, s=0.1, n=10)
+#get relief with a 25\% slope using 10 intervals between focal radii and default low precision.
+rng <- getrelief(dem, r1=1000, r2=100000, s=0.25, n=10)
+plot(rng)
+#get 10\% relief using specific break points of vertical relief and medium precision.
+rng <- getrelief(dem, r1=1000, r2=100000, s=0.1, n=1, p='medium', breaks = c(300, 1000, 2500, 5000))
+plot(rng)
+#get relief with a fixed radius of 2000 meters.
+rng <- getrelief(dem, r1=2000, s=0.1, n=0)
+plot(rng)
+
 }

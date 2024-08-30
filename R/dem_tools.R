@@ -36,6 +36,13 @@ focalCircle <- function(x, r){
 #' @export
 #'
 #' @examples
+#' data("denali")
+#' dem <- denali
+#' dem <- toraster(dem)
+#' dem <- reproject(dem, rs=250)
+#' plot(dem)
+#' x <- climatools::focalmax(dem, 2000)
+#' plot(x)
 focalmax <- function(x, r, p=c('low', 'medium', 'high','exact')){
   require(terra)
   #establish aggregating factor when radius is too large
@@ -86,6 +93,13 @@ focalmax <- function(x, r, p=c('low', 'medium', 'high','exact')){
 #' @export
 #'
 #' @examples
+#' data("denali")
+#' dem <- denali
+#' dem <- toraster(dem)
+#' dem <- reproject(dem, rs=250)
+#' plot(dem)
+#' x <- climatools::focalmin(dem, 2000)
+#' plot(x)
 focalmin <- function(x, r, p=c('low', 'medium', 'high','exact')){
   require(terra)
   #establish aggregating factor when radius is too large
@@ -138,6 +152,13 @@ focalmin <- function(x, r, p=c('low', 'medium', 'high','exact')){
 #' @export
 #'
 #' @examples
+#' data("denali")
+#' dem <- denali
+#' dem <- toraster(dem)
+#' dem <- reproject(dem, rs=250)
+#' plot(dem)
+#' x <- climatools::focalmed(dem, 2000)
+#' plot(x)
 focalmed <- function(x, r, p=c('low', 'medium', 'high','exact')){
   require(terra)
   #establish aggregating factor when radius is too large
@@ -187,6 +208,13 @@ focalmed <- function(x, r, p=c('low', 'medium', 'high','exact')){
 #' @export
 #'
 #' @examples
+#' data("denali")
+#' dem <- denali
+#' dem <- toraster(dem)
+#' dem <- reproject(dem, rs=250)
+#' plot(dem)
+#' x <- climatools::hillpos(dem, 2000)
+#' plot(x)
 hillpos <- function(dm, r){#relative slope position
   xmax = focalmax(dm, r)
   xmin = focalmin(dm, r)
@@ -212,6 +240,13 @@ hillpos <- function(dm, r){#relative slope position
 #' @export
 #'
 #' @examples
+#' data("denali")
+#' dem <- denali
+#' dem <- toraster(dem)
+#' dem <- reproject(dem, rs=250)
+#' plot(dem)
+#' x <- climatools::comphillpos(dem, 500, 2000, 5000)
+#' plot(x)
 comphillpos = function(dm, r1, r2, r3){
 
   x.pos1 <- hillpos(dm, r1)
@@ -236,6 +271,13 @@ comphillpos = function(dm, r1, r2, r3){
 #' @export
 #'
 #' @examples
+#' data("denali")
+#' dem <- denali
+#' dem <- toraster(dem)
+#' dem <- reproject(dem, rs=250)
+#' plot(dem)
+#' x <- climatools::tpi(dem, 500, 2000, 5000)
+#' plot(x)
 tpi = function(dm, r1, r2, r3){
   x.pos1 <- hillpos(dm, r1)
   x.pos2 <- hillpos(dm, r2)
