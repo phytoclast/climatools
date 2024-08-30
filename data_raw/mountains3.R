@@ -17,7 +17,7 @@ getmaxcoords <- function(x){
   return(coord)}
 
 for(i in 1:length(input)){#i=1
-  
+
   dem <- rast(paste0(path,'/',input[i]))
   df0 <- data.frame(i=i, filename=input[i], west=ext(dem)[1],east=ext(dem)[2],north=ext(dem)[4],south=ext(dem)[3])
   rownames(df0)=i
@@ -28,10 +28,10 @@ for(i in 1:length(input)){#i=1
 
 
 
-k=245
+k=49
 thismts <- mts[k,]
 
-cropdeg = 5
+cropdeg = 6
 thisfile <- subset(df, west <= thismts$lon &
                      east >= thismts$lon &
                      north >= thismts$lat &
@@ -66,16 +66,16 @@ for(i in 1:length(demlist)){#i=2
 }
 # plot(demy);plot(st_geometry(mts), add=T)
 
-
-
+dem0 <- (crop(demy, ext(-153, -149, 62.5, 63.5)))
+writeRaster(dem0, 'C:/workspace2/climatools/data_raw/denali.tif', overwrite=TRUE)
 #reproject
 # rg <- minmax(demy)[2]-minmax(demy)[1]
 rg <- thismts$ht-minmax(demy)[1]
 
 scl <- rg*2*10+10000
-demx0 <- reproject(dem=demy, rs=250, w=600000, h=600000, lat=thismts$lat, lon=thismts$lon, method='bilinear')
+demx0 <- reproject(dem=demy, rs=250, w=100000, h=100000, lat=thismts$lat, lon=thismts$lon, method='bilinear')
 demx <- climatools::RestoreMaxMin(demy,demx0,mts,'ht')
-plot(demx)
+plot(dem0)
 prebreaks = c(50, 100,150,200,300,500,1000,2000,3000,4000,5000,6000,7000,8000)
 maxrange <- max(rg2,1000)
 breaks <- prebreaks[prebreaks <=maxrange]
@@ -145,4 +145,47 @@ steeprelief = minmax(rng2)[2]
 # summitcoord = getmaxcoords(demx)
 broadcoord = getmaxcoords(rng)
 steepcoord = getmaxcoords(rng2)
+
+
+
+
+
+
+
+
+temp <- rast('C:/workspace2/processclimategrids/output/Tw.tif')
+denali <- rast('C:/workspace2/climatools/data_raw/denali.tif')
+Tw <- crop(temp, denali)
+plot(Tw)
+writeRaster(Tw, 'C:/workspace2/climatools/data_raw/Tw.tif', overwrite=T)
+Tw <- rast('C:/workspace2/climatools/data_raw/Tw.tif')
+
+usethis::use_data(Tw, overwrite = T)
+usethis::use_data(denali, overwrite = T)
+peaks <- read.csv('C:/workspace2/climatools/data_raw/worldpeaks3.csv')
+peaks <- peaks[,c("Continent","state","Name","summit","broadrelief","steeprelief","lat","lon")]
+colnames(peaks) <- c("continent","state","name","summit","relief.broad","relief.steep","lat","lon")
+peaks <- peaks |> mutate(x=lon,y=lat)
+peaks <- st_as_sf(peaks, coords = c("x","y"), crs = 4326)
+usethis::use_data(peaks, overwrite = T)
+
+
+data(denali)
+data(peaks)
+data(Tw)
+
+dem <- reproject(dem=denali, rs=250, w=100000, h=50000, lat= 63, lon= -151, method='bilinear')
+peaks2 <- st_transform(peaks, crs=crs(dem))
+plot(dem); plot(st_geometry(peaks2), add=TRUE)
+
+temperature <- data(Tw)
+plot(temperature)
+demcoarse <- terra::project(denali, Tw, method='bilinear')
+enhanceRast()
+
+
+
+
+
+
 
