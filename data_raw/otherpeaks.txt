@@ -247,4 +247,32 @@ Pocasset Hill		99	41° 39' 13'' N, 71° 11' 26'' W
 Brandywine Creek State Park High Point		122	39° 48' 45'' N, 75° 33' 29'' W
 Logan Hill		73	30° 33' 56'' N, 84° 57' 26'' W
 Bossier Parish High Point		143	32° 56' 12'' N, 93° 44' 30'' W
-
+Store Skagastølstinden		2405	61° 27' 42'' N, 7° 52' 19'' E
+Grandfather Mountain		1812	36° 6' 42'' N, 81° 48' 40'' W 
+Black Dome		1217	42° 16' 13'' N, 74° 7' 22'' W
+Graham Benchmark		405	45° 28' 25'' N, 84° 56' 59'' W
+Nubs Nob		405	45° 28' 1'' N, 84° 54' 4'' W
+South Manitou Island High Point		306	45° 1' 0'' N, 86° 8' 41'' W
+Shauger Hill		330	44° 51' 35'' N, 86° 3' 56'' W
+Rose City Lookout Tower		457	44° 26' N, 84° 11' W
+Indian Springs Lookout		481	44° 17' 59'' N, 84° 23' 44'' W
+Cerro General Manuel Belgrano		6097	29° 1' S, 67° 50' W
+Signal Peak		3159	37° 19' 10'' N, 113° 29' 33'' W
+Otsego County High Point		462	44° 55' 53'' N, 84° 48' 45'' W
+Wildspitze		3767	46° 53' 7'' N, 10° 52' 2'' E
+Hochwilde		3480	46° 45' 56'' N, 11° 1' 20'' E
+Piz Bernina		4049	46° 22' 57'' N, 9° 54' 29'' E
+Finsteraarhorn		4274	46° 32' 14'' N, 8° 7' 34'' E
+Nadelhorn		4326	46° 6' 33'' N, 7° 51' 50'' E
+Nordend		4606	45° 56' 31'' N, 7° 52' 12'' E
+Grenzgipfel		4618	45° 56' 12'' N, 7° 52' 7'' E
+Nevado Yerupajá		6614	10° 16' 8'' S, 76° 54' 20'' W
+Cerro Tupungato		6573	33° 21' 31'' S, 69° 46' 13'' W
+Marmolejo		6120	33° 44' 4'' S, 69° 52' 43'' W
+Volcán Lanín		3747	39° 38' 14'' S, 71° 30' 9'' W
+Cerro Tronador		3491	41° 9' 39'' S, 71° 53' 18'' W
+Nevado Ausangate		6372	13° 47' 18'' S, 71° 13' 44'' W
+Salcantay		6264	13° 19' 58'' S, 72° 32' 46'' W
+Nevado Tarata		5723	10° 31' 51'' S, 75° 55' 53'' W
+Nevado Lalaccotuna		5314	11° 53' 47'' S, 74° 51' 1'' W
+Mount Elgon		4321	1° 7' 7'' N, 34° 31' 35'' E

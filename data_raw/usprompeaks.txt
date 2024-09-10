@@ -20,7 +20,7 @@ Rank	Mountain peak	State	Mountain Range	Elevation	Prominence	Isolation	Location
 5	Mount Blackburn[14][15][16][g]	 Alaska	Wrangell Mountains	"16,390 ft
 4996 m"	"11,640 ft
 3548 m"	"60.7 mi
-97.6 km"	61.7305°N 143.4031°W
+97.6 km"	61.731596°N 143.437181°W
 6	Mount Hayes[17][18][h][i]	 Alaska	Alaska Range	"13,832 ft
 4216 m"	"11,507 ft
 3507 m"	"125.5 mi

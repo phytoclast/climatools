@@ -37,7 +37,7 @@ No.	Peak	Range (or island)	Location	"Coordinates
  Nepal"	27°42′0.00″N 88°7′59.99″E	3922	8586	4664	Everest	Everest
 30	Tirich Mir	Hindu Kush	 Pakistan	36°14′45″N 71°50′38″E	3908	7708	3800	Everest	K2
 31	Mount Cameroon	Cameroon line	 Cameroon	4°13′0″N 9°10′21″E	3901	4040	139	Kilimanjaro	Stanley
-32	Mount Kenya	Eastern Rift mountains	 Kenya	0°6′S 37°12′E	3825	5199	1374	Kilimanjaro	Kilimanjaro
+32	Mount Kenya	Eastern Rift mountains	 Kenya	0°9′8″S 37°18′32″E	3825	5199	1374	Kilimanjaro	Kilimanjaro
 33	Mount Kerinci	Barisan Mountains, Sumatra	 Indonesia	1°41′48.998″S 101°15′51.998″E	3805	3805	0	None	None
 34	Mount Erebus	Ross Island	 Antarctica	77°32′S 167°17′E	3794	3794	0	None	None
 35	Mount Fuji	Honshu	 Japan	35°21′38″N 138°43′39″E	3776	3776	0	None	None

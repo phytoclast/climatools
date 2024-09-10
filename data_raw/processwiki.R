@@ -116,7 +116,6 @@ promx2[ind,] <- promx2[ind,] |> mutate(Peak=p0$Peak, lat = mean(lat), lon = mean
 }
 promx <- promx2 |> subset(select = c(Peak,lat,lon,ht)) |> unique()
 
-
 library(sf)
 states <- st_read('C:/a/geo/world/level4/level4.shp')
 promsf <- st_as_sf(promx, coords = c("lon", "lat"), crs = 4326)

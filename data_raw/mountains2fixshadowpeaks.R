@@ -9,6 +9,7 @@ mts <- st_read('C:/workspace2/climatools/data_raw/mountains.shp')
 mts <- readRDS('C:/workspace2/climatools/data_raw/mountains.RDS')
 mts <- mts |> mutate(lat = st_coordinates(mts)[,2], lon = st_coordinates(mts)[,1])
 
+rownames(mts) <- NULL
 getmaxcoords <- function(x){
 coord <- as.data.frame(xyFromCell(x, (where.max(x)[2])))
 coord <- st_as_sf(coord, coords = c("x","y"), crs = crs(x))
@@ -17,8 +18,8 @@ coord <- st_coordinates(coord)
 return(coord)}
 
 # mts2 <- mountains |> subset(summit < broadrelief)
-mts2 <- read.csv('C:/workspace2/dem/output/worldpeaks.csv')
-mts3 <- subset(mts, Peak %in% mts2$Name )
+# mts2 <- read.csv('C:/workspace2/dem/output/worldpeaks.csv')
+# mts3 <- subset(mts, Peak %in% mts2$Name )
 for(i in 1:length(input)){#i=1
 
   dem <- rast(paste0(path,'/',input[i]))
@@ -96,7 +97,7 @@ mtzone2.5 <- mtbuff2.5 |> rasterize(demx)
 demxcut <- ifel(demx > cutoff  & is.na(mtzone2.5), cutoff, demx)
 # plot(demxcut)
 #get 10% range within mountain's zone
-prebreaks = c(50, 100,150,200,300,500,1000,2000,3000,4000,5000,6000,7000,8000)
+prebreaks = c(50, 100,150,200,300,500,1000,1500,2000,3000,4000,5000,6000,7000,8000)
 maxrange <- max(rg2,1000)
 breaks <- prebreaks[prebreaks <=maxrange]
 rng <- getrelief(demxcut, r1=1000, r2=maxrange, s=0.1, n=1, p='medium', breaks = breaks)
@@ -130,6 +131,6 @@ mountains0 <- data.frame(Continent=mts$CONTINENT[k], state=mts$State[k], Name=mt
 if(k==1){mountains=mountains0}else{mountains=rbind(mountains,mountains0)}
 
 }}}
-write.csv(mountains, 'C:/workspace2/climatools/data_raw/worldpeaks3.csv', row.names = F)
+write.csv(mountains, 'C:/workspace2/climatools/data_raw/worldpeaks4.csv', row.names = F)
 
 
