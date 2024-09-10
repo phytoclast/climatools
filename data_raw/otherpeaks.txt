@@ -276,3 +276,8 @@ Salcantay		6264	13° 19' 58'' S, 72° 32' 46'' W
 Nevado Tarata		5723	10° 31' 51'' S, 75° 55' 53'' W
 Nevado Lalaccotuna		5314	11° 53' 47'' S, 74° 51' 1'' W
 Mount Elgon		4321	1° 7' 7'' N, 34° 31' 35'' E
+Saugatuck Dunes State Park High Point		250	42° 42' 37'' N, 86° 12' 7'' W
+Rosy Mound		247	43° 1' 23'' N, 86° 13' 24'' W
+P J Hoffmaster State Park High Point		247	43° 8' 0'' N, 86° 16' 24'' W
+Muskegon State Park High Point		241		43° 14' 37'' N, 86° 20' 19'' W
+Mount Holden		233	41° 39' 52'' N, 87° 3' 10'' W
