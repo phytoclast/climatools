@@ -171,7 +171,7 @@ denali <- list(data = as.matrix(denali0,wide=TRUE),
                names = names(denali0))
 usethis::use_data(denali, overwrite = T)
 
-peaks <- read.csv('C:/workspace2/climatools/data_raw/worldpeaks3.csv')
+peaks <- read.csv('C:/workspace2/climatools/data_raw/worldpeaks4.csv')
 peaks <- peaks[,c("Continent","state","Name","summit","broadrelief","steeprelief","lat","lon")]
 colnames(peaks) <- c("continent","state","name","summit","relief.broad","relief.steep","lat","lon")
 peaks <- peaks |> mutate(x=lon,y=lat)
