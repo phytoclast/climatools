@@ -5,10 +5,10 @@
 \title{Set a custom projection.}
 \usage{
 setProjection(
-  prj = c("point.equalarea", "point.equaldistant", "conformal.point",
-    "cylinder.equalarea", "cylinder.equaldistant", "conformal.cylindric",
-    "cone.equalarea", "cone.equaldistant", "conformal.conic", "conformal.transverse",
-    "conformal.oblique", "geographic"),
+  prj = c("equalarea.azimuthal", "equaldistant.azimuthal", "conformal.azimuthal",
+    "equalarea.cylindrical", "equaldistant.cylindrical", "conformal.cylindrical",
+    "equalarea.conic", "equaldistant.conic", "conformal.conic", "conformal.transverse",
+    "conformal.oblique", "equalarea.transverse", "equalarea.oblique", "geographic"),
   datum = c("WGS84", "NAD83", "NAD27"),
   unit = c("m", "ft", "usft"),
   lat = NA,

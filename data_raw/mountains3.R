@@ -28,10 +28,10 @@ for(i in 1:length(input)){#i=1
 
 
 
-k=49
+k=460
 thismts <- mts[k,]
 
-cropdeg = 6
+cropdeg = 20
 thisfile <- subset(df, west <= thismts$lon &
                      east >= thismts$lon &
                      north >= thismts$lat &
@@ -66,20 +66,23 @@ for(i in 1:length(demlist)){#i=2
 }
 # plot(demy);plot(st_geometry(mts), add=T)
 
-dem0 <- (crop(demy, ext(-153, -149, 62.5, 63.5)))
-writeRaster(dem0, 'C:/workspace2/climatools/data_raw/denali.tif', overwrite=TRUE)
+# dem0 <- (crop(demy, ext(-153, -149, 62.5, 63.5)))
+# writeRaster(dem0, 'C:/workspace2/climatools/data_raw/denali.tif', overwrite=TRUE)
 #reproject
 # rg <- minmax(demy)[2]-minmax(demy)[1]
 rg <- thismts$ht-minmax(demy)[1]
+prj <- setProjection(prj='transverse.equalarea',lat=thismts$lat, lon=thismts$lon)
+# newcrs="+proj=ocea +lon_1=-100 +lat_1=45 +lon_2=-60 +lat_2=-30 +lon_0=0 +datum=WGS84"
+# st_crs(newcrs)
 
 scl <- rg*2*10+10000
-demx0 <- reproject(dem=demy, rs=250, w=100000, h=100000, lat=thismts$lat, lon=thismts$lon, method='bilinear')
+demx0 <- reproject(dem=demy, rs=1000, prj=prj, w=2000000, h=2000000, lat=thismts$lat, lon=thismts$lon, method='bilinear')
 demx <- climatools::RestoreMaxMin(demy,demx0,mts,'ht')
-plot(dem0)
-prebreaks = c(50, 100,150,200,300,500,1000,2000,3000,4000,5000,6000,7000,8000)
-maxrange <- max(rg2,1000)
+plot(demx0)
+prebreaks = c(500,1000,1500,2000,3000,4000,5000,6000,7000,8000)
+maxrange <- max(rg,5000)
 breaks <- prebreaks[prebreaks <=maxrange]
-rng <- getrelief(demx, r1=1000, r2=maxrange, s=0.1, n=1, p='medium', breaks = breaks)
+rng <- getrelief(demx, r1=5000, r2=maxrange, s=0.1, n=1, p='medium', breaks = breaks)
 plot(rng)
 hsd <- hillshade(demx)
 plot(hsd)
@@ -288,4 +291,25 @@ rng25 <- getrelief(dem, r1=1000, r2=maxrange*10, s=0.25, n=1, p='medium', breaks
 plot(rng25)
 
 
+prj1 <- setProjection(prj='point.equalarea',lat=thismts$lat, lon=thismts$lon)
+prj2 <- setProjection(prj='transverse.equalarea',lat=thismts$lat, lon=thismts$lon)
+prj3 <- setProjection(prj='equalarea.oblique',lat=45, lon=-100, lat2 = -20, lon2=-60)
+st_crs(prj3)
+america0 <- st_read('C:/a/geo/base/americas3.shp')#st_crs(america0)
+america <- sf::st_simplify(st_make_valid(america0),dTolerance=1500)
+ame1 <-  st_transform(america, crs = prj1)
+ame2 <-  st_transform(america, crs = prj2)
+ame3 <-  st_transform(america, crs = prj3)
+st_crs(ame3)
+
+plot(st_geometry(america))
+plot(st_geometry(ame1))
+plot(st_geometry(ame2))
+plot(st_geometry(ame3))
+
+newcrs="+proj=ocea +lon_1=-150 +lat_1=65 +lon_2=-60 +lat_2=-45 +lon_0=-100 +datum=WGS84"
+newcrs="+proj=ocea +lonc=-80 +alpha=-1 +datum=WGS84"
+st_crs(newcrs)
+ame4 <-  st_transform(america, crs = prj3)
+plot(st_geometry(ame4))
 

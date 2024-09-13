@@ -24,19 +24,19 @@
 #' @export
 #'
 #' @examples
-setProjection <- function(prj = c('point.equalarea','point.equaldistant','conformal.point',
-                                  'cylinder.equalarea','cylinder.equaldistant','conformal.cylindric',
-                                  'cone.equalarea','cone.equaldistant','conformal.conic',
-                                  'conformal.transverse','conformal.oblique','geographic'),
+setProjection <- function(prj = c('equalarea.azimuthal','equaldistant.azimuthal','conformal.azimuthal',
+                                  'equalarea.cylindrical','equaldistant.cylindrical','conformal.cylindrical',
+                                  'equalarea.conic','equaldistant.conic','conformal.conic',
+                                  'conformal.transverse','conformal.oblique','equalarea.transverse','equalarea.oblique','geographic'),
                           datum = c('WGS84','NAD83','NAD27'),unit=c('m','ft','usft'),
                           lat=NA, lon=NA, lat2=NA,lon2=NA,feast=0,fnorth=0, orglat=NA, scf=0.9996){
   prj <- prj[1];datum <- datum[1];unit <- unit[1]
   #alternative numeric parameter assigned to text
   if(is.numeric(prj)){
-    preprj <- c('point.equalarea','point.equaldistant','conformal.point',
-                'cylinder.equalarea','cylinder.equaldistant','conformal.cylindric',
-                'cone.equalarea','cone.equaldistant','conformal.conic',
-                'conformal.transverse','conformal.oblique','geographic')
+    preprj <- c('equalarea.azimuthal','equaldistant.azimuthal','conformal.azimuthal',
+                'equalarea.cylindrical','equaldistant.cylindrical','conformal.cylindrical',
+                'equalarea.conic','equaldistant.conic','conformal.conic',
+                'conformal.transverse','conformal.oblique','equalarea.transverse','equalarea.oblique','geographic')
     prj <- preprj[prj]
   }
   if(!is.numeric(datum)){
@@ -111,7 +111,11 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
     #7.transverse 10
     'PROJECTION["Transverse_Mercator"],',
     #8.oblique 11
-    'PROJECTION["Hotine_Oblique_Mercator_Two_Point_Natural_Origin"],'
+    'PROJECTION["Hotine_Oblique_Mercator_Two_Point_Natural_Origin"],',
+    #9.transverse2 12
+    'PROJECTION["Transverse Cylindrical Equal Area"],',
+    #10.oblique2 13
+    'PROJECTION["PROJ ocea"],'
   )
 
 
@@ -128,6 +132,12 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
   parfeast <- paste0('PARAMETER["false_easting",',feast,'],')
   parfnorth <- paste0('PARAMETER["false_northing",',fnorth,'],')
   parscf <- paste0('PARAMETER["scale_factor",',scf,'],')
+  tcea_lat <- paste0('PARAMETER["Latitude of natural origin",',lat,'],')
+  tcea_lon <- paste0('PARAMETER["Longitude of natural origin",',lon,'],')
+  ocea_lat1 <- paste0('PARAMETER["lat_1",',lat1,'],')
+  ocea_lon1 <- paste0('PARAMETER["lon_1",',lon1,'],')
+  ocea_lat2 <- paste0('PARAMETER["lat_2",',lat2,'],')
+  ocea_lon2 <- paste0('PARAMETER["lon_2",',lon2,'],')
 
 
   coniclat1 <- paste0('PARAMETER["standard_parallel_1",',lat1,'],')
@@ -151,41 +161,43 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
   ifobl <- paste0(azcentlat, oblilat1, oblilon1, oblilat2, oblilon2, parscf)
   ifster <- paste0(coniclat0, coniclon)
   ifmerc <- paste0(coniclat1,  coniclon)
+  iftcea <- paste0(coniclatcenter,  conicloncenter)
+  ifocea <- paste0(ocea_lat1,ocea_lon1,ocea_lat2,ocea_lon2)
 
-  pickparameters <- c(ifaz, ifcyl, ifcon, ifconf, ifutm, ifobl, ifster, ifmerc)
+  pickparameters <- c(ifaz, ifcyl, ifcon, ifconf, ifutm, ifobl, ifster, ifmerc, iftcea,ifocea)
 
 
 
-  if(prj %in% 'point.equalarea'){
+  if(prj %in% 'equalarea.azimuthal'){
     prochoice <- 1
     pramchoice <- 1
   }
-  if(prj %in% 'point.equaldistant'){
+  if(prj %in% 'equaldistant.azimuthal'){
     prochoice <- 2
     pramchoice <- 1
   }
-  if(prj %in% 'conformal.point'){
+  if(prj %in% 'conformal.azimuthal'){
     prochoice <- 3
     pramchoice <- 7
   }
 
-  if(prj %in% 'cylinder.equalarea'){
+  if(prj %in% 'equalarea.cylindrical'){
     prochoice <- 4
     pramchoice <- 2
   }
-  if(prj %in% 'cylinder.equaldistant'){
+  if(prj %in% 'equaldistant.cylindrical'){
     prochoice <- 5
     pramchoice <- 2
   }
-  if(prj %in% 'conformal.cylindric'){
+  if(prj %in% 'conformal.cylindrical'){
     prochoice <- 6
     pramchoice <- 2
   }
-  if(prj %in% 'cone.equalarea'){
+  if(prj %in% 'equalarea.conic'){
     prochoice <- 7
     pramchoice <- 3
   }
-  if(prj %in% 'cone.equaldistant'){
+  if(prj %in% 'equaldistant.conic'){
     prochoice <- 8
     pramchoice <- 3
   }
@@ -201,6 +213,14 @@ setProjection <- function(prj = c('point.equalarea','point.equaldistant','confor
   if(prj %in% 'conformal.oblique'){
     prochoice <- 11
     pramchoice <- 6
+  }
+  if(prj %in% 'equalarea.transverse'){
+    prochoice <- 12
+    pramchoice <- 9
+  }
+  if(prj %in% 'equalarea.oblique'){
+    prochoice <- 13
+    pramchoice <- 10
   }
   if(prj %in% 'geographic'){
     assembly <- crs(datums2[da])
