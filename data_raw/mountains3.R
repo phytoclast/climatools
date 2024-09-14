@@ -28,7 +28,7 @@ for(i in 1:length(input)){#i=1
 
 
 
-k=460
+k=135
 thismts <- mts[k,]
 
 cropdeg = 20
@@ -71,13 +71,32 @@ for(i in 1:length(demlist)){#i=2
 #reproject
 # rg <- minmax(demy)[2]-minmax(demy)[1]
 rg <- thismts$ht-minmax(demy)[1]
-prj <- setProjection(prj='transverse.equalarea',lat=thismts$lat, lon=thismts$lon)
+prj1 <- setProjection(prj='equaldistant.cylindrical',lat=thismts$lat, lon=thismts$lon)
+prj2 <- setProjection(prj='equalarea.transverse',lat=thismts$lat, lon=thismts$lon)
+prj3 <- setProjection(prj='conformal.transverse',lat=thismts$lat, lon=thismts$lon)
 # newcrs="+proj=ocea +lon_1=-100 +lat_1=45 +lon_2=-60 +lat_2=-30 +lon_0=0 +datum=WGS84"
 # st_crs(newcrs)
+demx0 <- reproject(dem=demy, rs=1000, prj=prj1, lat=thismts$lat, lon=thismts$lon, method='bilinear')
+demx1 <- climatools::RestoreMaxMin(demy,demx0,mts,'ht')
+plot(demx1)
+demx0 <- reproject(dem=demy, rs=1000, prj=prj2, lat=thismts$lat, lon=thismts$lon, method='bilinear')
+demx2 <- climatools::RestoreMaxMin(demy,demx0,mts,'ht')
+plot(demx2)
+demx0 <- reproject(dem=demy, rs=1000, prj=prj3, lat=thismts$lat, lon=thismts$lon, method='bilinear')
+demx3 <- climatools::RestoreMaxMin(demy,demx0,mts,'ht')
+plot(demx3)
+revert <- reproject(demx3, prj=setProjection(prj='geographic',lat=45, lon=-100))
+st_crs(revert)
+rng1 <- getrelief(demx1, r1=10000, n=0, p='medium')
+rng2x <- getrelief(demx2, r1=10000, n=0, p='medium')
+rng3x <- getrelief(demx3, r1=10000, n=0, p='medium')
+rng2y <- project(rng2x, rng1); rng3y <- project(rng3x, rng1);
+rng2 <- RestoreMaxMin(rng2y,rng2x); rng3 <- RestoreMaxMin(rng3y, rng3x);
+plot(rng2)
+plot(rng1-rng2)
+plot(rng1-rng3)
+plot(rng2-rng3)
 
-scl <- rg*2*10+10000
-demx0 <- reproject(dem=demy, rs=1000, prj=prj, w=2000000, h=2000000, lat=thismts$lat, lon=thismts$lon, method='bilinear')
-demx <- climatools::RestoreMaxMin(demy,demx0,mts,'ht')
 plot(demx0)
 prebreaks = c(500,1000,1500,2000,3000,4000,5000,6000,7000,8000)
 maxrange <- max(rg,5000)
@@ -293,7 +312,7 @@ plot(rng25)
 
 prj1 <- setProjection(prj='point.equalarea',lat=thismts$lat, lon=thismts$lon)
 prj2 <- setProjection(prj='transverse.equalarea',lat=thismts$lat, lon=thismts$lon)
-prj3 <- setProjection(prj='equalarea.oblique',lat=45, lon=-100, lat2 = -20, lon2=-60)
+prj3 <- setProjection(prj='geographic',lat=45, lon=-100, lat2 = -20, lon2=-60)
 st_crs(prj3)
 america0 <- st_read('C:/a/geo/base/americas3.shp')#st_crs(america0)
 america <- sf::st_simplify(st_make_valid(america0),dTolerance=1500)
@@ -307,9 +326,9 @@ plot(st_geometry(ame1))
 plot(st_geometry(ame2))
 plot(st_geometry(ame3))
 
-newcrs="+proj=ocea +lon_1=-150 +lat_1=65 +lon_2=-60 +lat_2=-45 +lon_0=-100 +datum=WGS84"
-newcrs="+proj=ocea +lonc=-80 +alpha=-1 +datum=WGS84"
+newcrs="+proj=ocea +lon_1=-100 +lat_1=45 +lon_2=-60 +lat_2=-15 +datum=WGS84"
+newcrs="+proj=omerc +lon_1=-100 +lat_1=45 +lon_2=-60 +lat_2=-15  +datum=WGS84"
 st_crs(newcrs)
-ame4 <-  st_transform(america, crs = prj3)
+ame4 <-  st_transform(america, crs = newcrs)
 plot(st_geometry(ame4))
 

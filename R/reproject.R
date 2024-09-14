@@ -31,20 +31,32 @@ setProjection <- function(prj = c('equalarea.azimuthal','equaldistant.azimuthal'
                           datum = c('WGS84','NAD83','NAD27'),unit=c('m','ft','usft'),
                           lat=NA, lon=NA, lat2=NA,lon2=NA,feast=0,fnorth=0, orglat=NA, scf=0.9996){
   prj <- prj[1];datum <- datum[1];unit <- unit[1]
+
   #alternative numeric parameter assigned to text
+
+  preprj <- c('equalarea.azimuthal','equaldistant.azimuthal','conformal.azimuthal',
+              'equalarea.cylindrical','equaldistant.cylindrical','conformal.cylindrical',
+              'equalarea.conic','equaldistant.conic','conformal.conic',
+              'conformal.transverse','conformal.oblique','equalarea.transverse','equalarea.oblique','geographic')
+  prjnames <- c('Equal Area Azimuthal','Equidistant Azimuthal','Conformal Azimuthal',
+                'Equal Area Cylindrical','Equidistant Cylindrical',
+                'Conformal Cylindrical','Equal Area Conic','Equidistant Conic',
+                'Conformal Conic', 'Conformal Transverse Cylindrical',
+                'Conformal Oblique Cylindrical', 'Equal Area Transverse Cylindrical',
+                'Equal Area Oblique Cylindrical','Geographic')
   if(is.numeric(prj)){
-    preprj <- c('equalarea.azimuthal','equaldistant.azimuthal','conformal.azimuthal',
-                'equalarea.cylindrical','equaldistant.cylindrical','conformal.cylindrical',
-                'equalarea.conic','equaldistant.conic','conformal.conic',
-                'conformal.transverse','conformal.oblique','equalarea.transverse','equalarea.oblique','geographic')
-    prj <- preprj[prj]
+        prj <- preprj[prj]
   }
+
+  predatum <- c('WGS84','NAD83','NAD27')
   if(!is.numeric(datum)){
-    predatum <- c('WGS84','NAD83','NAD27')
+
     datum <- which(predatum %in% datum)
   }
+
+  preunit <- c('m','ft','usft')
   if(!is.numeric(unit)){
-    preunit <- c('m','ft','usft')
+
     unit <- which(preunit %in% unit)
   }
 
@@ -52,8 +64,10 @@ setProjection <- function(prj = c('equalarea.azimuthal','equaldistant.azimuthal'
 
   un <- unit
 
+  prjname <- paste0(predatum[da],' ','Custom ',
+                    prjnames[which(preprj %in% prj)],' (',preunit[un],')')
 
-  begin <- 'PROJCS["Custom",'
+  begin <- paste0('PROJCS["',prjname,'",')
 
   datums <- c(
     #WGS 84
@@ -223,7 +237,7 @@ setProjection <- function(prj = c('equalarea.azimuthal','equaldistant.azimuthal'
     pramchoice <- 10
   }
   if(prj %in% 'geographic'){
-    assembly <- crs(datums2[da])
+    assembly <- terra::crs(datums2[da])
   }else{
     assembly <- paste0(begin,
                        datums[da],
@@ -302,8 +316,13 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, met
   #                   ifelse(ishfeet[length(st_crs(dem))], 0.3048,
   #                          ifelse(ishusfeet[length(st_crs(dem))], 0.304800609601219, 1)))
   hfactor <- ifelse(terra::linearUnits(dem) == 0, 111111.1, terra::linearUnits(dem))
-  r = mean(res(dem))*hfactor
+  r0 = mean(res(dem))*hfactor
 
+  #Set resolution based on assumed resolution in meters in units of output
+  x <- rast()
+  crs(x) <- prj
+  hfactor2 <- ifelse(terra::linearUnits(x) == 0, 111111.1, terra::linearUnits(x))
+  r = r0/hfactor2
 
   #find extent after projection
   ex <- data.frame(rname=c('ul','ll','ur','lr'),
@@ -340,7 +359,7 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, met
   }
 
   #set final resolution
-  r <- ifelse(is.na(rs),r,rs)
+  r <- ifelse(is.na(rs),r,rs/hfactor2)
 
   #dumb raster
   y.rast <- rast(xmin=xmn, xmax=xmx,
