@@ -139,7 +139,7 @@ setProjection <- function(prj = c('equalarea.azimuthal','equaldistant.azimuthal'
   if(is.na(lat2)){lat2 <- lat + 8}
   if(is.na(lon2)){lon2 <- lon + 3}
   if(is.na(orglat)){orglat <- lat}
-  lat <- mean(lat1,lat2);lon <- mean(lon1,lon2)
+  lat <- (lat1+lat2)/2;lon <- (lon1+lon2)/2
 
   azcentlat <- paste0('PARAMETER["latitude_of_center",',lat,'],')
   azcentlon <- paste0('PARAMETER["longitude_of_center",',lon,'],')
@@ -325,9 +325,11 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, met
   r = r0/hfactor2
 
   #find extent after projection
-  ex <- data.frame(rname=c('ul','ll','ur','lr'),
-                   xcoord=c(ext(dem)[1],ext(dem)[1],ext(dem)[2],ext(dem)[2]),
-                   ycoord=c(ext(dem)[3],ext(dem)[4],ext(dem)[3],ext(dem)[4]))
+  ex <- data.frame(rname=c('ll','ul','ur','ur','lc','uc','ll','cr'),
+                   xcoord=c(ext(dem)[1],ext(dem)[1],ext(dem)[2],ext(dem)[2],
+                            (ext(dem)[1]+ext(dem)[2])/2, (ext(dem)[1]+ext(dem)[2])/2,ext(dem)[1],ext(dem)[2]),
+                   ycoord=c(ext(dem)[3],ext(dem)[4],ext(dem)[3],ext(dem)[4],
+                            ext(dem)[3], ext(dem)[4],(ext(dem)[3]+ext(dem)[4])/2,(ext(dem)[3]+ext(dem)[4])/2))
 
   ex <- sf::st_as_sf(as.data.frame(ex), coords = c("xcoord","ycoord"), crs=st_crs(dem))
   ex.trans <- (st_transform(ex,crs=wkt.new))
