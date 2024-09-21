@@ -6,8 +6,8 @@
 \usage{
 getrelief(
   dm,
-  r1,
-  r2,
+  r1 = NA,
+  r2 = NA,
   n = 0,
   s = 0.1,
   p = c("low", "medium", "high", "exact"),
@@ -17,20 +17,20 @@ getrelief(
 \arguments{
 \item{dm}{Digital elevation model (terra raster) with projected coordinates.}
 
-\item{r1}{Minimum focal radius for estimating relief (only focal radius when n-0).}
+\item{r1}{Minimum focal radius for estimating relief (only focal radius when n-0). Optional if using breaks.}
 
-\item{r2}{Maximum focal radius for estimating relief.}
+\item{r2}{Maximum focal radius for estimating relief. Optional if using breaks.}
 
-\item{n}{Number of segments between maximum and minimum radii to estimate relief.}
+\item{n}{Number of segments between maximum and minimum radii to estimate relief. n=0 for a simple focal range analysis using r1.}
 
 \item{s}{Slope for which relief is estimated (Default is 0.1 for a 10\% slope). Should be a ratio of vertical units to horizontal units).}
 
 \item{p}{Precision from low to exact with higher levels of precision requiring more processing time.}
 
-\item{breaks}{Optional vector of relief thresholds to specifically calculate a radius rather than to depend on interpolation among a regular interval between maximum and minimum radii.}
+\item{breaks}{Optional vector of relief thresholds to specifically calculate a radius rather than to depend on interpolation among a regular interval between maximum and minimum radii. Will combine with r1 and r2 vertical equivalence if they are populated.}
 }
 \value{
-Topographic relief of either a fixed radius or for a fixed slope for a range of radii.
+Topographic relief of either a fixed radius or for a fixed slope for a range of radii. Relief above and below focal radius breaks is simple, not based on fixed slope.
 }
 \description{
 Get topographic relief
