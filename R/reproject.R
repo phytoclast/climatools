@@ -320,7 +320,7 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, met
 
   #Set resolution based on assumed resolution in meters in units of output
   x <- rast()
-  crs(x) <- prj
+  crs(x) <- wkt.new
   hfactor2 <- ifelse(terra::linearUnits(x) == 0, 111111.1, terra::linearUnits(x))
   r = r0/hfactor2
 
