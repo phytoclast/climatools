@@ -11,7 +11,8 @@ getrelief(
   n = 0,
   s = 0.1,
   p = c("low", "medium", "high", "exact"),
-  breaks = NA
+  breaks = NA,
+  clipslope = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ getrelief(
 \item{p}{Precision from low to exact with higher levels of precision requiring more processing time.}
 
 \item{breaks}{Optional vector of relief thresholds to specifically calculate a radius rather than to depend on interpolation among a regular interval between maximum and minimum radii. Will combine with r1 and r2 vertical equivalence if they are populated.}
+
+\item{clipslope}{Clip values where slopes less than half the slope threshold, and replace with relief for smallest focal radius. This as the effect of trimming high relief from flat areas adjacent to large mountains.}
 }
 \value{
 Topographic relief of either a fixed radius or for a fixed slope for a range of radii. Relief above and below focal radius breaks is simple, not based on fixed slope.

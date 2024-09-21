@@ -7,6 +7,7 @@
 #' @param s Slope for which relief is estimated (Default is 0.1 for a 10\% slope). Should be a ratio of vertical units to horizontal units).
 #' @param p Precision from low to exact with higher levels of precision requiring more processing time.
 #' @param breaks Optional vector of relief thresholds to specifically calculate a radius rather than to depend on interpolation among a regular interval between maximum and minimum radii. Will combine with r1 and r2 vertical equivalence if they are populated.
+#' @param clipslope Clip values where slopes less than half the slope threshold, and replace with relief for smallest focal radius. This as the effect of trimming high relief from flat areas adjacent to large mountains.
 #'
 #' @return Topographic relief of either a fixed radius or for a fixed slope for a range of radii. Relief above and below focal radius breaks is simple, not based on fixed slope.
 #'
@@ -44,7 +45,7 @@
 #' rng <- getrelief(dem, r1=2000, s=0.1, n=0)
 #' plot(rng)
 #'
-getrelief <- function(dm, r1=NA, r2=NA, n=0, s=0.1, p=c('low', 'medium', 'high','exact'), breaks=NA){
+getrelief <- function(dm, r1=NA, r2=NA, n=0, s=0.1, p=c('low', 'medium', 'high','exact'), breaks=NA, clipslope = FALSE){
   require(terra)
   #p is for precision options
   p=p[1]
@@ -81,7 +82,14 @@ getrelief <- function(dm, r1=NA, r2=NA, n=0, s=0.1, p=c('low', 'medium', 'high',
         rng <- (rng1*wt1+rng2*wt2)/(wt1+wt2)*(rng1 > rx1*s)*(rng0<=0)+rng0*(rng0>0)
         rng0 <- rng
       }}
-    rng <- (rng0<=0)*rng1+rng0*(rng0>0)
+    if(clipslope == FALSE){
+      rng <- (rng0<=0)*rng1+rng0*(rng0>0)
+    }else{
+      slope <- terra::terrain(dm, v='slope', unit='radians')
+      pslope <- (tan(slope) >= s/2)
+      rng <- rng0*(rng0>0)*pslope
+      rng <- (rng<=0)*rng1+rng
+    }
   }
   return(rng)}
 
