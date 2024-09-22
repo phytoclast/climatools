@@ -7,7 +7,7 @@
 #' @param s Slope for which relief is estimated (Default is 0.1 for a 10\% slope). Should be a ratio of vertical units to horizontal units).
 #' @param p Precision from low to exact with higher levels of precision requiring more processing time.
 #' @param breaks Optional vector of relief thresholds to specifically calculate a radius rather than to depend on interpolation among a regular interval between maximum and minimum radii. Will combine with r1 and r2 vertical equivalence if they are populated.
-#' @param clipslope Clip values where slopes less than half the slope threshold, and replace with relief for smallest focal radius. This as the effect of trimming high relief from flat areas adjacent to large mountains.
+#' @param reverse If true, give priority to widest focal neighborhoods, otherwise relief has to meet slope criteria for all the smaller focal neigborhoods first.
 #'
 #' @return Topographic relief of either a fixed radius or for a fixed slope for a range of radii. Relief above and below focal radius breaks is simple, not based on fixed slope.
 #'
@@ -45,7 +45,7 @@
 #' rng <- getrelief(dem, r1=2000, s=0.1, n=0)
 #' plot(rng)
 #'
-getrelief <- function(dm, r1=NA, r2=NA, n=0, s=0.1, p=c('low', 'medium', 'high','exact'), breaks=NA, clipslope = FALSE){
+getrelief <- function(dm, r1=NA, r2=NA, n=0, s=0.1, p=c('low', 'medium', 'high','exact'), breaks=NA, reverse = FALSE){
   require(terra)
   #p is for precision options
   p=p[1]
@@ -59,40 +59,54 @@ getrelief <- function(dm, r1=NA, r2=NA, n=0, s=0.1, p=c('low', 'medium', 'high',
       d = log(r2) -  log(r1)
       ser <- n:0
       rx <- exp(log(r1)+d/n*ser)
-      rx <- unique(round(sort(c(breaks/s,rx), decreasing=T),1))
-    } else if(!is.na(breaks[1])){
+      rx <- unique(round(sort(c(breaks/s,rx), decreasing=reverse),1))
+    }else if(!is.na(breaks[1])){
       #determine maximum range of input raster to save processing time
       rnmax <- terra::minmax(dm)[2]-terra::minmax(dm)[1]
-      rx <- unique(round(sort(c(breaks/s,rnmax/s), decreasing=T),1)); rx <- rx[rx <= rnmax/s]
+      rx <- unique(round(sort(c(breaks/s,rnmax/s), decreasing=reverse),1)); rx <- rx[rx <= rnmax/s]
     }else if(!is.na(r1)&!is.na(r2)){d = log(r2) -  log(r1)
     ser <- n:0
     rx <- exp(log(r1)+d/n*ser)}else{message("Not enough parameters.")}
-    for(i in 1:length(rx)){#i=1
-      xmax <- focalmax(dm, rx[i]/2, p=p)
-      xmin <- focalmin(dm, rx[i]/2, p=p)
-      if(i==1){#i=1
-        rng1 <- xmax - xmin
-        rx1 <- rx[i]
-        rng0 <- rng1*(rng1 >= rx1*s)
-      }else{#i=3
-        rng2 <- rng1
-        rng1 <- xmax - xmin
-        rx2 <- rx1
-        rx1 <- rx[i]
-        wt2 <- (1/abs(rx2*s-rng2)); wt2 <- (ifel(is.na(wt2)|wt2 > 2,10, wt2))
-        wt1 <- (1/abs(rx1*s-rng1)); wt1 <- (ifel(is.na(wt1)|wt1 > 2,10, wt2))
-        rng <- (rng1*wt1+rng2*wt2)/(wt1+wt2)*(rng1 > rx1*s)*(rng0<=0)+rng0*(rng0>0)
-        rng0 <- rng
-      }}
-    if(clipslope == FALSE){
-      rng <- (rng0<=0)*rng1+rng0*(rng0>0)
+    if(reverse){
+      for(i in 1:length(rx)){#i=1
+        xmax <- focalmax(dm, rx[i]/2, p=p)
+        xmin <- focalmin(dm, rx[i]/2, p=p)
+        if(i==1){#i=1
+          rng <- xmax - xmin
+          rx0 <- rx[i]*s
+        }else{#i=3
+          rng2 <- rng
+          rng1 <- xmax - xmin
+          rx2 <- rx0
+          rx1 <- rx[i]*s
+          rx0 <- rx1
+          wt0 <- (rng1 < rx1)*(rng2 < rx2)
+          wt1 <- (rx2-rng2)*(rng2 < rx2)*(rng1 >= rx1)
+          wt2 <- (rng1-rx1)*(rng2 < rx2)*(rng1 >= rx1)
+          wt3 <- (rng2 >= rx2)
+          rng <- (rng1*wt0+rng1*wt1+rng2*wt2+rng2*wt3)/(wt0+wt1+wt2+wt3)
+        }}
     }else{
-      slope <- terra::terrain(dm, v='slope', unit='radians')
-      slope <- focalmed(slope, r=2*(terra::res(dm)[1]))
-      pslope <- (tan(slope) >= s/2)
-      rng <- rng0*(rng0>0)*pslope
-      rng <- (rng<=0)*rng1+rng
+      for(i in 1:length(rx)){#i=1
+        xmax <- focalmax(dm, rx[i]/2, p=p)
+        xmin <- focalmin(dm, rx[i]/2, p=p)
+        if(i==1){#i=1
+          rng <- xmax - xmin
+          rx0 <- rx[i]*s
+        }else{#i=3
+          rng2 <- xmax - xmin
+          rng1 <- rng
+          rx2 <- rx[i]*s
+          rx1 <- rx0
+          rx0 <- rx2
+          wt0 <- (rng1 < rx1)
+          wt1 <- (rx2-rng2)*(rng2 < rx2)*(rng1 >= rx1)
+          wt2 <- (rng1-rx1)*(rng2 < rx2)*(rng1 >= rx1)
+          wt3 <- (rng2 >= rx2)*(rng1 >= rx1)
+          rng <- (rng1*wt0+rng1*wt1+rng2*wt2+rng2*wt3)/(wt0+wt1+wt2+wt3)
+        }}
     }
+
   }
   return(rng)}
 
