@@ -61,7 +61,9 @@ getrelief <- function(dm, r1=NA, r2=NA, n=0, s=0.1, p=c('low', 'medium', 'high',
       rx <- exp(log(r1)+d/n*ser)
       rx <- unique(round(sort(c(breaks/s,rx), decreasing=T),1))
     } else if(!is.na(breaks[1])){
-      rx <- unique(round(sort(c(breaks/s), decreasing=T),1))
+      #determine maximum range of input raster to save processing time
+      rnmax <- terra::minmax(dm)[2]-terra::minmax(dm)[1]
+      rx <- unique(round(sort(c(breaks/s,rnmax/s), decreasing=T),1)); rx <- rx[rx <= rnmax/s]
     }else if(!is.na(r1)&!is.na(r2)){d = log(r2) -  log(r1)
     ser <- n:0
     rx <- exp(log(r1)+d/n*ser)}else{message("Not enough parameters.")}
@@ -86,6 +88,7 @@ getrelief <- function(dm, r1=NA, r2=NA, n=0, s=0.1, p=c('low', 'medium', 'high',
       rng <- (rng0<=0)*rng1+rng0*(rng0>0)
     }else{
       slope <- terra::terrain(dm, v='slope', unit='radians')
+      slope <- focalmed(slope, r=2*(terra::res(dm)[1]))
       pslope <- (tan(slope) >= s/2)
       rng <- rng0*(rng0>0)*pslope
       rng <- (rng<=0)*rng1+rng
