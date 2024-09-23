@@ -7,6 +7,8 @@ input <- list.files(path)
 mts <- read.csv('C:/workspace2/ClimateClassification/terrain/statemountains.csv')
 mts <- st_read('C:/workspace2/climatools/data_raw/mountains.shp')
 mts <- readRDS('C:/workspace2/climatools/data_raw/mountains.RDS')
+mts <- read.csv('C:/workspace2/climatools/data_raw/worldpeaks4.csv')
+mts <- sf::st_as_sf(mts, coords = c(x='lon',y='lat'), crs = st_crs(4326))
 mts <- mts |> mutate(lat = st_coordinates(mts)[,2], lon = st_coordinates(mts)[,1])
 rownames(mts) <- 1:nrow(mts)
 getmaxcoords <- function(x){
@@ -28,10 +30,10 @@ for(i in 1:length(input)){#i=1
 
 
 
-k=135
+k=562
 thismts <- mts[k,]
 
-cropdeg = 20
+cropdeg = 5
 thisfile <- subset(df, west <= thismts$lon &
                      east >= thismts$lon &
                      north >= thismts$lat &
@@ -70,38 +72,80 @@ for(i in 1:length(demlist)){#i=2
 # writeRaster(dem0, 'C:/workspace2/climatools/data_raw/denali.tif', overwrite=TRUE)
 #reproject
 # rg <- minmax(demy)[2]-minmax(demy)[1]
-rg <- thismts$ht-minmax(demy)[1]
-prj1 <- setProjection(prj='equaldistant.cylindrical',lat=thismts$lat, lon=thismts$lon)
-prj2 <- setProjection(prj='equalarea.transverse',lat=thismts$lat, lon=thismts$lon)
-prj3 <- setProjection(prj='conformal.transverse',lat=thismts$lat, lon=thismts$lon)
-# newcrs="+proj=ocea +lon_1=-100 +lat_1=45 +lon_2=-60 +lat_2=-30 +lon_0=0 +datum=WGS84"
-# st_crs(newcrs)
-demx0 <- reproject(dem=demy, rs=1000, prj=prj1, lat=thismts$lat, lon=thismts$lon, method='bilinear')
-demx1 <- climatools::RestoreMaxMin(demy,demx0,mts,'ht')
+demx0 <- reproject(dem=demy, rs=250,  lat=thismts$lat, lon=thismts$lon, method='bilinear')
+demx1 <- climatools::RestoreMaxMin(demy,demx0,mts,'summit')
 plot(demx1)
-demx0 <- reproject(dem=demy, rs=1000, prj=prj2, lat=thismts$lat, lon=thismts$lon, method='bilinear')
-demx2 <- climatools::RestoreMaxMin(demy,demx0,mts,'ht')
-plot(demx2)
-demx0 <- reproject(dem=demy, rs=1000, prj=prj3, lat=thismts$lat, lon=thismts$lon, method='bilinear')
-demx3 <- climatools::RestoreMaxMin(demy,demx0,mts,'ht')
-plot(demx3)
-revert <- reproject(demx3, prj=setProjection(prj='geographic',lat=45, lon=-100))
-st_crs(revert)
-rng1 <- getrelief(demx1, r1=10000, n=0, p='medium')
-rng2x <- getrelief(demx2, r1=10000, n=0, p='medium')
-rng3x <- getrelief(demx3, r1=10000, n=0, p='medium')
-rng2y <- project(rng2x, rng1); rng3y <- project(rng3x, rng1);
-rng2 <- RestoreMaxMin(rng2y,rng2x); rng3 <- RestoreMaxMin(rng3y, rng3x);
-plot(rng2)
-plot(rng1-rng2)
-plot(rng1-rng3)
-plot(rng2-rng3)
+demx <- demx1
+
+#maximum circle
+rg <- thismts$summit-minmax(demx)[1]
+mtcrop <- thismts |> vect() |> terra::project(demx) |> crop(ext(demx))
+mtbuff <- mtcrop |> buffer(pmax(width=rg*10.1, 2020))
+demx <- demx |> crop(mtbuff)
+mtzone <- mtbuff |> rasterize(demx) |> crop(ext(mtbuff))
+# plot(demx);plot(mtbuff, add=T)
+
+#get range within big circle
+crange <- minmax(demx*mtzone)
+rg2 <- thismts$summit-crange[1]
+cutoff <- (thismts$summit-crange[1])*0.5+crange[1]
+mtbuff2 <- mtcrop |> buffer(pmax(width=rg2*5.05, 1010))
+mtzone2 <- mtbuff2 |> rasterize(demx)
+mtbuff2.5 <- mtcrop |> buffer(pmax(width=rg2*3.05, 1010))
+mtzone2.5 <- mtbuff2.5 |> rasterize(demx)
+#shave off tops of adjacent mountains
+demxcut <- ifel(demx > cutoff  & is.na(mtzone2.5), cutoff, demx)
+# plot(demxcut)
+#get 10% range within mountain's zone
+brks = c(50, 100,150,200,300,500,1000,1500,2000,3000,4000,5000,6000,7000,8000)
+rng <- getrelief(demxcut, s=0.1, n=1, p='medium', breaks = brks, reverse = T)
+# plot(rng)
+
+#restrict range to near mountain
+rng <- mtzone2*rng
+# plot(rng)
+newrg <- minmax(rng)[2]
+mtbuff3 <- mtcrop |> buffer(pmax(width=newrg*5.05, 1010))
+mtzone3 <- mtbuff3 |> rasterize(demx)
+rng <- mtzone3*rng
+
+#25% relief
+rng2 <- getrelief(demxcut, s=0.25, n=1, p='medium', breaks = brks, reverse = T)
+# plot(rng2)
+rng2 <- mtzone3*rng2
+# plot(rng2)
+
+
+steeprelief = minmax(rng2)[2] |> round(0)
+broadrelief = minmax(rng)[2] |> round(0)
+
+
+# summit = minmax(demx)[2]
+
+# summitcoord = getmaxcoords(demx)
+broadcoord = getmaxcoords(rng)
+steepcoord = getmaxcoords(rng2)
+
+
+broadrelief
+steeprelief
+broadcoord
+steepcoord
+
+
+
+
+
+
+
+
+
+
 
 plot(demx0)
-prebreaks = c(500,1000,1500,2000,3000,4000,5000,6000,7000,8000)
-maxrange <- max(rg,5000)
-breaks <- prebreaks[prebreaks <=maxrange]
-rng <- getrelief(demx, r1=5000, r2=maxrange, s=0.1, n=1, p='medium', breaks = breaks)
+brks = c(250,500,1000,1500,2000,3000,4000,5000,6000,7000,8000)
+
+rng <- getrelief(demx1, s=0.1, n=1, p='medium', breaks = brks)
 plot(rng)
 hsd <- hillshade(demx)
 plot(hsd)
