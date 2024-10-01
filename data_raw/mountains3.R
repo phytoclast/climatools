@@ -1,7 +1,7 @@
 library(climatools)
 library(terra)
 library(sf)
-
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 path <- 'C:/workspace2/dem/input'
 input <- list.files(path)
 mts <- read.csv('C:/workspace2/ClimateClassification/terrain/statemountains.csv')
@@ -238,11 +238,16 @@ denali <- list(data = as.matrix(denali0,wide=TRUE),
 usethis::use_data(denali, overwrite = T)
 
 peaks <- read.csv('C:/workspace2/climatools/data_raw/worldpeaks4.csv')
+peaks <- read.csv('worldpeaks4.csv')
 peaks <- peaks[,c("Continent","state","Name","summit","broadrelief","steeprelief","lat","lon")]
 colnames(peaks) <- c("continent","state","name","summit","relief.broad","relief.steep","lat","lon")
 peaks <- peaks |> mutate(x=lon,y=lat)
 peaks <- st_as_sf(peaks, coords = c("x","y"), crs = 4326)
 usethis::use_data(peaks, overwrite = T)
+
+
+st_write(peaks, 'mountains.shp', append = F)
+
 
 fromraster <- function(x){
   y <- list(data = as.matrix(x,wide=TRUE),
