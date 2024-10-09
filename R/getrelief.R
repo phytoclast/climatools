@@ -110,7 +110,7 @@ getrelief <- function(dm, r1=NA, r2=NA, n=0, s=0.1, p=c('low', 'medium', 'high',
   }
   return(rng)}
 
-# getrelief <- function(dm, r1, r2, n=0, s=0.1, p=c('low', 'medium', 'high','exact'), breaks=NA){
+# original_getrelief <- function(dm, r1, r2, n=0, s=0.1, p=c('low', 'medium', 'high','exact'), breaks=NA){
 #   require(terra)
 #   #p is for precision options
 #   p=p[1]
@@ -153,4 +153,71 @@ getrelief <- function(dm, r1=NA, r2=NA, n=0, s=0.1, p=c('low', 'medium', 'high',
 #         }else{
 #           rng <- (rate1<1)*(rng0<=0)*rng1+(numden*rng2 + (1-numden)*rng1)*(rate1>=1)*(rng0<=0)+rng0*(rng0>0)}
 #       }}}
+#   return(rng)}
+#
+# ####This version allows neigborhood to be redistributed to emphasize either upslope areas versus downslope areas.
+# x_getrelief <- function(dm, r1=NA, r2=NA, n=0, s=0.1, p=c('low', 'medium', 'high','exact'), breaks=NA, reverse = FALSE, upratio = 0.5){
+#   require(terra)
+#   #p is for precision options
+#   p=p[1]
+#   if(upratio > 1 | upratio <0){message("Upratio needs to be between 0 and 1")}
+#
+#   if(n==0){#simple relief using single fixed radius
+#     xmax <- focalmax(dm, r1*upratio,p=p)
+#     xmin <- focalmin(dm, r1*(1-upratio),p=p)
+#     rng <- xmax - xmin
+#   }else{#relief maintaining a slope within a range of radii
+#     if(!is.na(r1)&!is.na(r2)&!is.na(breaks[1])){
+#       d = log(r2) -  log(r1)
+#       ser <- n:0
+#       rx <- exp(log(r1)+d/n*ser)
+#       rx <- unique(round(sort(c(breaks/s,rx), decreasing=reverse),1))
+#     }else if(!is.na(breaks[1])){
+#       #determine maximum range of input raster to save processing time
+#       rnmax <- terra::minmax(dm)[2]-terra::minmax(dm)[1]
+#       rx <- unique(round(sort(c(breaks/s,rnmax/s), decreasing=reverse),1)); rx <- rx[rx <= rnmax/s]
+#     }else if(!is.na(r1)&!is.na(r2)){d = log(r2) -  log(r1)
+#     ser <- n:0
+#     rx <- exp(log(r1)+d/n*ser)}else{message("Not enough parameters.")}
+#     if(reverse){
+#       for(i in 1:length(rx)){#i=1
+#         xmax <- focalmax(dm, rx[i]*upratio, p=p)
+#         xmin <- focalmin(dm, rx[i]*(1-upratio)/2, p=p)
+#         if(i==1){#i=1
+#           rng <- xmax - xmin
+#           rx0 <- rx[i]*s
+#         }else{#i=3
+#           rng2 <- rng
+#           rng1 <- xmax - xmin
+#           rx2 <- rx0
+#           rx1 <- rx[i]*s
+#           rx0 <- rx1
+#           wt0 <- (rng1 < rx1)*(rng2 < rx2)
+#           wt1 <- (rx2-rng2)*(rng2 < rx2)*(rng1 >= rx1)
+#           wt2 <- (rng1-rx1)*(rng2 < rx2)*(rng1 >= rx1)
+#           wt3 <- (rng2 >= rx2)
+#           rng <- (rng1*wt0+rng1*wt1+rng2*wt2+rng2*wt3)/(wt0+wt1+wt2+wt3)
+#         }}
+#     }else{
+#       for(i in 1:length(rx)){#i=1
+#         xmax <- focalmax(dm, rx[i]*upratio, p=p)
+#         xmin <- focalmin(dm, rx[i]*(1-upratio)/2, p=p)
+#         if(i==1){#i=1
+#           rng <- xmax - xmin
+#           rx0 <- rx[i]*s
+#         }else{#i=3
+#           rng2 <- xmax - xmin
+#           rng1 <- rng
+#           rx2 <- rx[i]*s
+#           rx1 <- rx0
+#           rx0 <- rx2
+#           wt0 <- (rng1 < rx1)
+#           wt1 <- (rx2-rng2)*(rng2 < rx2)*(rng1 >= rx1)
+#           wt2 <- (rng1-rx1)*(rng2 < rx2)*(rng1 >= rx1)
+#           wt3 <- (rng2 >= rx2)*(rng1 >= rx1)
+#           rng <- (rng1*wt0+rng1*wt1+rng2*wt2+rng2*wt3)/(wt0+wt1+wt2+wt3)
+#         }}
+#     }
+#
+#   }
 #   return(rng)}
