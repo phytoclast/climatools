@@ -325,7 +325,7 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, met
   r = r0/hfactor2
 
   #find extent after projection
-  ex <- data.frame(rname=c('ll','ul','ur','ur','lc','uc','ll','cr'),
+  ex <- data.frame(rname=c('lleft','uleft','lright','uright','lcenter','ucenter','cleft','cright'),
                    xcoord=c(ext(dem)[1],ext(dem)[1],ext(dem)[2],ext(dem)[2],
                             (ext(dem)[1]+ext(dem)[2])/2, (ext(dem)[1]+ext(dem)[2])/2,ext(dem)[1],ext(dem)[2]),
                    ycoord=c(ext(dem)[3],ext(dem)[4],ext(dem)[3],ext(dem)[4],
@@ -334,6 +334,10 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, met
   ex <- sf::st_as_sf(as.data.frame(ex), coords = c("xcoord","ycoord"), crs=st_crs(dem))
   ex.trans <- (st_transform(ex,crs=wkt.new))
   ex.trans <- as.data.frame(st_coordinates(ex.trans))
+  #ensure that right and left remain correctly oriented or else will flip E/W hemispheres
+  ex.trans$rname <- ex$rname
+  ex.trans$X <- ifelse(grepl('right',ex.trans$rname) & ex.trans$X < mean(ex.trans$X), 180,ex.trans$X)
+  ex.trans$X <- ifelse(grepl('left',ex.trans$rname) & ex.trans$X > mean(ex.trans$X), -180,ex.trans$X)
   #add proposed center of projection to new projection
   ex2 <- data.frame(rname=c('center'),
                     xcoord=c(lon),
@@ -342,7 +346,7 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, met
   ex2 <- sf::st_as_sf(as.data.frame(ex2), coords = c("xcoord","ycoord"), crs=st_crs('EPSG:4326'))
   ex.trans2 <- (st_transform(ex2,crs=wkt.new))
   ex.trans2 <- as.data.frame(st_coordinates(ex.trans2))
-  ex.trans <- rbind(ex.trans2, ex.trans)
+  ex.trans <- rbind(ex.trans2, ex.trans[,1:2])
 
   #set final extent
   if(is.na(h)){
