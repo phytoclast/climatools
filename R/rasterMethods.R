@@ -99,3 +99,31 @@ AET.rast <- function(block, jan.p='p01',jan.e='e01'){
   names(x) <- 'a'
   return(x)
 }
+
+AET.rast.monthly <- function(block, jan.p='p01',jan.e='e01'){
+  month <- c('01','02','03','04','05','06','07','08','09','10','11','12')
+  p.ind = which(names(block) %in% jan.p)
+  e.ind = which(names(block) %in% jan.e)
+  p <- block[,,p.ind:(p.ind+11),drop=FALSE]
+  e <- block[,,e.ind:(e.ind+11),drop=FALSE]
+  a <- e
+  for(i in 1:12){
+    a[[i]] <- min(e[[i]],p[[i]])
+    names(a[[i]]) <- paste0('a',month[i])
+  }
+  return(a)
+}
+
+AET.rast.max <- function(block, jan.a='a01', nmonth = 3){
+  a.ind = which(names(block) %in% jan.a)
+  a <- block[,,a.ind:(a.ind+11),drop=FALSE]
+  indices <- c(1:12,1:12)
+  amx <- a
+  for(i in 1:12){
+    thismonth <- indices[i:(i+nmonth-1)]
+    amx[[i]] <- sum(a[[thismonth]])
+  }
+  x <- max(amx)
+  names(x) <- paste0('max',nmonth,'aet')
+  return(x)
+}
