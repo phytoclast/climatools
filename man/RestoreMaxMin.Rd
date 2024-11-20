@@ -7,9 +7,9 @@
 RestoreMaxMin(x, y, s = NA, e = NA)
 }
 \arguments{
-\item{x}{Original raster.}
+\item{x}{Resampled or reprojected raster (lost resolution).}
 
-\item{y}{Resampled or reprojected raster.}
+\item{y}{Original raster (high resolution).}
 
 \item{s}{Optional point simple feature vector (sf) with locations of known high points, to further enhance accuracy of elevation extremes that may have been smoothed out in DEM resampling.}
 

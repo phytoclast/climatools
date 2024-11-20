@@ -409,8 +409,8 @@ AmplifiedReduction <- function(hires, fact = 5){
 
 #' Restore maximum and minimum values of a resampled raster
 #'
-#' @param x Original raster.
-#' @param y Resampled or reprojected raster.
+#' @param x Resampled or reprojected raster (lost resolution).
+#' @param y Original raster (high resolution).
 #' @param s Optional point simple feature vector (sf) with locations of known high points, to further enhance accuracy of elevation extremes that may have been smoothed out in DEM resampling.
 #' @param e Optional name of the column corresponding to elevation in the simple feature vector.
 #'
