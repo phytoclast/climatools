@@ -56,6 +56,10 @@ find.threshold <- function(x, class1, class2, variable){
       mutate(gini0 = all/sum(all)*gini, ent0 = all/sum(all)*ent)
     xs <- xs |> summarize(gini = sum(gini0), ent = sum(ent0))
 
+    px <- x |> group_by(reclass) |> summarise(pclass1=sum(g1)/sum(g1+g2),pclass2=sum(g2)/sum(g1+g2))
+    p1 <- px$pclass1[ifelse(sign < 0,1,2)]
+    p2 <- px$pclass2[ifelse(sign >= 0,1,2)]
+
     gini_gain = xp$gini - xs$gini
     ent_gain = xp$ent - xs$ent
     if(i==0){
@@ -64,19 +68,24 @@ find.threshold <- function(x, class1, class2, variable){
       finalgini = xs$gini
       finalsign = sign
       finalthr = thr
+      finalp1 = p1
+      finalp2 = p2
     }else if(ent_gain >= maxinfo){
       maxinfo=ent_gain
       finalentropy = xs$ent
       finalgini = xs$gini
       finalsign = sign
-      finalthr = thr}
+      finalthr = thr
+      finalp1 = p1
+      finalp2 = p2}
   }
-  return(result = list(entropy=finalentropy, gini=finalgini, infogain = maxinfo, sign = ifelse(finalsign >= 0, "class1 positive", "class1 negative"), class1 = class1, class2=class2, class1cor = class1cor, class2cor = class2cor, variable = variable, threshold = finalthr, narrative = paste(
+
+
+  result = list(entropy=finalentropy, gini=finalgini, infogain = maxinfo, sign = ifelse(finalsign >= 0, "class1 positive", "class1 negative"), class1 = class1, class2=class2, class1cor = class1cor, class2cor = class2cor, variable = variable, p1=finalp1, p2=finalp2, threshold = finalthr, narrative = paste(
     class1,": ", variable, ifelse(finalsign >= 0, " >= ", " < "),finalthr," | ",
     class2,": ", variable, ifelse(finalsign >= 0, " < ", " >= "),finalthr))
-  )}
 
-
+  return(result)}
 
 
 
@@ -108,6 +117,8 @@ find.multithreshold <- function(x, class1, class2, variables){
       threshold = thisvar$threshold,
       class1 = thisvar$class1,
       class2 = thisvar$class2,
+      pclass1 = thisvar$p1,
+      pclass2 = thisvar$p2,
       sign = thisvar$sign,
       infogain = thisvar$infogain,
       gini = thisvar$gini,
