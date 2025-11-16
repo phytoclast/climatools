@@ -1,6 +1,6 @@
 library(terra)
-r1 <- rast(xmin=0, xmax=60, ymin=0, ymax=40, res=1, vals=1, crs='EPSG:4326')
-r2 <- rast(xmin=0, xmax=80, ymin=0, ymax=80, res=1, vals=2, crs='EPSG:4326')
+r1 <- rast(xmin=20, xmax=80, ymin=20, ymax=80, res=1, vals=1, crs='EPSG:4326')
+r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=80, res=1, vals=2, crs='EPSG:4326')
 
 
 m <- mosaic(r1,r2)
@@ -88,6 +88,17 @@ smoothmosaic <- function(r1,r2){
   xintongl <- !yallign  & rallign  & (er1[1] < er2[1] & r2Yinside| er1[1] > er2[1] & r1Yinside)
   yintongt <- !xallign  & ballign  & (er1[4] > er2[4] & r2Xinside| er1[4] < er2[4] & r1Xinside)
   yintongb <- !xallign  & tallign  & (er1[3] < er2[3] & r2Xinside| er1[3] > er2[3] & r1Xinside)
+  #innercorners
+  inse <- !lallign  & rallign & ballign & !tallign
+  insw <- lallign  & !rallign & ballign & !tallign
+  inne <- !lallign  & rallign & !ballign & tallign
+  innw <- lallign  & !rallign & !ballign & tallign
+  #inneredges
+  inr <- !lallign  & rallign & ballign & tallign
+  inl <- lallign  & !rallign & ballign & tallign
+  int <- lallign  & rallign & !ballign & tallign
+  inb <- lallign  & rallign & ballign & !tallign
+  anyinner <- inse|insw|inne|innw|inr|inl|int|inb
   
   #perform intersect
   ei <- terra::intersect(ext(r1),ext(r2))
@@ -98,7 +109,7 @@ smoothmosaic <- function(r1,r2){
   msk <- r1i*0+1
   
   #full intersect routines using entire gradient of overlapping region
-  if(!anyinside){
+  if(!anyinside & !anyinner){
     
     l.full0 <- function(){
       values(msk) <- rep(seq(1, 0, length.out = ncol(msk)), times = nrow(msk))
@@ -160,6 +171,9 @@ smoothmosaic <- function(r1,r2){
       pmsk2 <- (1-l.full)*(1-t.full)
       msk <- (pmsk1+0.01)/(pmsk1+pmsk2+0.02)
     }
+    
+  
+    
   }else{
     
     mwidth = 1/4
@@ -247,6 +261,25 @@ smoothmosaic <- function(r1,r2){
     if(r2Xinside){msk <- 1-msk}}
     if(yintongb){msk <- min(b.msk0(),x.msk0())
     if(r2Xinside){msk <- 1-msk}}
+    #inner corners
+    if(inse){msk <- min(t.msk0(),l.msk0())
+    if(er1[1] < er2[1]){msk <- 1-msk}}
+    if(insw){msk <- min(t.msk0(),r.msk0())
+    if(er1[2] > er2[2]){msk <- 1-msk}}
+    if(inne){msk <- min(b.msk0(),l.msk0())
+    if(er1[1] < er2[1]){msk <- 1-msk}}
+    if(innw){msk <- min(b.msk0(),r.msk0())
+    if(er1[2] > er2[2]){msk <- 1-msk}}
+    #inner edges
+    if(inr){msk <- l.msk0()
+    if(er1[1] < er2[1]){msk <- 1-msk}}
+    if(inl){msk <- r.msk0()
+    if(er1[2] > er2[2]){msk <- 1-msk}}
+    if(int){msk <- b.msk0()
+    if(er1[3] < er2[3]){msk <- 1-msk}}
+    if(inb){msk <- b.msk0()
+    if(er1[4] > er2[4]){msk <- 1-msk}}
+    
     
     
     #cross
@@ -383,6 +416,11 @@ msk <- min(y.msk,l.msk)
 msk <- min(y.msk,r.msk)
 msk <- min(t.msk,x.msk)
 msk <- min(b.msk,x.msk)
+#inner corners
+msk <- min(t.msk,l.msk)
+msk <- min(t.msk,r.msk)
+msk <- min(b.msk,l.msk)
+msk <- min(b.msk,r.msk)
 
 #cross
 msk <- min((x.msk+0.01)/(y.msk+0.01),1)
