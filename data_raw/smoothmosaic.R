@@ -1,6 +1,6 @@
 library(terra)
-r1 <- rast(xmin=20, xmax=80, ymin=0, ymax=100, res=1, vals=2)
-r2 <- rast(xmin=0, xmax=100, ymin=20, ymax=80, res=1, vals=1)
+r1 <- rast(xmin=0, xmax=60, ymin=0, ymax=40, res=1, vals=1, crs='EPSG:4326')
+r2 <- rast(xmin=0, xmax=80, ymin=0, ymax=80, res=1, vals=2, crs='EPSG:4326')
 
 
 m <- mosaic(r1,r2)
@@ -62,20 +62,32 @@ smoothmosaic <- function(r1,r2){
   yband <- xallign
   xband <- yallign 
   #band surpasses on one side
-  xbandr <- lallign & !yallign
-  xbandl <- rallign & !yallign
-  ybandt <- ballign & !xallign
-  ybandb <- tallign & !xallign
+  xbandr <- lallign & !yallign  & (er1[2] > er2[2] & r1Yinside| er1[2] < er2[2] & r2Yinside)
+  xbandl <- rallign & !yallign  & (er1[1] < er2[1] & r1Yinside| er1[1] > er2[1] & r2Yinside)
+  ybandt <- ballign & !xallign  & (er1[4] > er2[4] & r1Xinside| er1[4] < er2[4] & r2Xinside)
+  ybandb <- tallign & !xallign  & (er1[3] < er2[3] & r1Xinside| er1[3] > er2[3] & r2Xinside)
   #incomplete tongue overlap
-  xtongr <- lallign & !yallign
-  xtongl <- rallign & !yallign
-  ytongt <- ballign & !xallign
-  ytongb <- tallign & !xallign
+  xtongr <- !yallign  & (er1[2] > er2[2] & r1Yinside| er1[2] < er2[2] & r2Yinside)&
+    (er1[1] > er2[1] & r1Yinside| er1[1] < er2[1] & r2Yinside)
+  
+  xtongl <- !yallign  & (er1[1] < er2[1] & r1Yinside| er1[1] > er2[1] & r2Yinside)&
+    (er1[2] < er2[2] & r1Yinside| er1[2] > er2[2] & r2Yinside)
+  
+  ytongt <- !xallign  & (er1[4] > er2[4] & r1Xinside| er1[4] < er2[4] & r2Xinside)&
+    (er1[3] > er2[3] & r1Xinside| er1[3] < er2[3] & r2Xinside)
+  
+  ytongb <- !xallign  & (er1[3] < er2[3] & r1Xinside| er1[3] > er2[3] & r2Xinside)&
+    (er1[4] < er2[4] & r1Xinside| er1[4] > er2[4] & r2Xinside)
   #cross
   xycross <- (er1[1] > er2[1] & er1[2] < er2[2] &
                 er1[3] < er2[3] & er1[4] > er2[4])|
     (er1[1] < er2[1] & er1[2] > er2[2] &
        er1[3] > er2[3] & er1[4] < er2[4])
+  #innertongue
+  xintongr <- !yallign  & lallign  & (er1[2] > er2[2] & r2Yinside| er1[2] < er2[2] & r1Yinside)
+  xintongl <- !yallign  & rallign  & (er1[1] < er2[1] & r2Yinside| er1[1] > er2[1] & r1Yinside)
+  yintongt <- !xallign  & ballign  & (er1[4] > er2[4] & r2Xinside| er1[4] < er2[4] & r1Xinside)
+  yintongb <- !xallign  & tallign  & (er1[3] < er2[3] & r2Xinside| er1[3] > er2[3] & r1Xinside)
   
   #perform intersect
   ei <- terra::intersect(ext(r1),ext(r2))
@@ -204,18 +216,39 @@ smoothmosaic <- function(r1,r2){
     
     if(xyinside){msk <- min(x.msk0(),y.msk0())}
     #full band or strip overlap
-    if(yband){msk <- y.msk0()}
-    if(xband){msk <- x.msk0()}
+    if(yband){msk <- y.msk0()
+    if(r2Yinside){msk <- 1-msk}}
+    if(xband){msk <- x.msk0()
+    if(r2Xinside){msk <- 1-msk}}
     #band surpasses on one side
-    if(xbandr){msk <- min((y.msk0()+0.01)/(r.msk0()+0.01),1)}  
-    if(xbandl){msk <- min((y.msk0()+0.01)/(l.msk0()+0.01),1)}
-    if(ybandt){msk <- min((x.msk0()+0.01)/(t.msk0()+0.01),1)}
-    if(ybandb){msk <- min((x.msk0()+0.01)/(b.msk0()+0.01),1)}
+    if(xbandr){msk <- min((y.msk0()+0.01)/(r.msk0()+0.01),1)
+    if(r2Yinside){msk <- 1-msk}}  
+    if(xbandl){msk <- min((y.msk0()+0.01)/(l.msk0()+0.01),1)
+    if(r2Yinside){msk <- 1-msk}}
+    if(ybandt){msk <- min((x.msk0()+0.01)/(t.msk0()+0.01),1)
+    if(r2Xinside){msk <- 1-msk}}
+    if(ybandb){msk <- min((x.msk0()+0.01)/(b.msk0()+0.01),1)
+    if(r2Xinside){msk <- 1-msk}}
     #incomplete tongue overlap
-    if(xtongr){msk <- min((y.msk0()+0.01)/(r.msk0()+0.01),l.msk0())}
-    if(xtongl){msk <- min((y.msk0()+0.01)/(l.msk0()+0.01),r.msk0())}
-    if(ytongt){msk <- min((x.msk0()+0.01)/(t.msk0()+0.01),b.msk0())}
-    if(ytongb){msk <- min((x.msk0()+0.01)/(b.msk0()+0.01),t.msk0())}
+    if(xtongr){msk <- min((y.msk0()+0.01)/(r.msk0()+0.01),l.msk0())
+    if(r2Yinside){msk <- 1-msk}}
+    if(xtongl){msk <- min((y.msk0()+0.01)/(l.msk0()+0.01),r.msk0())
+    if(r2Yinside){msk <- 1-msk}}
+    if(ytongt){msk <- min((x.msk0()+0.01)/(t.msk0()+0.01),b.msk0())
+    if(r2Xinside){msk <- 1-msk}}
+    if(ytongb){msk <- min((x.msk0()+0.01)/(b.msk0()+0.01),t.msk0())
+    if(r2Xinside){msk <- 1-msk}}
+    #inner tongue
+    if(xintongr){msk <- min(y.msk0(),r.msk0())
+    if(r2Yinside){msk <- 1-msk}}
+    if(xintongl){msk <- min(y.msk0(),l.msk0())
+    if(r2Yinside){msk <- 1-msk}}
+    if(yintongt){msk <- min(t.msk0(),x.msk0())
+    if(r2Xinside){msk <- 1-msk}}
+    if(yintongb){msk <- min(b.msk0(),x.msk0())
+    if(r2Xinside){msk <- 1-msk}}
+    
+    
     #cross
     if(xycross){
       y.msk <- y.msk0()
@@ -229,11 +262,15 @@ smoothmosaic <- function(r1,r2){
     
   }
   
-  gmsk <- r1i*msk+r2i*(1-msk)
+  
+    gmsk <- r1i*msk+r2i*(1-msk)
+  
   r <- merge(gmsk,r1,r2)
   return(r)
 }
 
+
+plot(r)
 
 
 
@@ -335,11 +372,18 @@ msk <- min((y.msk+0.01)/(r.msk+0.01),1)
 msk <- min((y.msk+0.01)/(l.msk+0.01),1)
 msk <- min((x.msk+0.01)/(t.msk+0.01),1)
 msk <- min((x.msk+0.01)/(b.msk+0.01),1)
+
 #through
 msk <- min((y.msk+0.01)/(r.msk+0.01),l.msk)
 msk <- min((y.msk+0.01)/(l.msk+0.01),r.msk)
 msk <- min((x.msk+0.01)/(t.msk+0.01),b.msk)
 msk <- min((x.msk+0.01)/(b.msk+0.01),t.msk)
+#inner tongue
+msk <- min(y.msk,l.msk)
+msk <- min(y.msk,r.msk)
+msk <- min(t.msk,x.msk)
+msk <- min(b.msk,x.msk)
+
 #cross
 msk <- min((x.msk+0.01)/(y.msk+0.01),1)
 msk <- min((y.msk+0.01)/(x.msk+0.01),1)
@@ -349,4 +393,6 @@ msk <- x.msk
 msk <- y.msk
 msk <- min(x.msk,y.msk)
 
+
+msk <- min(y.msk,l.msk)
 plot(msk)
