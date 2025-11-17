@@ -1,6 +1,10 @@
 library(terra)
-r1 <- rast(xmin=20, xmax=80, ymin=20, ymax=80, res=1, vals=1, crs='EPSG:4326')
+r1 <- rast(xmin=20, xmax=80, ymin=0, ymax=80, res=1, vals=1, crs='EPSG:4326')
 r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=80, res=1, vals=2, crs='EPSG:4326')
+r1 <- rast(xmin=20, xmax=90, ymin=20, ymax=50, res=1, vals=1, crs='EPSG:4326')
+r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=80, res=1, vals=2, crs='EPSG:4326')
+r1 <- rast(xmin=20, xmax=60, ymin=0, ymax=80, res=1, vals=1, crs='EPSG:4326')
+r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=60, res=1, vals=2, crs='EPSG:4326')
 
 
 m <- mosaic(r1,r2)
@@ -38,10 +42,10 @@ smoothmosaic <- function(r1,r2){
   xallign  <- lallign & rallign
   
   #simple one sided relationships
-  r1left   <- er1[1] < er2[1] 
-  r1right  <- er1[2] > er2[2] 
-  r1top    <- er1[4] > er2[4] 
-  r1bottom <- er1[3] < er2[3] 
+  r1left   <- er1[2] < er2[2] 
+  r1right  <- er1[1] > er2[1] 
+  r1top    <- er1[3] > er2[3] 
+  r1bottom <- er1[4] < er2[4] 
   #corner relationships
   r1ne <- r1right & r1top
   r1se <- r1right & r1bottom
@@ -286,12 +290,13 @@ smoothmosaic <- function(r1,r2){
     if(xycross){
       y.msk <- y.msk0()
       x.msk <- x.msk0()
-      if(er1[1] > er2[1]){
-        msk <- min((x.msk+0.01)/(y.msk+0.01),1)
-      }else{
-        msk <- min((y.msk+0.01)/(x.msk+0.01),1)
-      }}
-    
+        msk1 <- min((x.msk+0.01)/(y.msk+0.01),1)
+        msk2 <- min((y.msk+0.01)/(x.msk+0.01),1)
+        msk <- (msk1 + 1-msk2)/2
+        if(er1[1] < er2[1]){
+          msk <- 1-msk
+        }
+    }
     
   }
   
@@ -301,7 +306,6 @@ smoothmosaic <- function(r1,r2){
   r <- merge(gmsk,r1,r2)
   return(r)
 }
-
 
 plot(r)
 
@@ -426,6 +430,15 @@ msk <- min(b.msk,r.msk)
 msk <- min((x.msk+0.01)/(y.msk+0.01),1)
 msk <- min((y.msk+0.01)/(x.msk+0.01),1)
 
+msk1 <- min((x.msk+0.01)/(y.msk+0.01),1)
+msk2 <- min((y.msk+0.01)/(x.msk+0.01),1)
+msk <- (msk1 + 1-msk2)/2
+plot(msk)
+
+gmsk <- r1i*msk+r2i*(1-msk)
+
+r <- merge(gmsk,r1,r2)
+plot(r)
 
 msk <- x.msk
 msk <- y.msk
@@ -433,4 +446,4 @@ msk <- min(x.msk,y.msk)
 
 
 msk <- min(y.msk,l.msk)
-plot(msk)
+
