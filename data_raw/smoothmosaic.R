@@ -1,10 +1,10 @@
 library(terra)
-r1 <- rast(xmin=20, xmax=80, ymin=0, ymax=80, res=1, vals=1, crs='EPSG:4326')
-r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=80, res=1, vals=2, crs='EPSG:4326')
-r1 <- rast(xmin=20, xmax=90, ymin=20, ymax=50, res=1, vals=1, crs='EPSG:4326')
-r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=80, res=1, vals=2, crs='EPSG:4326')
-r1 <- rast(xmin=20, xmax=60, ymin=0, ymax=80, res=1, vals=1, crs='EPSG:4326')
-r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=60, res=1, vals=2, crs='EPSG:4326')
+r1 <- rast(xmin=20, xmax=80, ymin=0, ymax=80, res=0.2, vals=1, crs='EPSG:4326')
+r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=80, res=0.2, vals=2, crs='EPSG:4326')
+r1 <- rast(xmin=20, xmax=90, ymin=20, ymax=50, res=0.2, vals=1, crs='EPSG:4326')
+r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=80, res=0.2, vals=2, crs='EPSG:4326')
+r1 <- rast(xmin=20, xmax=60, ymin=0, ymax=80, res=0.2, vals=1, crs='EPSG:4326')
+r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=60, res=0.2, vals=2, crs='EPSG:4326')
 
 
 m <- mosaic(r1,r2)
@@ -324,10 +324,11 @@ plot(r)
 
 ##########################################
 
-r1 <- rast(xmin=20, xmax=80, ymin=0, ymax=80, res=1, vals=1, crs='EPSG:4326')
-r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=80, res=1, vals=2, crs='EPSG:4326')
-
-ei <- terra::intersect(ext(r1),ext(r2))
+r1 <- rast(xmin=20, xmax=80, ymin=0, ymax=80, res=.2, vals=1, crs='EPSG:4326')
+r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=80, res=.2, vals=2, crs='EPSG:4326')
+er1 <- ext(r1)
+er2 <- ext(r2)
+ei <- terra::intersect(er1,er2)
 r1i <- r1 |> crop(ei)
 r2i <- r2 |> crop(ei)
 r1internal <- !(er1[1] < ei[1] | er1[2] > ei[2] | er1[3] < ei[3] | er1[4] > ei[4])
@@ -382,7 +383,7 @@ msk <- (pmsk1+0.01)/(pmsk1+pmsk2+0.02)
 msk0 <- msk
 
 #margins of intersect
-mwidth = 1/4
+mwidth = 1/2.1
 bbrk <- ei[3] + (ei[4]-ei[3])*mwidth
 tbrk <- ei[3] + (ei[4]-ei[3])*(1-mwidth)
 lbrk <- ei[1] + (ei[2]-ei[1])*mwidth
@@ -441,21 +442,35 @@ msk <- min(b.msk,l.msk)
 msk <- min(b.msk,r.msk)
 
 #cross
-msk <- min((x.msk+0.01)/(y.msk+0.01),1)
-msk <- min((y.msk+0.01)/(x.msk+0.01),1)
-
 msk1 <- min((x.msk+0.01)/(y.msk+0.01),1)
 msk2 <- min((y.msk+0.01)/(x.msk+0.01),1)
 msk <- (msk1 + 1-msk2)/2
-plot(1-msk)
+plot(msk)
 
 #smooth cross
 xswale <- 1-(t.full*b.full)^0.5
 yswale <- 1-(l.full*r.full)^0.5
-msk1 <- min((yswale+0.01)/(xswale+0.01),1)
-msk2 <- min((xswale+0.01)/(yswale+0.01),1)
+msk1 <- (yswale+0.01)/(xswale+0.01)
+msk2 <- (xswale+0.01)/(yswale+0.01)
+msk <- max(min(1-(msk1-msk2+0.5),1),0)
+plot(msk)
+gmsk <- r1i*msk+r2i*(1-msk)
+r <- merge(gmsk,r1,r2)
+plot(r)
+
+
+
+msk1 <- (r.full*b.full*l.full/(0.5^2))^1
+msk2 <- (l.full*t.full*r.full/(0.5^2))^1
+msk <- max(min((msk1 + 1-msk2)/2,1),0)
+plot(msk)
+
+msk1 <- (r.full*l.full)/(0.5^2)
+msk2 <- (t.full*b.full)/(0.5^2)
 msk <- (msk1 + 1-msk2)/2
 plot(msk)
+
+
 
 #smooth semicross
 msk1 <- min((r.full+0.01)/(t.full+0.01),1)
