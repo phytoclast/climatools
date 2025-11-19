@@ -419,12 +419,12 @@ r.msk <- merge(lcore,xcore,rflank)
 l.msk <- merge(lflank,xcore,rcore)
 t.msk <- merge(bcore,ycore,tflank)
 b.msk <- merge(bflank,ycore,tcore)
-plot(b.msk)
+
 msk <- min((y.msk+0.01)/(r.msk+0.01),1)
 msk <- min((y.msk+0.01)/(l.msk+0.01),1)
 msk <- min((x.msk+0.01)/(t.msk+0.01),1)
 msk <- min((x.msk+0.01)/(b.msk+0.01),1)
-
+plot(msk)
 #through
 msk <- min((y.msk+0.01)/(r.msk+0.01),l.msk)
 msk <- min((y.msk+0.01)/(l.msk+0.01),r.msk)
@@ -495,4 +495,109 @@ msk <-(t.full*b.full*r.full*l.full/0.5^4)^0.5
 plot(msk>.5)
 
 msk <- min(y.msk,l.msk)
+
+
+
+
+
+
+
+
+
+
+
+
+mwidth = 1/2.01
+bbrk <- ei[3] + (ei[4]-ei[3])*mwidth
+tbrk <- ei[3] + (ei[4]-ei[3])*(1-mwidth)
+lbrk <- ei[1] + (ei[2]-ei[1])*mwidth
+rbrk <- ei[1] + (ei[2]-ei[1])*(1-mwidth)
+
+bflank <- crop(msk, ext(ei[1],ei[2],ei[3],bbrk))
+bcore <- bflank
+ycore <- crop(msk, ext(ei[1],ei[2],bbrk,tbrk))
+tflank <- crop(msk, ext(ei[1],ei[2],tbrk,ei[4]))
+tcore <- tflank
+
+lflank <- crop(msk, ext(ei[1],lbrk,ei[3],ei[4]))
+lcore <- lflank
+xcore <- crop(msk, ext(lbrk,rbrk,ei[3],ei[4]))
+rflank <- crop(msk, ext(rbrk,ei[2],ei[3],ei[4]))
+rcore <- rflank
+
+values(lflank) <- rep(seq(0, 1, length.out = ncol(lflank)), times = nrow(lflank))
+values(xcore) <- 1
+values(rflank) <- rep(seq(1, 0, length.out = ncol(rflank)), times = nrow(rflank))
+values(bflank) <- rep(seq(1, 0, length.out = nrow(bflank)), each = ncol(bflank))
+values(ycore) <- 1
+values(tflank) <- rep(seq(0, 1, length.out = nrow(tflank)), each = ncol(tflank))
+
+values(lcore) <- 1
+values(rcore) <- 1
+values(bcore) <- 1
+values(tcore) <- 1
+
+y.msk0 <- function(x){
+  if(x==1){
+    y.msk <- merge(bflank,ycore,tflank)
+  }else{
+    y.msk <- 1
+  }
+  return(y.msk)}
+x.msk0 <- function(x){
+  if(x==1){
+    x.msk <- merge(lflank,xcore,rflank)
+  }else{
+    x.msk <- 1
+  }
+  return(x.msk)}
+r.msk0 <- function(x){
+  if(x==1){
+    r.msk <- merge(lcore,xcore,rflank)
+  }else{
+    r.msk <- 1
+  }
+  return(r.msk)}
+l.msk0 <- function(x){
+  if(x==1){
+    l.msk <- merge(lflank,xcore,rcore)
+  }else{
+    l.msk <- 1
+  }
+  return(l.msk)}
+t.msk0 <- function(x){
+  if(x==1){
+    t.msk <- merge(bcore,ycore,tflank)
+  }else{
+    t.msk <- 1
+  }
+  return(t.msk)}
+b.msk0 <- function(x){
+  if(x==1){
+    b.msk <- merge(bflank,ycore,tcore)
+  }else{
+    b.msk <- 1
+  }
+  return(b.msk)}
+
+
+r1ex <- c(1,0,0,0)
+r2ex <- c(0,1,1,0)
+
+msk1 <- min(l.msk0(r1ex[1])*r.msk0(r1ex[2])*b.msk0(r1ex[3])*t.msk0(r1ex[4])+0.01,1)/
+              min(l.msk0(r1ex[2])*r.msk0(r1ex[1])*b.msk0(r1ex[4])*t.msk0(r1ex[3])+0.01,1)
+msk2 <- min(l.msk0(r2ex[1])*r.msk0(r2ex[2])*b.msk0(r2ex[3])*t.msk0(r2ex[4])+0.01,1)/
+               min(l.msk0(r2ex[2])*r.msk0(r2ex[1])*b.msk0(r2ex[4])*t.msk0(r2ex[3])+0.01,1)
+msk <- (msk1 + 1-msk2)/2
+plot(msk1)
+
+msk1 <- min((r.full*t.full+0.01)/(l.full*b.full+0.01),1)
+msk2 <- min((l.full*b.full+0.01)/(r.full*t.full+0.01),1)
+msk <- (msk1 + 1-msk2)/2
+plot(msk)
+msk1 <- min((r.msk+0.01)/(l.msk+0.01),1)
+msk2 <- min((b.msk+0.01)/(t.msk+0.01),1)
+msk <- (msk1 + 1-msk2)/2
+plot(msk)
+
 
