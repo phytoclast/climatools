@@ -35,15 +35,10 @@ isreverse(c(1,0,-1,-1),e)
 #----
 
 
-rg <- genrast(c(1,0,-1,-1)*1)
+rg <- genrast(c(1,0,-1,-1))
 r1 <- rg[[1]]
 r2 <- rg[[2]]
 plot(mosaic(r1,r2))
-
-
-if(sum(e == c(1,0,-1,-1))==4){
-  print('true')
-}else{print('false')}
 
 e = rposition(r1,r2)
 
@@ -192,44 +187,54 @@ smoothmosaic <- function(r1,r2){
       values(msk) <- rep(seq(1, 0, length.out = nrow(msk)),each = ncol(msk))
       return(msk)
     }
-    if(r1l){
+
+
+
+    # if(r1l){
+    if(issame(c(1,-1,0,0),e)){
       values(msk) <- rep(seq(0, 1, length.out = ncol(msk)), times = nrow(msk))
     }
-    if(r1r){
+    # if(r1r){
+    if(issame(c(-1,1,0,0),e)){
       values(msk) <- rep(seq(1, 0, length.out = ncol(msk)), times = nrow(msk))
     }
-    if(r1t){
+    # if(r1t){
+    if(issame(c(0,0,-1,1),e)){
       values(msk) <- rep(seq(1, 0, length.out = nrow(msk)),each = ncol(msk))
     }
-    if(r1b){
+    # if(r1b){
+    if(issame(c(0,0,1,-1),e)){
       values(msk) <- rep(seq(0, 1, length.out = nrow(msk)),each = ncol(msk))
     }
 
-    if(r1ne){
+
+
+    # if(r1ne){
+    if(issame(c(-1,1,-1,1),e)){
       r.full <- r.full0()
       t.full <- t.full0()
       pmsk1 <- r.full*t.full
       pmsk2 <- (1-r.full)*(1-t.full)
       msk <- (pmsk1+0.01)/(pmsk1+pmsk2+0.02)
     }
-
-    if(r1se){
+    # if(r1se){
+    if(issame(c(-1,1,1,-1),e)){
       r.full <- r.full0()
       b.full <- b.full0()
       pmsk1 <- r.full*b.full
       pmsk2 <- (1-r.full)*(1-b.full)
       msk <- (pmsk1+0.01)/(pmsk1+pmsk2+0.02)
     }
-
-    if(r1sw){
+    # if(r1sw){
+      if(issame(c(1,-1,1,-1),e)){
       l.full <- l.full0()
       b.full <- b.full0()
       pmsk1 <- l.full*b.full
       pmsk2 <- (1-l.full)*(1-b.full)
       msk <- (pmsk1+0.01)/(pmsk1+pmsk2+0.02)
-    }
-
-    if(r1nw){
+      }
+    # if(r1nw){
+    if(issame(c(1,-1,-1,1),e)){
       l.full <- l.full0()
       t.full <- t.full0()
       pmsk1 <- l.full*t.full
@@ -281,17 +286,25 @@ smoothmosaic <- function(r1,r2){
       b.msk <- merge(bflank,tcore)
       return(b.msk)}
 
+    # rg <- genrast(c(0,1,-1,-1))
+    # r1 <- rg[[1]]
+    # r2 <- rg[[2]]
+    # plot(mosaic(r1,r2))
+
     #band surpasses on one side
-    if(xbandr){
+    # if(xbandr){
+    if(issame(c(0,1,-1,-1),e)){
       msk1 <- min((b.full0()*t.full0()+0.01)/(l.full0()+0.01),1)
       msk2 <- min((l.full0()+0.01)/(b.full0()*t.full0()+0.01),1)
       msk <- ((msk1 + 1-msk2)/2)
-    if(r2Yinside){msk <- 1-msk}}
+    if(isreverse(c(0,1,-1,-1),e)){msk <- 1-msk}}
+
     if(issame(c(1,0,-1,-1),e)){
       msk1 <- min((b.full0()*t.full0()+0.01)/(r.full0()+0.01),1)
       msk2 <- min((r.full0()+0.01)/(b.full0()*t.full0()+0.01),1)
       msk <- ((msk1 + 1-msk2)/2)
     if(isreverse(c(1,0,-1,-1),e)){msk <- 1-msk}}
+
     if(ybandt){
       msk1 <- min((r.full0()*l.full0()+0.01)/(b.full0()+0.01),1)
       msk2 <- min((b.full0()+0.01)/(r.full0()*l.full0()+0.01),1)
