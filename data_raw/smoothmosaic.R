@@ -1,14 +1,52 @@
 library(terra)
-r1 <- rast(xmin=20, xmax=80, ymin=0, ymax=80, res=0.2, vals=1, crs='EPSG:4326')
-r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=80, res=0.2, vals=2, crs='EPSG:4326')
-r1 <- rast(xmin=20, xmax=90, ymin=20, ymax=50, res=0.2, vals=1, crs='EPSG:4326')
-r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=80, res=0.2, vals=2, crs='EPSG:4326')
-r1 <- rast(xmin=20, xmax=60, ymin=0, ymax=80, res=0.2, vals=1, crs='EPSG:4326')
-r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=60, res=0.2, vals=2, crs='EPSG:4326')
+#----
+
+rposition <-  function(r1,r2){
+  er1 <- ext(r1)
+  er2 <- ext(r2)
+  ei <- terra::intersect(ext(r1),ext(r2))
+
+  l <- ifelse(er1[1] < ei[1],1,ifelse(er2[1] < ei[1],-1,0))
+  r <- ifelse(er1[2] > ei[2],1,ifelse(er2[2] > ei[2],-1,0))
+  b <- ifelse(er1[3] < ei[3],1,ifelse(er2[3] < ei[3],-1,0))
+  t <- ifelse(er1[4] > ei[4],1,ifelse(er2[4] > ei[4],-1,0))
+  e <- c(l,r,b,t)
+  return(e)
+}
+genrast <- function(e) {
+  add1 <- ifelse(e >= 0, e,0)
+  add2 <- ifelse(e <= 0, -e,0)
+  r1 <- rast(xmin=0-add1[1]*10, xmax=50+add1[2]*10, ymin=0-add1[3]*10, ymax=50+add1[4]*10, res=0.2, vals=1, crs='EPSG:4326')
+  r2 <- rast(xmin=0-add2[1]*10, xmax=50+add2[2]*10, ymin=0-add2[3]*10, ymax=50+add2[4]*10, res=0.2, vals=2, crs='EPSG:4326')
+  return(list(r1,r2))
+}
+
+issame <- function(x,e){
+  test <- sum(e == x) == 4 | sum(e == x*-1) == 4
+  return(test)
+}
+isreverse <- function(x,e){
+  test <- sum(e == x*-1) == 4
+  return(test)
+}
+
+issame(c(1,0,-1,-1),e)
+isreverse(c(1,0,-1,-1),e)
+#----
 
 
-m <- mosaic(r1,r2)
-plot(m)
+rg <- genrast(c(1,0,-1,-1)*1)
+r1 <- rg[[1]]
+r2 <- rg[[2]]
+plot(mosaic(r1,r2))
+
+
+if(sum(e == c(1,0,-1,-1))==4){
+  print('true')
+}else{print('false')}
+
+e = rposition(r1,r2)
+
 
 m1 <- smoothmosaic(r1,r2)
 plot(m1)
@@ -24,6 +62,27 @@ smoothmosaic <- function(r1,r2){
     r <- merge(r1,r2)
     return(r)
   }
+  rposition <-  function(r1,r2){
+    er1 <- ext(r1)
+    er2 <- ext(r2)
+    ei <- terra::intersect(ext(r1),ext(r2))
+
+    l <- ifelse(er1[1] < ei[1],1,ifelse(er2[1] < ei[1],-1,0))
+    r <- ifelse(er1[2] > ei[2],1,ifelse(er2[2] > ei[2],-1,0))
+    b <- ifelse(er1[3] < ei[3],1,ifelse(er2[3] < ei[3],-1,0))
+    t <- ifelse(er1[4] > ei[4],1,ifelse(er2[4] > ei[4],-1,0))
+    e <- c(l,r,b,t)
+    return(e)
+  }
+  issame <- function(x,e){
+    test <- sum(e == x) == 4 | sum(e == x*-1) == 4
+    return(test)
+  }
+  isreverse <- function(x,e){
+    test <- sum(e == x*-1) == 4
+    return(test)
+  }
+  e = rposition(r1,r2)
 
   #determine relationships to feed into appropriate subroutines
   r2Xinside <- er1[1]  < er2[1] & er1[2]  > er2[2]
@@ -58,10 +117,10 @@ smoothmosaic <- function(r1,r2){
   r1b  <- r1bottom & xallign
 
   #raster completely inside other raster
-  xyinside <- (er1[1] > er2[1] & er1[2] < er2[2] &
-                 er1[3] > er2[3] & er1[4] < er2[4])|
-    (er1[1] < er2[1] & er1[2] > er2[2] &
-       er1[3] < er2[3] & er1[4] > er2[4])
+  xyinside <- (er1[1] >= er2[1] & er1[2] <= er2[2] &
+                 er1[3] >= er2[3] & er1[4] <= er2[4])|
+    (er1[1] <= er2[1] & er1[2] >= er2[2] &
+       er1[3] <= er2[3] & er1[4] >= er2[4])
   #full band or strip overlap
   yband <- xallign
   xband <- yallign
@@ -115,7 +174,7 @@ smoothmosaic <- function(r1,r2){
   msk <- r1i*0+1
 
   #full intersect routines using entire gradient of overlapping region
-  if(!anyinside & !anyinner){
+  if(!xyinside){
 
     l.full0 <- function(){
       values(msk) <- rep(seq(1, 0, length.out = ncol(msk)), times = nrow(msk))
@@ -177,7 +236,114 @@ smoothmosaic <- function(r1,r2){
       pmsk2 <- (1-l.full)*(1-t.full)
       msk <- (pmsk1+0.01)/(pmsk1+pmsk2+0.02)
     }
+    mwidth = 1/2
+    bbrk <- ei[3] + (ei[4]-ei[3])*mwidth
+    tbrk <- ei[3] + (ei[4]-ei[3])*(1-mwidth)
+    lbrk <- ei[1] + (ei[2]-ei[1])*mwidth
+    rbrk <- ei[1] + (ei[2]-ei[1])*(1-mwidth)
 
+    bflank <- crop(msk, ext(ei[1],ei[2],ei[3],bbrk))
+    bcore <- bflank
+    tflank <- crop(msk, ext(ei[1],ei[2],tbrk,ei[4]))
+    tcore <- tflank
+
+    lflank <- crop(msk, ext(ei[1],lbrk,ei[3],ei[4]))
+    lcore <- lflank
+    rflank <- crop(msk, ext(rbrk,ei[2],ei[3],ei[4]))
+    rcore <- rflank
+
+    values(lflank) <- rep(seq(0, 1, length.out = ncol(lflank)), times = nrow(lflank))
+    values(rflank) <- rep(seq(1, 0, length.out = ncol(rflank)), times = nrow(rflank))
+    values(bflank) <- rep(seq(1, 0, length.out = nrow(bflank)), each = ncol(bflank))
+    values(tflank) <- rep(seq(0, 1, length.out = nrow(tflank)), each = ncol(tflank))
+
+    values(lcore) <- 1
+    values(rcore) <- 1
+    values(bcore) <- 1
+    values(tcore) <- 1
+
+    y.msk0 <- function(){
+      y.msk <- merge(bflank,tflank)
+      return(y.msk)}
+    x.msk0 <- function(){
+      x.msk <- merge(lflank,rflank)
+      return(x.msk)}
+    r.msk0 <- function(){
+      r.msk <- merge(lcore,rflank)
+      return(r.msk)}
+    l.msk0 <- function(){
+      l.msk <- merge(lflank,rcore)
+      return(l.msk)}
+    t.msk0 <- function(){
+      t.msk <- merge(bcore,tflank)
+      return(t.msk)}
+    b.msk0 <- function(){
+      b.msk <- merge(bflank,tcore)
+      return(b.msk)}
+
+    #band surpasses on one side
+    if(xbandr){
+      msk1 <- min((b.full0()*t.full0()+0.01)/(l.full0()+0.01),1)
+      msk2 <- min((l.full0()+0.01)/(b.full0()*t.full0()+0.01),1)
+      msk <- ((msk1 + 1-msk2)/2)
+    if(r2Yinside){msk <- 1-msk}}
+    if(issame(c(1,0,-1,-1),e)){
+      msk1 <- min((b.full0()*t.full0()+0.01)/(r.full0()+0.01),1)
+      msk2 <- min((r.full0()+0.01)/(b.full0()*t.full0()+0.01),1)
+      msk <- ((msk1 + 1-msk2)/2)
+    if(isreverse(c(1,0,-1,-1),e)){msk <- 1-msk}}
+    if(ybandt){
+      msk1 <- min((r.full0()*l.full0()+0.01)/(b.full0()+0.01),1)
+      msk2 <- min((b.full0()+0.01)/(r.full0()*l.full0()+0.01),1)
+      msk <- ((msk1 + 1-msk2)/2)
+    if(r2Xinside){msk <- 1-msk}}
+    if(ybandb){
+      msk1 <- min((r.full0()*l.full+0.01)/(t.full0()+0.01),1)
+      msk2 <- min((t.full0()+0.01)/(r.full0()*l.full0()+0.01),1)
+      msk <- ((msk1 + 1-msk2)/2)
+    if(r2Xinside){msk <- 1-msk}}
+    #incomplete tongue overlap
+    if(xtongr){msk <- min((y.msk0()+0.01)/(r.msk0()+0.01),l.msk0())
+    if(r2Yinside){msk <- 1-msk}}
+    if(xtongl){msk <- min((y.msk0()+0.01)/(l.msk0()+0.01),r.msk0())
+    if(r2Yinside){msk <- 1-msk}}
+    if(ytongt){msk <- min((x.msk0()+0.01)/(t.msk0()+0.01),b.msk0())
+    if(r2Xinside){msk <- 1-msk}}
+    if(ytongb){msk <- min((x.msk0()+0.01)/(b.msk0()+0.01),t.msk0())
+    if(r2Xinside){msk <- 1-msk}}
+
+    #cross
+    if(xycross){
+      y.msk <- y.msk0()
+      x.msk <- x.msk0()
+      msk1 <- min((x.msk+0.01)/(y.msk+0.01),1)
+      msk2 <- min((y.msk+0.01)/(x.msk+0.01),1)
+      msk <- (msk1 + 1-msk2)/2
+      if(er1[1] < er2[1]){
+        msk <- 1-msk
+      }
+    }
+
+    if(inse){
+      msk1 <- min((r.full0()+0.01)/(b.full0()+0.01),1)
+      msk2 <- min((b.full0()+0.01)/(r.full0()+0.01),1)
+      msk <- (msk1 + 1-msk2)/2
+    if(er1[1] < er2[1]){msk <- 1-msk}}
+    if(insw){
+      msk1 <- min((l.full0()+0.01)/(b.full0()+0.01),1)
+      msk2 <- min((b.full0()+0.01)/(l.full0()+0.01),1)
+      msk <- (msk1 + 1-msk2)/2
+    if(er1[2] > er2[2]){msk <- 1-msk}}
+    if(inne){
+      msk1 <- min((r.full0()+0.01)/(t.full0()+0.01),1)
+      msk2 <- min((t.full0()+0.01)/(r.full0()+0.01),1)
+      msk <- (msk1 + 1-msk2)/2
+    if(er1[1] < er2[1]){msk <- 1-msk}}
+    if(innw){
+      msk1 <- min((l.full0()+0.01)/(t.full0()+0.01),1)
+      msk2 <- min((t.full0()+0.01)/(l.full0()+0.01),1)
+      msk <- (msk1 + 1-msk2)/2
+    if(er1[2] > er2[2]){msk <- 1-msk}}
 
 
   }else{
@@ -240,24 +406,7 @@ smoothmosaic <- function(r1,r2){
     if(r2Yinside){msk <- 1-msk}}
     if(xband){msk <- x.msk0()
     if(r2Xinside){msk <- 1-msk}}
-    #band surpasses on one side
-    if(xbandr){msk <- min((y.msk0()+0.01)/(r.msk0()+0.01),1)
-    if(r2Yinside){msk <- 1-msk}}
-    if(xbandl){msk <- min((y.msk0()+0.01)/(l.msk0()+0.01),1)
-    if(r2Yinside){msk <- 1-msk}}
-    if(ybandt){msk <- min((x.msk0()+0.01)/(t.msk0()+0.01),1)
-    if(r2Xinside){msk <- 1-msk}}
-    if(ybandb){msk <- min((x.msk0()+0.01)/(b.msk0()+0.01),1)
-    if(r2Xinside){msk <- 1-msk}}
-    #incomplete tongue overlap
-    if(xtongr){msk <- min((y.msk0()+0.01)/(r.msk0()+0.01),l.msk0())
-    if(r2Yinside){msk <- 1-msk}}
-    if(xtongl){msk <- min((y.msk0()+0.01)/(l.msk0()+0.01),r.msk0())
-    if(r2Yinside){msk <- 1-msk}}
-    if(ytongt){msk <- min((x.msk0()+0.01)/(t.msk0()+0.01),b.msk0())
-    if(r2Xinside){msk <- 1-msk}}
-    if(ytongb){msk <- min((x.msk0()+0.01)/(b.msk0()+0.01),t.msk0())
-    if(r2Xinside){msk <- 1-msk}}
+
     #inner tongue
     if(xintongr){msk <- min(y.msk0(),r.msk0())
     if(r2Yinside){msk <- 1-msk}}
@@ -288,17 +437,7 @@ smoothmosaic <- function(r1,r2){
 
 
 
-    #cross
-    if(xycross){
-      y.msk <- y.msk0()
-      x.msk <- x.msk0()
-        msk1 <- min((x.msk+0.01)/(y.msk+0.01),1)
-        msk2 <- min((y.msk+0.01)/(x.msk+0.01),1)
-        msk <- (msk1 + 1-msk2)/2
-        if(er1[1] < er2[1]){
-          msk <- 1-msk
-        }
-    }
+
 
   }
 
@@ -323,6 +462,9 @@ plot(r)
 
 
 ##########################################
+r1 <- rast(xmin=20, xmax=80, ymin=0, ymax=60, res=0.2, vals=1, crs='EPSG:4326')
+r2 <- rast(xmin=20, xmax=80, ymin=0, ymax=80, res=0.2, vals=2, crs='EPSG:4326')
+
 
 r1 <- rast(xmin=20, xmax=80, ymin=0, ymax=80, res=.2, vals=1, crs='EPSG:4326')
 r2 <- rast(xmin=0, xmax=80, ymin=20, ymax=80, res=.2, vals=2, crs='EPSG:4326')
@@ -383,7 +525,7 @@ msk <- (pmsk1+0.01)/(pmsk1+pmsk2+0.02)
 msk0 <- msk
 
 #margins of intersect
-mwidth = 1/2.1
+mwidth = 1/2.001
 bbrk <- ei[3] + (ei[4]-ei[3])*mwidth
 tbrk <- ei[3] + (ei[4]-ei[3])*(1-mwidth)
 lbrk <- ei[1] + (ei[2]-ei[1])*mwidth
@@ -420,11 +562,14 @@ l.msk <- merge(lflank,xcore,rcore)
 t.msk <- merge(bcore,ycore,tflank)
 b.msk <- merge(bflank,ycore,tcore)
 
+plot(y.msk)
+
+
 msk <- min((y.msk+0.01)/(r.msk+0.01),1)
 msk <- min((y.msk+0.01)/(l.msk+0.01),1)
 msk <- min((x.msk+0.01)/(t.msk+0.01),1)
 msk <- min((x.msk+0.01)/(b.msk+0.01),1)
-plot(msk)
+
 #through
 msk <- min((y.msk+0.01)/(r.msk+0.01),l.msk)
 msk <- min((y.msk+0.01)/(l.msk+0.01),r.msk)
@@ -475,9 +620,13 @@ plot(msk)
 #smooth semicross
 msk1 <- min((r.full+0.01)/(t.full+0.01),1)
 msk2 <- min((t.full+0.01)/(r.full+0.01),1)
-
 msk <- (msk1 + 1-msk2)/2
 plot(msk)
+#test
+msk1 <- min((r.full*l.full+0.01)/(t.full+0.01),1)
+msk2 <- min((t.full+0.01)/(r.full*l.full+0.01),1)
+msk <- (msk1 + 1-msk2)/2
+plot(msk^0.25 >0.01)
 
 gmsk <- r1i*msk+r2i*(1-msk)
 
@@ -492,22 +641,61 @@ msk <- min(x.msk,y.msk)
 plot(msk>.9)
 #smoother patch
 msk <-(t.full*b.full*r.full*l.full/0.5^4)^0.5
-plot(msk>.5)
+plot(msk)
 
 msk <- min(y.msk,l.msk)
 
 
+###########################3
+r1 <- rast(xmin=20, xmax=80, ymin=0, ymax=60, res=0.2, vals=1, crs='EPSG:4326')
+r2 <- rast(xmin=20, xmax=80, ymin=0, ymax=80, res=0.2, vals=2, crs='EPSG:4326')
+plot(mosaic(r1,r2))
 
 
+overlap <- (er1[1]  < er2[2]|er2[1] < er1[2])&(er1[3]  < er2[4]|er2[3]  < er1[4])
+if(!overlap){
+  r <- merge(r1,r2)
+  return(r)
+}
+
+rposition <-  function(r1,r2){
+er1 <- ext(r1)
+er2 <- ext(r2)
+ei <- terra::intersect(ext(r1),ext(r2))
+
+l <- ifelse(er1[1] < ei[1],1,ifelse(er2[1] < ei[1],-1,0))
+r <- ifelse(er1[2] > ei[2],1,ifelse(er2[2] > ei[2],-1,0))
+b <- ifelse(er1[3] < ei[3],1,ifelse(er2[3] < ei[3],-1,0))
+t <- ifelse(er1[4] > ei[4],1,ifelse(er2[4] > ei[4],-1,0))
+e <- c(l,r,b,t)
+return(e)
+}
+
+e = rposition(r1,r2)
+
+genrast <- function(e) {
+  add1 <- ifelse(e >= 0, e,0)
+  add2 <- ifelse(e <= 0, -e,0)
+  r1 <- rast(xmin=0-add1[1]*10, xmax=50+add1[2]*10, ymin=0-add1[3]*10, ymax=50+add1[4]*10, res=0.2, vals=1, crs='EPSG:4326')
+  r2 <- rast(xmin=0-add2[1]*10, xmax=50+add2[2]*10, ymin=0-add2[3]*10, ymax=50+add2[4]*10, res=0.2, vals=2, crs='EPSG:4326')
+  return(list(r1,r2))
+}
+##test-----
+
+rg <- genrast(c(0,0,-1,-1))
+r1 <- rg[[1]]
+r2 <- rg[[2]]
+plot(mosaic(r1,r2))
+
+ei <- terra::intersect(ext(r1),ext(r2))
+r1i <- r1 |> crop(ei)
+r2i <- r2 |> crop(ei)
+r1internal <- !(er1[1] < ei[1] | er1[2] > ei[2] | er1[3] < ei[3] | er1[4] > ei[4])
+r2internal <- !(er2[1] < ei[1] | er2[2] > ei[2] | er2[3] < ei[3] | er2[4] > ei[4])
+msk <- r1i*0+1
 
 
-
-
-
-
-
-
-mwidth = 1/2.01
+mwidth = 1/2
 bbrk <- ei[3] + (ei[4]-ei[3])*mwidth
 tbrk <- ei[3] + (ei[4]-ei[3])*(1-mwidth)
 lbrk <- ei[1] + (ei[2]-ei[1])*mwidth
@@ -515,21 +703,17 @@ rbrk <- ei[1] + (ei[2]-ei[1])*(1-mwidth)
 
 bflank <- crop(msk, ext(ei[1],ei[2],ei[3],bbrk))
 bcore <- bflank
-ycore <- crop(msk, ext(ei[1],ei[2],bbrk,tbrk))
 tflank <- crop(msk, ext(ei[1],ei[2],tbrk,ei[4]))
 tcore <- tflank
 
 lflank <- crop(msk, ext(ei[1],lbrk,ei[3],ei[4]))
 lcore <- lflank
-xcore <- crop(msk, ext(lbrk,rbrk,ei[3],ei[4]))
 rflank <- crop(msk, ext(rbrk,ei[2],ei[3],ei[4]))
 rcore <- rflank
 
 values(lflank) <- rep(seq(0, 1, length.out = ncol(lflank)), times = nrow(lflank))
-values(xcore) <- 1
 values(rflank) <- rep(seq(1, 0, length.out = ncol(rflank)), times = nrow(rflank))
 values(bflank) <- rep(seq(1, 0, length.out = nrow(bflank)), each = ncol(bflank))
-values(ycore) <- 1
 values(tflank) <- rep(seq(0, 1, length.out = nrow(tflank)), each = ncol(tflank))
 
 values(lcore) <- 1
@@ -537,67 +721,30 @@ values(rcore) <- 1
 values(bcore) <- 1
 values(tcore) <- 1
 
-y.msk0 <- function(x){
-  if(x==1){
-    y.msk <- merge(bflank,ycore,tflank)
-  }else{
-    y.msk <- 1
-  }
-  return(y.msk)}
-x.msk0 <- function(x){
-  if(x==1){
-    x.msk <- merge(lflank,xcore,rflank)
-  }else{
-    x.msk <- 1
-  }
-  return(x.msk)}
-r.msk0 <- function(x){
-  if(x==1){
-    r.msk <- merge(lcore,xcore,rflank)
-  }else{
-    r.msk <- 1
-  }
-  return(r.msk)}
-l.msk0 <- function(x){
-  if(x==1){
-    l.msk <- merge(lflank,xcore,rcore)
-  }else{
-    l.msk <- 1
-  }
-  return(l.msk)}
-t.msk0 <- function(x){
-  if(x==1){
-    t.msk <- merge(bcore,ycore,tflank)
-  }else{
-    t.msk <- 1
-  }
-  return(t.msk)}
-b.msk0 <- function(x){
-  if(x==1){
-    b.msk <- merge(bflank,ycore,tcore)
-  }else{
-    b.msk <- 1
-  }
-  return(b.msk)}
+y.msk <- merge(bflank,tflank)
+x.msk <- merge(lflank,rflank)
+r.msk <- merge(lcore,rflank)
+l.msk <- merge(lflank,rcore)
+t.msk <- merge(bcore,tflank)
+b.msk <- merge(bflank,tcore)
 
-
-r1ex <- c(1,0,0,0)
-r2ex <- c(0,1,1,0)
-
-msk1 <- min(l.msk0(r1ex[1])*r.msk0(r1ex[2])*b.msk0(r1ex[3])*t.msk0(r1ex[4])+0.01,1)/
-              min(l.msk0(r1ex[2])*r.msk0(r1ex[1])*b.msk0(r1ex[4])*t.msk0(r1ex[3])+0.01,1)
-msk2 <- min(l.msk0(r2ex[1])*r.msk0(r2ex[2])*b.msk0(r2ex[3])*t.msk0(r2ex[4])+0.01,1)/
-               min(l.msk0(r2ex[2])*r.msk0(r2ex[1])*b.msk0(r2ex[4])*t.msk0(r2ex[3])+0.01,1)
-msk <- (msk1 + 1-msk2)/2
-plot(msk1)
-
-msk1 <- min((r.full*t.full+0.01)/(l.full*b.full+0.01),1)
-msk2 <- min((l.full*b.full+0.01)/(r.full*t.full+0.01),1)
-msk <- (msk1 + 1-msk2)/2
-plot(msk)
-msk1 <- min((r.msk+0.01)/(l.msk+0.01),1)
-msk2 <- min((b.msk+0.01)/(t.msk+0.01),1)
-msk <- (msk1 + 1-msk2)/2
+e = rposition(r1,r2)
+e
+x.msk <- msk*0
+y.msk <- msk*0
+values(x.msk) <- rep(seq(e[1], e[2], length.out = ncol(x.msk)), times = nrow(x.msk))
+x.msk <- (x.msk+1)/2
+plot(x.msk)
+values(y.msk) <- rep(seq(e[4],e[3] , length.out = nrow(y.msk)), each = ncol(y.msk))
+y.msk <- (y.msk+1)/2
+plot(y.msk)
+y.corner <- y.msk
+x.corner <- x.msk
+pmsk1 <- x.corner*y.corner
+pmsk2 <- (1-x.corner)*(1-y.corner)
+msk <- (pmsk1+0.01)/(pmsk1+pmsk2+0.02)*2
 plot(msk)
 
-
+gmsk <- r1i*msk+r2i*(1-msk)
+r <- merge(gmsk,r1,r2)
+plot(r)
