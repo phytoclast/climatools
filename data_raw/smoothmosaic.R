@@ -30,12 +30,10 @@ isreverse <- function(x,e){
   return(test)
 }
 
-issame(c(1,0,-1,-1),e)
-isreverse(c(1,0,-1,-1),e)
 #----
 
 
-rg <- genrast(c(1,-1,0,-1))
+rg <- genrast(c(0,1,1,0))
 r1 <- rg[[1]]
 r2 <- rg[[2]]
 plot(mosaic(r1,r2))
@@ -281,8 +279,8 @@ smoothmosaic <- function(r1,r2){
 
     # if(inse){
     if(issame(c(-1,0,0,1),e)){
-      msk1 <- min((l.full0()+0.01)/(b.full0()+0.01),1)
-      msk2 <- min((b.full0()+0.01)/(l.full0()+0.01),1)
+      msk1 <- min((r.full0()+0.01)/(b.full0()+0.01),1)
+      msk2 <- min((b.full0()+0.01)/(r.full0()+0.01),1)
       msk <- (msk1 + 1-msk2)/2
       if(isreverse(c(-1,0,0,1),e)){msk <- 1-msk}}
     # if(insw){
@@ -441,11 +439,11 @@ smoothmosaic <- function(r1,r2){
     # if(yintongt){
     if(issame(c(-1,-1,0,-1),e)){
       msk <- min(t.msk0(),x.msk0())
-      if(isreverse(c(-1,-1,-1,0),e)){msk <- 1-msk}}
+      if(isreverse(c(-1,-1,0,-1),e)){msk <- 1-msk}}
     # if(yintongb){
     if(issame(c(-1,-1,-1,0),e)){
       msk <- min(b.msk0(),x.msk0())
-      if(isreverse(c(-1,-1,0,0),e)){msk <- 1-msk}}
+      if(isreverse(c(-1,-1,-1,0),e)){msk <- 1-msk}}
 
     #inner corners
     # if(inse){
