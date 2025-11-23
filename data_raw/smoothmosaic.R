@@ -35,13 +35,10 @@ isreverse(c(1,0,-1,-1),e)
 #----
 
 
-rg <- genrast(c(1,0,-1,-1))
+rg <- genrast(c(1,-1,0,-1))
 r1 <- rg[[1]]
 r2 <- rg[[2]]
 plot(mosaic(r1,r2))
-
-e = rposition(r1,r2)
-
 
 m1 <- smoothmosaic(r1,r2)
 plot(m1)
@@ -79,84 +76,14 @@ smoothmosaic <- function(r1,r2){
   }
   e = rposition(r1,r2)
 
-  #determine relationships to feed into appropriate subroutines
-  r2Xinside <- er1[1]  < er2[1] & er1[2]  > er2[2]
-  r1Xinside <- er2[1]  < er1[1] & er2[2]  > er1[2]
-  r2Yinside <- er1[3]  < er2[3] & er1[4]  > er2[4]
-  r1Yinside <- er2[3]  < er1[3] & er2[4]  > er1[4]
-  anyinside <- r1Yinside | r2Yinside | r1Xinside | r2Xinside
 
-
-  tallign  <- er1[4] == er2[4]
-  lallign  <- er1[1] == er2[1]
-  ballign  <- er1[3] == er2[3]
-  rallign  <- er1[2] == er2[2]
-
-  yallign  <- tallign & ballign
-  xallign  <- lallign & rallign
-
-  #simple one sided relationships
-  r1left   <- er1[2] < er2[2]
-  r1right  <- er1[1] > er2[1]
-  r1top    <- er1[3] > er2[3]
-  r1bottom <- er1[4] < er2[4]
-  #corner relationships
-  r1ne <- r1right & r1top
-  r1se <- r1right & r1bottom
-  r1sw <- r1left & r1bottom
-  r1nw <- r1left & r1top
-  #full side overlap
-  r1l  <- r1left & yallign
-  r1r  <- r1right & yallign
-  r1t  <- r1top & xallign
-  r1b  <- r1bottom & xallign
 
   #raster completely inside other raster
   xyinside <- (er1[1] >= er2[1] & er1[2] <= er2[2] &
                  er1[3] >= er2[3] & er1[4] <= er2[4])|
     (er1[1] <= er2[1] & er1[2] >= er2[2] &
        er1[3] <= er2[3] & er1[4] >= er2[4])
-  #full band or strip overlap
-  yband <- xallign
-  xband <- yallign
-  #band surpasses on one side
-  xbandr <- lallign & !yallign  & (er1[2] > er2[2] & r1Yinside| er1[2] < er2[2] & r2Yinside)
-  xbandl <- rallign & !yallign  & (er1[1] < er2[1] & r1Yinside| er1[1] > er2[1] & r2Yinside)
-  ybandt <- ballign & !xallign  & (er1[4] > er2[4] & r1Xinside| er1[4] < er2[4] & r2Xinside)
-  ybandb <- tallign & !xallign  & (er1[3] < er2[3] & r1Xinside| er1[3] > er2[3] & r2Xinside)
-  #incomplete tongue overlap
-  xtongr <- !yallign  & (er1[2] > er2[2] & r1Yinside| er1[2] < er2[2] & r2Yinside)&
-    (er1[1] > er2[1] & r1Yinside| er1[1] < er2[1] & r2Yinside)
 
-  xtongl <- !yallign  & (er1[1] < er2[1] & r1Yinside| er1[1] > er2[1] & r2Yinside)&
-    (er1[2] < er2[2] & r1Yinside| er1[2] > er2[2] & r2Yinside)
-
-  ytongt <- !xallign  & (er1[4] > er2[4] & r1Xinside| er1[4] < er2[4] & r2Xinside)&
-    (er1[3] > er2[3] & r1Xinside| er1[3] < er2[3] & r2Xinside)
-
-  ytongb <- !xallign  & (er1[3] < er2[3] & r1Xinside| er1[3] > er2[3] & r2Xinside)&
-    (er1[4] < er2[4] & r1Xinside| er1[4] > er2[4] & r2Xinside)
-  #cross
-  xycross <- (er1[1] > er2[1] & er1[2] < er2[2] &
-                er1[3] < er2[3] & er1[4] > er2[4])|
-    (er1[1] < er2[1] & er1[2] > er2[2] &
-       er1[3] > er2[3] & er1[4] < er2[4])
-  #innertongue
-  xintongr <- !yallign  & lallign  & (er1[2] > er2[2] & r2Yinside| er1[2] < er2[2] & r1Yinside)
-  xintongl <- !yallign  & rallign  & (er1[1] < er2[1] & r2Yinside| er1[1] > er2[1] & r1Yinside)
-  yintongt <- !xallign  & ballign  & (er1[4] > er2[4] & r2Xinside| er1[4] < er2[4] & r1Xinside)
-  yintongb <- !xallign  & tallign  & (er1[3] < er2[3] & r2Xinside| er1[3] > er2[3] & r1Xinside)
-  #innercorners
-  inse <- !lallign  & rallign & ballign & !tallign
-  insw <- lallign  & !rallign & ballign & !tallign
-  inne <- !lallign  & rallign & !ballign & tallign
-  innw <- lallign  & !rallign & !ballign & tallign
-  #inneredges
-  inr <- !lallign  & rallign & ballign & tallign
-  inl <- lallign  & !rallign & ballign & tallign
-  int <- lallign  & rallign & !ballign & tallign
-  inb <- lallign  & rallign & ballign & !tallign
-  anyinner <- inse|insw|inne|innw|inr|inl|int|inb
 
   #perform intersect
   ei <- terra::intersect(ext(r1),ext(r2))
@@ -286,10 +213,7 @@ smoothmosaic <- function(r1,r2){
       b.msk <- merge(bflank,tcore)
       return(b.msk)}
 
-    # rg <- genrast(c(0,1,-1,-1))
-    # r1 <- rg[[1]]
-    # r2 <- rg[[2]]
-    # plot(mosaic(r1,r2))
+
 
     #band surpasses on one side
     # if(xbandr){
@@ -299,64 +223,141 @@ smoothmosaic <- function(r1,r2){
       msk <- ((msk1 + 1-msk2)/2)
     if(isreverse(c(0,1,-1,-1),e)){msk <- 1-msk}}
 
+    # if(xbandl){
     if(issame(c(1,0,-1,-1),e)){
       msk1 <- min((b.full0()*t.full0()+0.01)/(r.full0()+0.01),1)
       msk2 <- min((r.full0()+0.01)/(b.full0()*t.full0()+0.01),1)
       msk <- ((msk1 + 1-msk2)/2)
     if(isreverse(c(1,0,-1,-1),e)){msk <- 1-msk}}
 
-    if(ybandt){
+    # if(ybandt){
+    if(issame(c(-1,-1,0,1),e)){
       msk1 <- min((r.full0()*l.full0()+0.01)/(b.full0()+0.01),1)
       msk2 <- min((b.full0()+0.01)/(r.full0()*l.full0()+0.01),1)
       msk <- ((msk1 + 1-msk2)/2)
-    if(r2Xinside){msk <- 1-msk}}
-    if(ybandb){
+      if(isreverse(c(-1,-1,0,1),e)){msk <- 1-msk}}
+
+    # if(ybandb){
+    if(issame(c(-1,-1,1,0),e)){
       msk1 <- min((r.full0()*l.full+0.01)/(t.full0()+0.01),1)
       msk2 <- min((t.full0()+0.01)/(r.full0()*l.full0()+0.01),1)
       msk <- ((msk1 + 1-msk2)/2)
-    if(r2Xinside){msk <- 1-msk}}
+      if(isreverse(c(-1,-1,1,0),e)){msk <- 1-msk}}
+
+
+
     #incomplete tongue overlap
-    if(xtongr){msk <- min((y.msk0()+0.01)/(r.msk0()+0.01),l.msk0())
-    if(r2Yinside){msk <- 1-msk}}
-    if(xtongl){msk <- min((y.msk0()+0.01)/(l.msk0()+0.01),r.msk0())
-    if(r2Yinside){msk <- 1-msk}}
-    if(ytongt){msk <- min((x.msk0()+0.01)/(t.msk0()+0.01),b.msk0())
-    if(r2Xinside){msk <- 1-msk}}
-    if(ytongb){msk <- min((x.msk0()+0.01)/(b.msk0()+0.01),t.msk0())
-    if(r2Xinside){msk <- 1-msk}}
+    # if(xtongr){
+    if(issame(c(-1,1,-1,-1),e)){
+      msk <- min((b.full0()*t.full0()+0.01)/(l.full0()+0.01),r.full0())
+      if(isreverse(c(-1,1,-1,-1),e)){msk <- 1-msk}}
+
+    # if(xtongl){
+    if(issame(c(1,-1,-1,-1),e)){
+      msk <- min((b.full0()*t.full0()+0.01)/(r.full0()+0.01),l.full0())
+      if(isreverse(c(1,-1,-1,-1),e)){msk <- 1-msk}}
+
+    # if(ytongt){
+    if(issame(c(-1,-1,-1,1),e)){
+      msk <- min((l.full0()*r.full0()+0.01)/(b.full0()+0.01),t.full0())
+      if(isreverse(c(-1,-1,-1,1),e)){msk <- 1-msk}}
+
+    # if(ytongb){
+    if(issame(c(-1,-1,1,-1),e)){
+      msk <- min((l.full0()*r.full0()+0.01)/(t.full0()+0.01),b.full0())
+      if(isreverse(c(-1,-1,1,-1),e)){msk <- 1-msk}}
+
 
     #cross
-    if(xycross){
+    # if(xycross){
+    if(issame(c(1,1,-1,-1),e)){
       y.msk <- y.msk0()
       x.msk <- x.msk0()
-      msk1 <- min((x.msk+0.01)/(y.msk+0.01),1)
-      msk2 <- min((y.msk+0.01)/(x.msk+0.01),1)
+      msk1 <- min((y.msk+0.01)/(x.msk+0.01),1)
+      msk2 <- min((x.msk+0.01)/(y.msk+0.01),1)
       msk <- (msk1 + 1-msk2)/2
-      if(er1[1] < er2[1]){
-        msk <- 1-msk
-      }
-    }
+      if(isreverse(c(1,1,-1,-1),e)){msk <- 1-msk}}
 
-    if(inse){
-      msk1 <- min((r.full0()+0.01)/(b.full0()+0.01),1)
-      msk2 <- min((b.full0()+0.01)/(r.full0()+0.01),1)
-      msk <- (msk1 + 1-msk2)/2
-    if(er1[1] < er2[1]){msk <- 1-msk}}
-    if(insw){
+
+    # if(inse){
+    if(issame(c(-1,0,0,1),e)){
       msk1 <- min((l.full0()+0.01)/(b.full0()+0.01),1)
       msk2 <- min((b.full0()+0.01)/(l.full0()+0.01),1)
       msk <- (msk1 + 1-msk2)/2
-    if(er1[2] > er2[2]){msk <- 1-msk}}
-    if(inne){
+      if(isreverse(c(-1,0,0,1),e)){msk <- 1-msk}}
+    # if(insw){
+    if(issame(c(0,-1,0,1),e)){
+      msk1 <- min((l.full0()+0.01)/(b.full0()+0.01),1)
+      msk2 <- min((b.full0()+0.01)/(l.full0()+0.01),1)
+      msk <- (msk1 + 1-msk2)/2
+      if(isreverse(c(0,-1,0,1),e)){msk <- 1-msk}}
+    # if(inne){
+    if(issame(c(-1,0,1,0),e)){
       msk1 <- min((r.full0()+0.01)/(t.full0()+0.01),1)
       msk2 <- min((t.full0()+0.01)/(r.full0()+0.01),1)
       msk <- (msk1 + 1-msk2)/2
-    if(er1[1] < er2[1]){msk <- 1-msk}}
-    if(innw){
+      if(isreverse(c(-1,0,1,0),e)){msk <- 1-msk}}
+    # if(innw){
+    if(issame(c(0,-1,1,0),e)){
       msk1 <- min((l.full0()+0.01)/(t.full0()+0.01),1)
       msk2 <- min((t.full0()+0.01)/(l.full0()+0.01),1)
       msk <- (msk1 + 1-msk2)/2
-    if(er1[2] > er2[2]){msk <- 1-msk}}
+      if(isreverse(c(0,-1,1,0),e)){msk <- 1-msk}}
+
+
+    if(issame(c(0,-1,1,-1),e)){
+      msk <- min((l.full0()+0.01)/(t.full0()+0.01),b.full0())
+      if(isreverse(c(0,-1,1,-1),e)){msk <- 1-msk}}
+
+    if(issame(c(-1,0,1,-1),e)){
+      msk <- min((r.full0()+0.01)/(t.full0()+0.01),b.full0())
+      if(isreverse(c(-1,0,1,-1),e)){msk <- 1-msk}}
+
+    if(issame(c(0,-1,-1,1),e)){
+      msk <- min((l.full0()+0.01)/(b.full0()+0.01),t.full0())
+      if(isreverse(c(0,-1,-1,1),e)){msk <- 1-msk}}
+
+    if(issame(c(-1,0,-1,1),e)){
+      msk <- min((r.full0()+0.01)/(b.full0()+0.01),t.full0())
+      if(isreverse(c(-1,0,-1,1),e)){msk <- 1-msk}}
+
+    if(issame(c(1,-1,0,-1),e)){
+      msk <- min((b.full0()+0.01)/(r.full0()+0.01),l.full0())
+      if(isreverse(c(1,-1,0,-1),e)){msk <- 1-msk}}
+
+    if(issame(c(1,-1,-1,0),e)){
+      msk <- min((t.full0()+0.01)/(r.full0()+0.01),l.full0())
+      if(isreverse(c(1,-1,-1,0),e)){msk <- 1-msk}}
+
+    if(issame(c(-1,1,-1,0),e)){
+      msk <- min((t.full0()+0.01)/(l.full0()+0.01),r.full0())
+      if(isreverse(c(-1,1,-1,0),e)){msk <- 1-msk}}
+
+    if(issame(c(-1,1,0,-1),e)){
+      msk <- min((b.full0()+0.01)/(l.full0()+0.01),r.full0())
+      if(isreverse(c(-1,1,0,-1),e)){msk <- 1-msk}}
+
+    if(issame(c(1,-1,0,-1),e)){
+      msk <- min((b.full0()+0.01)/(r.full0()+0.01),l.full0())
+      if(isreverse(c(1,-1,0,-1),e)){msk <- 1-msk}}
+
+    #----test
+    if(FALSE){
+      rg <- genrast(c(1,-1,0,-1))
+      r1 <- rg[[1]]
+      r2 <- rg[[2]]
+      plot(mosaic(r1,r2))
+      ei <- terra::intersect(ext(r1),ext(r2))
+      r1i <- r1 |> crop(ei)
+      r2i <- r2 |> crop(ei)
+      e = rposition(r1,r2)
+      msk <- r1i*0+1
+      plot(msk)
+      gmsk <- r1i*msk+r2i*(1-msk)
+      r <- merge(gmsk,r1,r2)
+      plot(r)
+    }
+    #----
 
 
   }else{
@@ -412,47 +413,83 @@ smoothmosaic <- function(r1,r2){
 
 
 
-
-    if(xyinside){msk <- min(x.msk0(),y.msk0())}
+    # if(xyinside){
+    if(issame(c(-1,-1,-1,-1),e)){
+      msk <- min(x.msk0(),y.msk0())
+      if(isreverse(c(-1,-1,-1,-1),e)){msk <- 1-msk}}
     #full band or strip overlap
-    if(yband){msk <- y.msk0()
-    if(r2Yinside){msk <- 1-msk}}
-    if(xband){msk <- x.msk0()
-    if(r2Xinside){msk <- 1-msk}}
+    # if(yband){
+    if(issame(c(0,0,-1,-1),e)){
+      msk <- y.msk0()
+      if(isreverse(c(0,0,-1,-1),e)){msk <- 1-msk}}
+    # if(xband){
+    if(issame(c(-1,-1,0,0),e)){
+      msk <- x.msk0()
+      if(isreverse(c(-1,-1,0,0),e)){msk <- 1-msk}}
+
+
 
     #inner tongue
-    if(xintongr){msk <- min(y.msk0(),r.msk0())
-    if(r2Yinside){msk <- 1-msk}}
-    if(xintongl){msk <- min(y.msk0(),l.msk0())
-    if(r2Yinside){msk <- 1-msk}}
-    if(yintongt){msk <- min(t.msk0(),x.msk0())
-    if(r2Xinside){msk <- 1-msk}}
-    if(yintongb){msk <- min(b.msk0(),x.msk0())
-    if(r2Xinside){msk <- 1-msk}}
+    # if(xintongr){
+    if(issame(c(0,-1,-1,-1),e)){
+      msk <- min(y.msk0(),r.msk0())
+      if(isreverse(c(0,-1,-1,-1),e)){msk <- 1-msk}}
+    # if(xintongl){
+    if(issame(c(-1,0,-1,-1),e)){
+      msk <- min(y.msk0(),l.msk0())
+      if(isreverse(c(-1,0,-1,-1),e)){msk <- 1-msk}}
+    # if(yintongt){
+    if(issame(c(-1,-1,0,-1),e)){
+      msk <- min(t.msk0(),x.msk0())
+      if(isreverse(c(-1,-1,-1,0),e)){msk <- 1-msk}}
+    # if(yintongb){
+    if(issame(c(-1,-1,-1,0),e)){
+      msk <- min(b.msk0(),x.msk0())
+      if(isreverse(c(-1,-1,0,0),e)){msk <- 1-msk}}
+
     #inner corners
-    if(inse){msk <- min(t.msk0(),l.msk0())
-    if(er1[1] < er2[1]){msk <- 1-msk}}
-    if(insw){msk <- min(t.msk0(),r.msk0())
-    if(er1[2] > er2[2]){msk <- 1-msk}}
-    if(inne){msk <- min(b.msk0(),l.msk0())
-    if(er1[1] < er2[1]){msk <- 1-msk}}
-    if(innw){msk <- min(b.msk0(),r.msk0())
-    if(er1[2] > er2[2]){msk <- 1-msk}}
+    # if(inse){
+    if(issame(c(-1,0,0,-1),e)){
+      msk <- min(t.msk0(),l.msk0())
+      if(isreverse(c(-1,0,0,-1),e)){msk <- 1-msk}}
+
+    # if(insw){
+    if(issame(c(0,-1,0,-1),e)){
+      msk <- min(t.msk0(),r.msk0())
+      if(isreverse(c(0,-1,0,-1),e)){msk <- 1-msk}}
+
+    # if(inne){
+    if(issame(c(-1,0,-1,0),e)){
+      msk <- min(b.msk0(),l.msk0())
+      if(isreverse(c(-1,0,-1,0),e)){msk <- 1-msk}}
+
+    # if(innw){
+    if(issame(c(0,-1,-1,0),e)){
+      msk <- min(b.msk0(),r.msk0())
+      if(isreverse(c(0,-1,-1,0),e)){msk <- 1-msk}}
+
+
+
+
     #inner edges
-    if(inr){msk <- l.msk0()
-    if(er1[1] < er2[1]){msk <- 1-msk}}
-    if(inl){msk <- r.msk0()
-    if(er1[2] > er2[2]){msk <- 1-msk}}
-    if(int){msk <- b.msk0()
-    if(er1[3] < er2[3]){msk <- 1-msk}}
-    if(inb){msk <- b.msk0()
-    if(er1[4] > er2[4]){msk <- 1-msk}}
+    # if(inr){
+    if(issame(c(-1,0,0,0),e)){
+      msk <- l.msk0()
+      if(isreverse(c(-1,0,0,0),e)){msk <- 1-msk}}
+    # if(inl){
+    if(issame(c(0,-1,0,0),e)){
+      msk <- r.msk0()
+      if(isreverse(c(0,-1,0,0),e)){msk <- 1-msk}}
+    # if(int){
+    if(issame(c(0,0,-1,0),e)){
+      msk <- b.msk0()
+      if(isreverse(c(0,0,-1,0),e)){msk <- 1-msk}}
+    # if(inb){
+    if(issame(c(0,0,0,-1),e)){
+      msk <- t.msk0()
+      if(isreverse(c(0,0,0,-1),e)){msk <- 1-msk}}
 
-
-
-
-
-  }
+    }
 
 
     gmsk <- r1i*msk+r2i*(1-msk)
@@ -461,7 +498,6 @@ smoothmosaic <- function(r1,r2){
   return(r)
 }
 
-plot(r)
 
 
 
@@ -469,6 +505,81 @@ plot(r)
 
 
 
+##############former contingiencies
+
+#determine relationships to feed into appropriate subroutines
+r2Xinside <- er1[1]  < er2[1] & er1[2]  > er2[2]
+r1Xinside <- er2[1]  < er1[1] & er2[2]  > er1[2]
+r2Yinside <- er1[3]  < er2[3] & er1[4]  > er2[4]
+r1Yinside <- er2[3]  < er1[3] & er2[4]  > er1[4]
+anyinside <- r1Yinside | r2Yinside | r1Xinside | r2Xinside
+
+
+tallign  <- er1[4] == er2[4]
+lallign  <- er1[1] == er2[1]
+ballign  <- er1[3] == er2[3]
+rallign  <- er1[2] == er2[2]
+
+yallign  <- tallign & ballign
+xallign  <- lallign & rallign
+
+#simple one sided relationships
+r1left   <- er1[2] < er2[2]
+r1right  <- er1[1] > er2[1]
+r1top    <- er1[3] > er2[3]
+r1bottom <- er1[4] < er2[4]
+#corner relationships
+r1ne <- r1right & r1top
+r1se <- r1right & r1bottom
+r1sw <- r1left & r1bottom
+r1nw <- r1left & r1top
+#full side overlap
+r1l  <- r1left & yallign
+r1r  <- r1right & yallign
+r1t  <- r1top & xallign
+r1b  <- r1bottom & xallign
+
+#full band or strip overlap
+yband <- xallign
+xband <- yallign
+#band surpasses on one side
+xbandr <- lallign & !yallign  & (er1[2] > er2[2] & r1Yinside| er1[2] < er2[2] & r2Yinside)
+xbandl <- rallign & !yallign  & (er1[1] < er2[1] & r1Yinside| er1[1] > er2[1] & r2Yinside)
+ybandt <- ballign & !xallign  & (er1[4] > er2[4] & r1Xinside| er1[4] < er2[4] & r2Xinside)
+ybandb <- tallign & !xallign  & (er1[3] < er2[3] & r1Xinside| er1[3] > er2[3] & r2Xinside)
+#incomplete tongue overlap
+xtongr <- !yallign  & (er1[2] > er2[2] & r1Yinside| er1[2] < er2[2] & r2Yinside)&
+  (er1[1] > er2[1] & r1Yinside| er1[1] < er2[1] & r2Yinside)
+
+xtongl <- !yallign  & (er1[1] < er2[1] & r1Yinside| er1[1] > er2[1] & r2Yinside)&
+  (er1[2] < er2[2] & r1Yinside| er1[2] > er2[2] & r2Yinside)
+
+ytongt <- !xallign  & (er1[4] > er2[4] & r1Xinside| er1[4] < er2[4] & r2Xinside)&
+  (er1[3] > er2[3] & r1Xinside| er1[3] < er2[3] & r2Xinside)
+
+ytongb <- !xallign  & (er1[3] < er2[3] & r1Xinside| er1[3] > er2[3] & r2Xinside)&
+  (er1[4] < er2[4] & r1Xinside| er1[4] > er2[4] & r2Xinside)
+#cross
+xycross <- (er1[1] > er2[1] & er1[2] < er2[2] &
+              er1[3] < er2[3] & er1[4] > er2[4])|
+  (er1[1] < er2[1] & er1[2] > er2[2] &
+     er1[3] > er2[3] & er1[4] < er2[4])
+#innertongue
+xintongr <- !yallign  & lallign  & (er1[2] > er2[2] & r2Yinside| er1[2] < er2[2] & r1Yinside)
+xintongl <- !yallign  & rallign  & (er1[1] < er2[1] & r2Yinside| er1[1] > er2[1] & r1Yinside)
+yintongt <- !xallign  & ballign  & (er1[4] > er2[4] & r2Xinside| er1[4] < er2[4] & r1Xinside)
+yintongb <- !xallign  & tallign  & (er1[3] < er2[3] & r2Xinside| er1[3] > er2[3] & r1Xinside)
+#innercorners
+inse <- !lallign  & rallign & ballign & !tallign
+insw <- lallign  & !rallign & ballign & !tallign
+inne <- !lallign  & rallign & !ballign & tallign
+innw <- lallign  & !rallign & !ballign & tallign
+#inneredges
+inr <- !lallign  & rallign & ballign & tallign
+inl <- lallign  & !rallign & ballign & tallign
+int <- lallign  & rallign & !ballign & tallign
+inb <- lallign  & rallign & ballign & !tallign
+anyinner <- inse|insw|inne|innw|inr|inl|int|inb
 
 
 
@@ -629,17 +740,16 @@ msk <- (msk1 + 1-msk2)/2
 plot(msk)
 
 
-
 #smooth semicross
 msk1 <- min((r.full+0.01)/(t.full+0.01),1)
 msk2 <- min((t.full+0.01)/(r.full+0.01),1)
 msk <- (msk1 + 1-msk2)/2
 plot(msk)
 #test
-msk1 <- min((r.full*l.full+0.01)/(t.full+0.01),1)
-msk2 <- min((t.full+0.01)/(r.full*l.full+0.01),1)
+msk1 <- min((r.full*l.msk+0.01)/(t.full+0.01),1)
+msk2 <- min((t.full+0.01)/(r.full*l.msk+0.01),1)
 msk <- (msk1 + 1-msk2)/2
-plot(msk^0.25 >0.01)
+plot(msk)
 
 gmsk <- r1i*msk+r2i*(1-msk)
 
@@ -751,12 +861,17 @@ plot(x.msk)
 values(y.msk) <- rep(seq(e[4],e[3] , length.out = nrow(y.msk)), each = ncol(y.msk))
 y.msk <- (y.msk+1)/2
 plot(y.msk)
-y.corner <- y.msk
-x.corner <- x.msk
-pmsk1 <- x.corner*y.corner
-pmsk2 <- (1-x.corner)*(1-y.corner)
-msk <- (pmsk1+0.01)/(pmsk1+pmsk2+0.02)*2
+y.corner <- t.full
+x.corner <- r.full
+pos <- 1-(x.corner*y.corner)^.25
+neg <- ((1-x.corner)*(1-y.corner))^.25
+msk <- ifel((pos - 1)^2 < (0 - neg)^2, pos,neg)
 plot(msk)
+
+pos <- max(y.corner,x.corner)
+neg <- min(y.corner,x.corner)
+
+
 
 gmsk <- r1i*msk+r2i*(1-msk)
 r <- merge(gmsk,r1,r2)
