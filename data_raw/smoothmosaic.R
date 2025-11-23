@@ -59,7 +59,7 @@ r1 <- rg[[1]]
 r2 <- rg[[2]]
 plot(mosaic(r1,r2))
 
-m1 <- splice(r1,r2)
+m1 <- spliceraster(r1,r2)
 plot(m1)
 
 smoothmosaic <- function(r1,r2){
