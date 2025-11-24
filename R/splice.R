@@ -9,12 +9,12 @@
 #' @returns Raster combination of two rasters.
 #' @export
 #'
-#' @examples rg <- genrast(c(0,1,1,0))
+#' @examples rg <- genrast(c(1,-1,-1,1))
 #' @examples r1 <- rg[[1]]
 #' @examples r2 <- rg[[2]]
 #' @examples plot(mosaic(r1,r2))
 #' @examples
-#' @examples m1 <- smoothmosaic(r1,r2)
+#' @examples m1 <- spliceraster(r1,r2)
 #' @examples plot(m1)
 spliceraster <- function(r1,r2){
   require(terra)

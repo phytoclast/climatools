@@ -18,10 +18,10 @@ Raster combination of two rasters.
 Function blends two terra rasters using smooth gradients. Alternative to mosaic which only averages the area of overlap.
 }
 \examples{
-rg <- genrast(c(0,1,1,0))
+rg <- genrast(c(1,-1,-1,1))
 r1 <- rg[[1]]
 r2 <- rg[[2]]
 plot(mosaic(r1,r2))
-m1 <- smoothmosaic(r1,r2)
+m1 <- spliceraster(r1,r2)
 plot(m1)
 }
