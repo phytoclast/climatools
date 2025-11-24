@@ -2,7 +2,7 @@ library(terra)
 #----
 #----test
 if(FALSE){
-  rg <- genrast(c(1,-1,0,-1))
+  rg <- genrast(c(1,-1,-1,1))
   r1 <- rg[[1]]
   r2 <- rg[[2]]
   plot(mosaic(r1,r2))
@@ -362,7 +362,7 @@ smoothmosaic <- function(r1,r2){
 
     #----test
     if(FALSE){
-      rg <- genrast(c(1,-1,0,-1))
+      rg <- genrast(c(1,-1,-1,1))
       r1 <- rg[[1]]
       r2 <- rg[[2]]
       plot(mosaic(r1,r2))

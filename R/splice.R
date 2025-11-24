@@ -103,6 +103,8 @@ spliceraster <- function(r1,r2){
       pmsk1 <- r.full*t.full
       pmsk2 <- (1-r.full)*(1-t.full)
       msk <- (pmsk1+0.01)/(pmsk1+pmsk2+0.02)
+      msk <- msk*1.1-0.05
+      msk <- ifel(msk > 1,1,ifel(msk < 0,0,msk))
     }
     # if(r1se){
     if(issame(c(-1,1,1,-1),e)){
@@ -111,6 +113,8 @@ spliceraster <- function(r1,r2){
       pmsk1 <- r.full*b.full
       pmsk2 <- (1-r.full)*(1-b.full)
       msk <- (pmsk1+0.01)/(pmsk1+pmsk2+0.02)
+      msk <- msk*1.1-0.05
+      msk <- ifel(msk > 1,1,ifel(msk < 0,0,msk))
     }
     # if(r1sw){
     if(issame(c(1,-1,1,-1),e)){
@@ -119,6 +123,8 @@ spliceraster <- function(r1,r2){
       pmsk1 <- l.full*b.full
       pmsk2 <- (1-l.full)*(1-b.full)
       msk <- (pmsk1+0.01)/(pmsk1+pmsk2+0.02)
+      msk <- msk*1.1-0.05
+      msk <- ifel(msk > 1,1,ifel(msk < 0,0,msk))
     }
     # if(r1nw){
     if(issame(c(1,-1,-1,1),e)){
@@ -127,6 +133,8 @@ spliceraster <- function(r1,r2){
       pmsk1 <- l.full*t.full
       pmsk2 <- (1-l.full)*(1-t.full)
       msk <- (pmsk1+0.01)/(pmsk1+pmsk2+0.02)
+      msk <- msk*1.1-0.05
+      msk <- ifel(msk > 1,1,ifel(msk < 0,0,msk))
     }
     mwidth = 1/2
     bbrk <- ei[3] + (ei[4]-ei[3])*mwidth
