@@ -4,7 +4,9 @@
 
 #focal neighborhood circle smoother than terra::focalMat() function
 focalCircle <- function(x, r){
-  rs <- res(x)[1]
+  u <- linearUnits(x)
+  u <- ifelse(u == 0, 10000000/90,u)
+  rs <- res(x)[1]*u
   n = floor(r/rs)*2+1
   mx <- matrix(0, nrow = n, ncol = n)
   for(i in 1:n){
@@ -28,7 +30,7 @@ focalCircle <- function(x, r){
 #' Get focal maximum with specified radius
 #'
 #' @param x raster
-#' @param r radius
+#' @param r radius (meters)
 #' @param p precision, from low to exact, with higher levels of precision requiring more processing time.
 #'
 #' @return focal maximum raster
@@ -47,15 +49,18 @@ focalmax <- function(x, r, p=c('low', 'medium', 'high','exact')){
   require(terra)
   #establish aggregating factor when radius is too large
   #p is for precision options
+  u <- linearUnits(x)
+  u <- ifelse(u == 0, 10000000/90,u)
+  rs <- res(x)[1]*u
   p=p[1]
   if(p == 'low'){
-    fc = floor(r/res(x)[1]/9+1)
+    fc = floor(r/rs/9+1)
   }else if(p == 'medium'){
-    fc = floor(r/res(x)[1]/21+1)
+    fc = floor(r/rs/21+1)
   }else if(p == 'high'){
-    fc = floor(r/res(x)[1]/81+1)
+    fc = floor(r/rs/81+1)
   }else{
-    fc = floor(r/res(x)[1]/243+1)}
+    fc = floor(r/rs/243+1)}
 
   x1 = x
   if(fc > 1){
@@ -85,7 +90,7 @@ focalmax <- function(x, r, p=c('low', 'medium', 'high','exact')){
 #' Get focal minimum with specified radius
 #'
 #' @param x raster
-#' @param r radius
+#' @param r radius (meters)
 #' @param p precision, from low to exact, with higher levels of precision requiring more processing time.
 #'
 #' @return focal minimum raster
@@ -104,15 +109,18 @@ focalmin <- function(x, r, p=c('low', 'medium', 'high','exact')){
   require(terra)
   #establish aggregating factor when radius is too large
   #p is for precision options
+  u <- linearUnits(x)
+  u <- ifelse(u == 0, 10000000/90,u)
+  rs <- res(x)[1]*u
   p=p[1]
   if(p == 'low'){
-    fc = floor(r/res(x)[1]/9+1)
+    fc = floor(r/rs/9+1)
   }else if(p == 'medium'){
-    fc = floor(r/res(x)[1]/21+1)
+    fc = floor(r/rs/21+1)
   }else if(p == 'high'){
-    fc = floor(r/res(x)[1]/81+1)
+    fc = floor(r/rs/81+1)
   }else{
-    fc = floor(r/res(x)[1]/243+1)}
+    fc = floor(r/rs/243+1)}
 
   x1 = x
   if(fc > 1){
@@ -144,7 +152,7 @@ focalmin <- function(x, r, p=c('low', 'medium', 'high','exact')){
 #' Get focal median with specified radius
 #'
 #' @param x raster
-#' @param r radius
+#' @param r radius (meters)
 #' @param p precision, from low to exact, with higher levels of precision requiring more processing time.
 #'
 #' @return focal median raster
@@ -163,15 +171,18 @@ focalmed <- function(x, r, p=c('low', 'medium', 'high','exact')){
   require(terra)
   #establish aggregating factor when radius is too large
   #p is for precision options
+  u <- linearUnits(x)
+  u <- ifelse(u == 0, 10000000/90,u)
+  rs <- res(x)[1]*u
   p=p[1]
   if(p == 'low'){
-    fc = floor(r/res(x)[1]/9+1)
+    fc = floor(r/rs/9+1)
   }else if(p == 'medium'){
-    fc = floor(r/res(x)[1]/21+1)
+    fc = floor(r/rs/21+1)
   }else if(p == 'high'){
-    fc = floor(r/res(x)[1]/81+1)
+    fc = floor(r/rs/81+1)
   }else{
-    fc = floor(r/res(x)[1]/243+1)}
+    fc = floor(r/rs/243+1)}
 
   x1 = x
   if(fc > 1){
@@ -552,3 +563,77 @@ toraster <- function(x){
   names(y) <- x$names
   return(y)}
 
+makeWedge <- function(x, r, asp){
+  u <- linearUnits(x)
+  u <- ifelse(u == 0, 10000000/90,u)
+  rs <- res(x)[1]*u
+  size <- floor(r/rs)*2+1
+  center <- floor(size/2)+1
+  m <- matrix(1, nc=size, nr=size)
+  y = 2*(center-row(m))/size
+  x = 2*(col(m)-center)/size
+  d <- ((y-0)^2+(x-0)^2)^0.5
+  a <- ifelse(x < 0, 360-(90-asin(y/d)*360/2/pi),(90-asin(y/d)*360/2/pi))
+  s <- 1-d
+
+  asp <- ifelse(asp > 180, asp - 360, asp)
+  a <- ifelse(a > 180, a - 360, a)
+  a2 <- ifelse(abs(asp - a) > 180, 360-abs(asp - a), abs(asp - a))
+  s1 <- s*(45-a2)/45
+  s1 <- ifelse(a2 > 45 | s < 0,0, s1)
+  s1 <- ifelse(row(m) == center & col(m) == center,1,s1)
+  s1 <- s1^0.5
+  return(s1)
+}
+
+#' Directional Maximum
+#'
+#' @param x raster
+#' @param r radius (meters)
+#' @param asp aspect or direction of the wind.
+#' @param p precision, from low to exact, with higher levels of precision requiring more processing time
+#'
+#' @returns Raster with directional maximum with effects tapering to zero at radius, spread across 45 degrees. Subtracting elevation from directional maximum results in the equivalent to a rain shadow in the direction opposite of the specified aspect or wind direction.
+#' @export
+#'
+#' @examples
+shadowMax <- function(x, r, asp=270, p=c('low', 'medium', 'high','exact')){
+  require(terra)
+  #establish aggregating factor when radius is too large
+  #p is for precision options
+  u <- linearUnits(x)
+  u <- ifelse(u == 0, 10000000/90,u)
+  rs <- res(x)[1]*u
+  p=p[1]
+  if(p == 'low'){
+    fc = floor(r/rs/9+1)
+  }else if(p == 'medium'){
+    fc = floor(r/rs/21+1)
+  }else if(p == 'high'){
+    fc = floor(r/rs/81+1)
+  }else{
+    fc = floor(r/rs/243+1)}
+
+  x1 = x
+  if(fc > 1){
+    x1 <- aggregate(x, fact = fc, fun = 'max',  na.rm=TRUE)
+  }
+  #create a focal weights matrix of the appropriate size for given radius
+  #fm <- focalMat(x1, d=r, type = 'circle')
+  fm <- makeWedge(x1, r=r, asp=asp)
+
+  #reduce mat size if raster too small
+  matsize = nrow(fm)
+  centermat <- floor(nrow(fm)/2+1)
+  goodrows <- intersect((1:matsize),(centermat-floor(nrow(x1)-1)):(centermat+floor(nrow(x1)-1)))
+  goodcols <- intersect((1:matsize),(centermat-floor(ncol(x1)-1)):(centermat+floor(ncol(x1)-1)))
+  fm <- fm[goodrows,goodcols, drop = FALSE]
+  if(nrow(fm) <= 1 & ncol(fm) <= 1){
+    x1.max <- x1
+  }else{
+    x1.max <- focal(x1, fm, fun='max', na.rm=T)}
+  #restore resolution in result
+  if(fc > 1){
+    x1.max <- project(x1.max, x)
+  }
+  return(x1.max)}

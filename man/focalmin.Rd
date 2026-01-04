@@ -9,7 +9,7 @@ focalmin(x, r, p = c("low", "medium", "high", "exact"))
 \arguments{
 \item{x}{raster}
 
-\item{r}{radius}
+\item{r}{radius (meters)}
 
 \item{p}{precision, from low to exact, with higher levels of precision requiring more processing time.}
 }
