@@ -107,6 +107,15 @@ meanT.rast <- function(block, th.jan='th01', tl.jan='tl01'){
   return(t)}
 
 
+#' Raster method to calculate growing season temperature.
+#'
+#' @param block Multi layer raster containing mean monthly temperature for 12 months.
+#' @param t.jan Name of first monthly temperature layer.
+#'
+#' @returns Raster of positive temperature of the warmest 6 months.
+#' @export
+#'
+#' @examples
 GrowTemp.rast <- function(block, t.jan='t01'){
   t.ind = which(names(block) %in% t.jan)
   t.val <- block[,,t.ind:(t.ind+11),drop=FALSE]
@@ -117,6 +126,18 @@ GrowTemp.rast <- function(block, t.jan='t01'){
   }
 
 #summarizes a climate statistic from a raster stack of monthly stats consecutively arranged by month; user identifies name of first month of that statistic and name of the function to summarize it.
+#' Apply a function across raster layers.
+#'
+#' @param block Multi layer raster containing monthly climate statistics.
+#' @param jan Name of the first monthly climate statistic (assumes subsequent layers are same statistic)
+#' @param mons Number of months to summarize.
+#' @param fun Function to apply.
+#' @param name Name to give to results.
+#'
+#' @returns Raster summary of climatic statistic.
+#' @export
+#'
+#' @examples
 ApplyClim.rast <- function(block, jan='p01',mons=c(1,2,3,4,5,6,7,8,9,10,11,12),  fun='sum', name = NULL){
   ind = which(names(block) %in% jan)
   x <- block[,,ind:(ind+11),drop=FALSE]
@@ -129,6 +150,18 @@ ApplyClim.rast <- function(block, jan='p01',mons=c(1,2,3,4,5,6,7,8,9,10,11,12), 
 }
 
 #Calculates the maximum possible evapotranspiration based only on precipitation for each month, without monthly carry over of soil water storage.
+#' Raster method for actual evapotranspiration (annual sum)
+#'
+#' Calculates the maximum possible evapotranspiration based only on precipitation for each month, without monthly carry over of soil water storage.
+#'
+#' @param block Multi layer raster containing monthly climate statistics.
+#' @param jan.p Name of first monthly precipitation layer.
+#' @param jan.e Name of first monthly evapotranspiration layer.
+#'
+#' @returns Raster sum of actual evapotranspiration.
+#' @export
+#'
+#' @examples
 AET.rast <- function(block, jan.p='p01',jan.e='e01'){
   p.ind = which(names(block) %in% jan.p)
   e.ind = which(names(block) %in% jan.e)
@@ -142,6 +175,18 @@ AET.rast <- function(block, jan.p='p01',jan.e='e01'){
   return(x)
 }
 
+#' Raster method for actual evapotranspiration (monthly)
+#'
+#' Calculates the maximum possible evapotranspiration based only on precipitation for each month, without monthly carry over of soil water storage.
+#'
+#' @param block Multi layer raster containing monthly climate statistics.
+#' @param jan.p Name of first monthly precipitation layer.
+#' @param jan.e Name of first monthly evapotranspiration layer.
+#'
+#' @returns Multi layer raster of actual evapotranspiration.
+#' @export
+#'
+#' @examples
 AET.rast.monthly <- function(block, jan.p='p01',jan.e='e01'){
   month <- c('01','02','03','04','05','06','07','08','09','10','11','12')
   p.ind = which(names(block) %in% jan.p)
@@ -156,6 +201,16 @@ AET.rast.monthly <- function(block, jan.p='p01',jan.e='e01'){
   return(a)
 }
 
+#' Raster method for Maximum monthly actual evapotranspiration.
+#'
+#' @param block Multi layer raster containing monthly climate statistics.
+#' @param jan.a Name of first monthly actual evapotranspiration layer.
+#' @param nmonth Number of months to assess peak actual evapotranspiration.
+#'
+#' @returns
+#' @export
+#'
+#' @examples
 AET.rast.max <- function(block, jan.a='a01', nmonth = 3){
   a.ind = which(names(block) %in% jan.a)
   a <- block[,,a.ind:(a.ind+11),drop=FALSE]
