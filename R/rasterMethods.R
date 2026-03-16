@@ -1,15 +1,46 @@
 #Raster methods for climatic functions
 
-GetSolarRad.rast <- function(DayNumber, Lat){
+#' Raster method
+#'
+#' @param DayNumber Sequential date in the year (0-365).
+#' @param Raster Any raster representing the target resolution and extent.
+#'
+#' @returns Raster of solar radiation
+#' @export
+#'
+#' @examples
+GetSolarRad.rast <- function(DayNumber, Raster){
+  xyr <- rast(nrows=180, ncols=360, nlyrs=1, crs=crs('EPSG:4326'), extent=ext(-180,180,-90,90), vals=1)
+  xy <- terra::as.data.frame(x=xyr, xy=TRUE)
+  Lat <- rast(x=xy[,c('x','y','y')], type="xyz", crs=crs(xyr), extent=ext(xyr))
+
   declination <- GetDcl(DayNumber)
 
   hs <- acos(min(max(-tan(Lat/360*2*3.141592) * tan(declination),-1),1))
   Ra <- 117.5 * (hs*sin(Lat/360*2*3.141592)*sin(declination) +
                    cos(Lat/360*2*3.141592)*cos(declination)*sin(hs)) / 3.141592
+  Ra <- project(Ra, Raster)
   return(Ra)
 }
-GetPET.rast <- function(mon, lat, th, tl, p){
+
+#' Raster method for mean monthly potential evapotranspiration (1 month)
+#'
+#' @param mon Month number (1-12)
+#' @param th Mean daily high temperature raster (C).
+#' @param tl Mean daily low temperature raster (C).
+#' @param p Mean Monthly precipitation raster (mm).
+#'
+#' @returns Raster of monthly mean potential evapotranspiration.
+#' @export
+#'
+#' @examples
+GetPET.rast <- function(mon, th, tl, p){
+  xyr <- rast(nrows=180, ncols=360, nlyrs=1, crs=crs('EPSG:4326'), extent=ext(-180,180,-90,90), vals=1)
+  xy <- terra::as.data.frame(x=xyr, xy=TRUE)
+  lat <- rast(x=xy[,c('x','y','y')], type="xyz", crs=crs(xyr), extent=ext(xyr))
+
   Ra=GetSolarRad.rast(GetDayNumber(mon),lat)
+  Ra <- project(Ra, th)
   e =  0.85*GetTransGrow.rast(th, tl)*GetPETdaily.rast(Ra, th, tl, p)*GetNumberDay(mon) #0.85829 is crop coefficient to make comparable to Thornthwaite. Multiplied by growing season to zero out transpiration portion of evapotranspiration in freezing weather. Per day rate need to be multiplied by days per month to get monthly rate.
   mons <- c('e01','e02','e03','e04','e05','e06','e07','e08','e09','e10','e11','e12')
   names(e) <- mons[mon]
@@ -38,7 +69,19 @@ GetPETdaily.rast <- function(Ra, th, tl, p){
   e <- max(e0,0)
   return(e)}
 
-GetPET.block <- function(mon, block, lat='lat', th.jan='th01', tl.jan='tl01', p.jan='p01'){
+#' Raster method for mean monthly potential evapotranspiration (block of 12 months).
+#'
+#' @param mon Month number (1-12)
+#' @param block Multi layer raster containing monthly high and low temperatures and preciptitation.
+#' @param th.jan Name of layer representing first month of high temperatures (assuming the remaining 11 months follow in sequence)
+#' @param tl.jan Name of layer representing first month of low temperatures (assuming the remaining 11 months follow in sequence)
+#' @param p.jan Name of layer representing first month of precipitations (assuming the remaining 11 months follow in sequence)
+#'
+#' @returns Raster of monthly mean potential evapotranspiration.
+#' @export
+#'
+#' @examples
+GetPET.block <- function(mon, block, th.jan='th01', tl.jan='tl01', p.jan='p01'){
   th.ind = which(names(block) %in% th.jan)
   tl.ind = which(names(block) %in% tl.jan)
   p.ind = which(names(block) %in% p.jan)
@@ -46,8 +89,7 @@ GetPET.block <- function(mon, block, lat='lat', th.jan='th01', tl.jan='tl01', p.
   th <- block[,,(th.ind+mon-1),drop=FALSE]
   tl <- block[,,(tl.ind+mon-1),drop=FALSE]
   p  <- block[,,(p.ind+mon-1),drop=FALSE]
-  Lat  <- block[,,(lat.ind),drop=FALSE]
-  e <- GetPET.rast(mon=mon, lat = Lat, th= th, tl= tl, p= p)
+  e <- GetPET.rast(mon=mon, th= th, tl= tl, p= p)
   return(e)
 }
 
@@ -128,76 +170,28 @@ AET.rast.max <- function(block, jan.a='a01', nmonth = 3){
   return(x)
 }
 
-
-
-XtremLow.rast <- function(Tcl, elev){
-  Tcl <- min(Tcl)
+#' Raster method for extreme annual low temperature.
+#'
+#' @param Tcl Raster of Mean daily low temperature for coldest month.
+#' @param Tc Raster of Mean temperature for coldest month (optional).
+#' @param Tw Raster of Mean temperature for warmest month (optional).
+#'
+#' @returns Estimated mean annual extreme low temperature based on analysis other data sets.
+#' @export
+#'
+#' @examples
+XtremLow.rast <- function(Tcl, Tc=NULL, Tw=NULL){
+  require(terra)
   xyr <- rast(nrows=180, ncols=360, nlyrs=1, crs=crs('EPSG:4326'), extent=ext(-180,180,-90,90), vals=1)
-  xy <- terra::as.data.frame(x=xyr, xy=TRUE)
-  lon <- rast(x=xy[,c('x','y','x')], type="xyz", crs=crs(xyr), extent=ext(xyr))
-  lat <- rast(x=xy[,c('x','y','y')], type="xyz", crs=crs(xyr), extent=ext(xyr))
-  names(lon) <- 'lon'
-  names(lat) <- 'lat'
-
-  pacificsouth <- 1/((((lat - -22.7)/13)^2 + ((lon - -82.3)/14)^2)^2+1)
-  amazon2 <- 1/((((lat - -10.2)/5)^2 + ((lon - -59.9)/10)^2)^2+1)
-  amazon1 <- 1/((((lat - -2.8)/14)^2 + ((lon - -61.3)/19)^2)^2+1)
-  pacificcent <- 1/((((lat - 4.1)/21)^2 + ((lon - -122.4)/41)^2)^2+1)
-  mexico <- 1/((((lat - 26)/6)^2 + ((lon - -98.4)/12)^2)^2+1)
-  florida <- 1/((((lat - 27.5)/4)^2 + ((lon - -81.1)/8)^2)^2+1)
-  pacificnorth <- 1/((((lat - 32.9)/26)^2 + ((lon - -145)/27)^2)^2+1)
-  oklahoma <- 1/((((lat - 33.6)/4)^2 + ((lon - -98.4)/8)^2)^2+1)
-  arizona <- 1/((((lat - 34)/12)^2 + ((lon - -113.1)/8)^2)^2+1)
-  atlantic <- 1/((((lat - 34)/15)^2 + ((lon - -60.7)/19)^2)^2+1)
-  himalayas <- 1/((((lat - 35.3)/6)^2 + ((lon - 91.3)/13)^2)^2+1)
-  kentucky <- 1/((((lat - 38.5)/3)^2 + ((lon - -87.6)/9)^2)^2+1)
-  detroit <- 1/((((lat - 41.8)/3)^2 + ((lon - -82.6)/4)^2)^2+1)
-  ontario <- 1/((((lat - 44.6)/2)^2 + ((lon - -79.2)/6)^2)^2+1)
-  montana <- 1/((((lat - 45.4)/5)^2 + ((lon - -111.8)/10)^2)^2+1)
-  minn <- 1/((((lat - 47.6)/6)^2 + ((lon - -92.6)/12)^2)^2+1)
-  hudson <- 1/((((lat - 60)/7)^2 + ((lon - -87)/34)^2)^2+1)
-  siberia <- 1/((((lat - 61.2)/20)^2 + ((lon - 105.7)/39)^2)^2+1)
-  california <- 1/((((lat - 34.8)/9)^2 + ((lon - -128.2)/9)^2)^2+1)
-  washington <- 1/((((lat - 46)/5)^2 + ((lon - -126.6)/5)^2)^2+1)
-  colorado <- 1/((((lat - 38.3)/2)^2 + ((lon - -108.8)/3)^2)^2+1)
-  hawaii <- 1/((((lat - 21.3)/7)^2 + ((lon - -157.5)/11)^2)^2+1)
-  chess <- 1/((((lat - 37)/3)^2 + ((lon - -74)/3)^2)^2+1)
-
-  latlon <-	-9.171	+
-    lat *	-0.04149	+
-    pacificsouth *	-1.792	+
-    amazon2 *	2.573	+
-    amazon1 *	-1.014	+
-    pacificcent *	-0.749	+
-    mexico *	-0.8227	+
-    florida *	-3.557	+
-    pacificnorth *	-1.246	+
-    oklahoma *	0.1758	+
-    arizona *	2.605	+
-    chess *	0.8347	+
-    atlantic *	0.2967	+
-    himalayas *	-1.814	+
-    kentucky *	-2.644	+
-    detroit *	0	+
-    ontario *	-2.314	+
-    montana *	-4.415	+
-    minn *	1.136	+
-    hudson *	-5.154	+
-    siberia *	-3.797	+
-    california *	4.48	+
-    washington *	3.597	+
-    colorado *	1.458	+
-    hawaii *	6.673
-
-  lat <- project(lat, elev)
-
-  latlon <- project(Tclx0, elev)
-
-  Tclx <-	Tcl *	1.202	+
-    latlon +
-    lat *	-0.04149	+
-    elev *	0.0008691	+
-    lat * elev *	-0.00002455
+  tintercept <- climatools::tintercept
+  tintercept <- rasterize(tintercept[,c('x','y')], xyr, values=tintercept$lyr1)
+  tintercept <- tintercept |> project(Tcl)
+  if(!is.null(Tc)&!is.null(Tw)){
+    Tclx0 <- -4.368e-02+-1.636e-03*Tc+1.378e-03*Tw+-4.368e-02+-6.210e-03*Tcl+1.043e+00*tintercept}else{
+      Tclx0 <- -5.796e-02+-7.238e-03*Tcl+1.080e+00*tintercept}
+  Tclx0 <- 10^Tclx0
+  Tclx <- Tcl - Tclx0
   names(Tclx) <- 'Tclx'
   return(Tclx)}
+
 
