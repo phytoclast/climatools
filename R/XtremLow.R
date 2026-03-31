@@ -204,3 +204,38 @@ if(v_return %in% 't'){ctab$r = ctab$t}else if(v_return %in% 'b'){
   if(v_return %in% c('t','b')){extr <- extr/n}
   return(extr)
 }
+
+
+
+# t1 <- climatools::generateTemp(-20,12)
+# t2 <- climatools::generateTemp(-10,18)
+# t3 <- climatools::generateTemp(-5,21)
+# t4 <- climatools::generateTemp(0,27)
+# t5 <- climatools::generateTemp(18,27)
+# mo <- c('01','02','03','04','05','06','07','08','09','10','11','12')
+# df <- data.frame(rbind(t1,t2,t3,t4,t5))
+# colnames(df) <- paste0('t',mo)
+# df <- df |> mutate(Tg = constrainedStats(df, nmon = 6, bot=0))
+#Constrained Statistics: maximum or minimum of mean for rolling number of months with values constrained between a top and bottom limit.
+conStats <- function(df, first='t01', nmon = 6, bot=0, top=100, fun=c('max','min')){
+  m <- 1:12
+  m <- c(m,m)
+  ind <- which(colnames(df) %in% first)
+  df <- df[,ind:(ind+11)]
+  constrain <- function(v){
+    v = ifelse(v < bot, bot, ifelse(v > top,top,v))
+    return(v)
+  }
+  df <- sapply(df,FUN=constrain)
+  if(nmon >= 12){
+    v <- df
+    vmax <- apply(v,1,mean)
+  }else{
+  for(i in 1:12){
+    v <- df[,m[i:(i+nmon-1)]]
+    v <- apply(v,1,mean)
+    if(fun[1] %in% 'max'){
+      if(i==1){vmax <- v}else{vmax <- ifelse(v > vmax,v,vmax)}}else{
+        if(i==1){vmax <- v}else{vmax <- ifelse(v < vmax,v,vmax)}}
+  }}
+  return(vmax)}
