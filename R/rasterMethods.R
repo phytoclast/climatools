@@ -249,3 +249,71 @@ XtremLow.rast <- function(Tcl, Tc=NULL, Tw=NULL){
   return(Tclx)}
 
 
+
+
+
+#' Constrained climate statistics
+#'
+#' This function calculates the maximum or minimum consecutive mean for a constrained climate statistic. For example, you could calculate the warmest 3 consecutive monthly temperature  constrained to between 0 and 30 degrees.
+#'
+#' @param r raster block containing at 12 consecutive months of temperature or other climate statistic
+#' @param first Name of initial monthly value (January) for climate statistic.
+#' @param nmon Number of months to compare means or alternatively quarters or semesters (with a fixed set of months for 3 or 6 month season, faster to calculate than a rolling through 12 months). When 12 is selected, then it is just an annual mean. If 1 month is selected, then a simple maximum or minimum of all 12 months can be calculated.
+#' @param bot Bottom value to substitute for any values less than.
+#' @param top Top value to substitute for any values greater than.
+#' @param fun Function to rate consecutive means (either "max" or "min")
+#'
+#' @returns Raster of a maximum or minimum climate statistic for a set number of months
+#' @export
+#'
+#' @examples
+conStats.rast <- function(r, first='t01', nmon = c('semester','quarter',1), bot=0, top=100, fun=c('max','min')){
+  fun=fun[1]
+  nmon=nmon[1]
+  m <- 1:12
+  m <- c(m,m)
+  ind <- which(names(r) %in% first)
+  r <- r[[ind:(ind+11)]]
+  constrain <- function(v){
+    v = ifel(v < bot, bot, ifel(v > top,top,v))
+    return(v)
+  }
+  r <- constrain(r)
+  if(nmon %in% 'semester'){
+    v <- r
+    if(fun %in% 'max'){
+      vmax <- max(mean(r[[c(1,2,3,4,11,12)]]),
+                  mean(r[[c(5,6,7,8,9,10)]]))
+    }else{
+      vmax <- min(mean(r[[c(1,2,3,4,11,12)]]),
+                  mean(r[[c(5,6,7,8,9,10)]]))
+    }
+  }else if(nmon %in% 'quarter'){
+    v <- r
+    if(fun %in% 'max'){
+      vmax <- max(mean(r[[c(1,2,12)]]),
+                  mean(r[[c(3,4,5)]]),
+                  mean(r[[c(6,7,8)]]),
+                  mean(r[[c(9,10,11)]]))
+    }else{
+      vmax <- min(mean(r[[c(1,2,12)]]),
+                  mean(r[[c(3,4,5)]]),
+                  mean(r[[c(6,7,8)]]),
+                  mean(r[[c(9,10,11)]]))
+    }
+  }else if(nmon >= 12){
+    v <- r
+    vmax <- mean(v)
+  }else if(nmon == 1){
+    v <- r
+    if(fun %in% 'max'){vmax <- max(v)}else{vmax <- min(v)}
+  }else{
+    for(i in 1:12){
+      v <- r[[m[i:(i+nmon-1)]]]
+      v <- mean(v)
+      if(fun %in% 'max'){
+        if(i==1){vmax <- v}else{vmax <- ifel(v > vmax,v,vmax)}}else{
+          if(i==1){vmax <- v}else{vmax <- ifel(v < vmax,v,vmax)}}
+    }}
+  return(vmax)}
+
