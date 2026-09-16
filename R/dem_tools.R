@@ -637,3 +637,90 @@ shadowMax <- function(x, r, asp=270, p=c('low', 'medium', 'high','exact')){
     x1.max <- project(x1.max, x)
   }
   return(x1.max)}
+
+
+
+#' Rotate XY Coordinates
+#'
+#' @param x vector of x coordinates
+#' @param y vector of y coordinates
+#' @param a angle in degrees
+#' @param cx optional center of rotation x coordinate (default is center of point cloud)
+#' @param cy optional center of rotation y coordinate (default is center of point cloud)
+#'
+#' @returns data frame of rotated xy coordinates
+#' @export
+#'
+#' @examples df <- data.frame(
+#' @examples x=runif(10,0,10),
+#' @examples y=rnorm(10,5,5))
+#' @examples df2 <-  rotatexy(df$x,df$y, a=2)
+#' @examples plot(df$y ~ df$x)
+#' @examples points(df2$y ~ df2$x, col='red')
+rotatexy <- function(x, y, a, cx = NA, cy = NA){
+  df <- data.frame(x=x,y=y)
+
+  if(is.na(cx) | is.na(cy)){
+    cx <- mean(df$x)
+    cy <- mean(df$y)}
+
+  df$y0 <- df$y-cy
+  df$x0 <- df$x-cx
+  df$h <- ((df$x0)^2+(df$y0)^2)^0.5
+  df$a0 <- ifelse(df$h==0,0,acos(df$y0/df$h))
+  a1 <- a/360*2*pi
+  df$a0 <- ifelse(df$x0 >= 0,df$a0,-1*df$a0)
+  xr = ifelse(df$h==0,0,df$h*sin(df$a0+a1))+cx
+  yr = ifelse(df$h==0,0,df$h*cos(df$a0+a1))+cy
+
+  rdf <- data.frame(x=xr,y=yr)
+  return(rdf)
+}
+
+
+#' Make XY Raster
+#'
+#' @param x raster to extract xy coordinates
+#' @param rotations Specify number of rotations of xy coordinates (default zero)
+#'
+#' @returns Multi channel raster with xy coordinates. (rotations add alternative angles a random forest covariates). Rasters named "lat" for y coordinate, and "lon"  for x coordinate.
+#' @export
+#'
+#' @examples x <- terra::rast(matrix(1:25, nrow=5, ncol=5))
+#' @examples xyrast <- makexyrast(x)
+makexyrast <- function(x, rotations=0){
+  require(terra)
+  angles <- 90/(rotations+1)
+  df <- terra::as.data.frame(x, xy=TRUE)
+  lat <- terra::rast(df[,c("x","y","y")],type="xyz", crs=crs(x)); names(lat)='lat'
+  lon <- terra::rast(df[,c("x","y","x")],type="xyz", crs=crs(x)); names(lon)='lon'
+  xyrast <- c(lat,lon)
+  if(rotations > 0){
+    for(i in 1:rotations){
+      df0 <- climatools::rotatexy(df$x,df$y, a=angles*i)
+      lat0 <- terra::rast(cbind(df[,c("x","y")], df0$y),type="xyz", crs=crs(x))
+      lon0 <- terra::rast(cbind(df[,c("x","y")], df0$x),type="xyz", crs=crs(x))
+      namelat <- paste0("lat",i)
+      namelon <- paste0("lon",i)
+      names(lat0) <- namelat
+      names(lon0) <- namelon
+      assign(namelat,lat0)
+      assign(namelon,lon0)
+    }
+    xyrast <- terra::rast(mget(c("lat","lon",paste0("lat",1:rotations), paste0("lon",1:rotations))))
+  }
+
+  return(xyrast)
+}
+
+
+
+
+
+
+
+
+
+
+
+
