@@ -719,7 +719,117 @@ makexyrast <- function(x, rotations=0){
 
 
 
+#' Re-fit climate later to DEM
+#'
+#' This function can be used to omit problematic portions of a climatic layer and refit to a digital elevation model. The results can be used to patch problems in larger climatic layers. Omitting elevation layer bases refit exclusively on trends in xy coordinates.
+#'
+#' @param x climatic layer to re-fit.
+#' @param elev optional digital elevation model of similar resolution as climatic layer.
+#' @param cropto spatial extent of cropped area (xmin, xmax, ymin, ymax)
+#' @param cropfrom spatial extent of problematic area to be removed from model (xmin, xmax, ymin, ymax)
+#' @param rotations Optional number of rotation of XY coordinates used for smoother random forest model of linear model residuals.
+#' @param sampdens sample density for extracting points to train models.
+#' @param altlayer optional alternative covariate layer (e.g. water body influence layer)
+#'
+#' @returns Re-fitted climatic model.
+#' @export
+#'
+#' @examples
+refit <- function(x, elev=NULL, cropto=NULL, cropfrom=NULL, rotations=0, sampdens = 1500, altlayer = NULL){
+  #If cropping extent provided
+  if(!is.null(cropto)){
+    t0 <- crop(x, cropto);
+  }
+  #Standardize name for extracting to a data frame to be used by formula
+  names(t0) <- 't0'
 
+  #dummy values for having no data for these layers
+  erel <- NULL
+  wt1 <- NULL; wt2 <- NULL; wt3 <- NULL
+
+  #Create alternative rotated XY coordinates to make a smoother random forest model.
+  xy0 <- makexyrast(t0,rotations)
+
+  #Omit problematic data to patch with model using less problematic data from adjacent area.
+  if(!is.null(cropfrom)){
+    t00 <- crop(x, cropfrom)
+    t00 <- ifel(t00>0,NA,NA)
+    t0 <- merge(t00,t0, na.rm=FALSE); names(t0) <- 't0'
+  }
+
+  #If elevation data is used, create auxiliary layer for relative elevation which captures local inversions.
+  if(!is.null(elev)){
+    #get elevation data to match extent and resolution of input data
+    e0 <- project(elev, t0) |> crop(cropto)
+    #determine units of layer and rescale focal analyses so that they are proportional to resolution
+    u <- terra::linearUnits(t0)
+    u <- ifelse(u == 0, 10000000/90, u)
+    rs <- (res(e0)*u)[1]
+    #generate relative elevation model
+    emd <- focalmed(e0, rs*10)
+    erel <- e0-emd
+    erel <- ifel(erel > 0,erel,0)^0.5 - ifel(-erel > 0,-erel,0)^0.5; names(erel)<-'erel'
+    rss <- c(t0, e0, erel, xy0)
+    wt1 <- 1; wt2 <- 1
+  }else{
+    #Use only xy data instead
+    rss <- c(t0, xy0)
+  }
+  if(!is.null(altlayer)){
+    altlayer <- project(altlayer, t0) |> crop(cropto)
+    names(altlayer) <- 'altlayer'
+    wt3 <- 1
+    rss <- c(rss, altlayer)
+  }
+
+  #Define formulas for general linear and random forest models.
+  depvar <- "t0"
+  covars1 <- c(names(xy0)[1:2],names(elev),names(erel),names(altlayer))
+  covars2 <- c(names(xy0),names(elev),names(erel),names(altlayer))
+  wts <- c(c(1:((rotations+1)*2))*0+1/(rotations+1), wt1,wt2,wt3)
+  covars3 <- c(covars1,'resids')
+
+  #Sample rasters to train models (omitting missing data)
+  df0 <- terra::spatSample(rss, sampdens) |> subset(!is.na(t0))
+
+  #data points converted to spatial features to test coverage
+  #dfsp <- sf::st_as_sf(df0, coords = c(x='lon', y='lat'), crs=sf::st_crs(t1)); plot(vect(dfsp))
+
+  f.glm <- as.formula(paste(paste(depvar,paste(paste(covars1, collapse = " + ", sep = ""),""), sep = " ~ ")
+  ))
+
+  f.rf <- as.formula(paste(paste("resids",paste(paste(covars2, collapse = " + ", sep = ""),""), sep = " ~ ")
+  ))
+
+  f.glm2 <- as.formula(paste(paste(depvar,paste(paste(covars3, collapse = " + ", sep = ""),""), sep = " ~ ")
+  ))
+
+  #Run initial model to get linear trends
+  gm <- glm(f.glm,
+            family='gaussian',
+            data=df0)
+
+  df0 <- df0 |> mutate(pred = predict(gm, df0), resids = t0-pred)
+  #Create additional layer with residuals using random forest model.
+  rf <- ranger(f.rf,
+               split.select.weights=wts,
+               #num.trees = 1500,
+               data=df0)
+  resids <- terra::predict(rss, rf)
+  resids <- focalmed(resids, rs*3); names(resids) <- 'resids'
+
+
+  rss1 <- c(rss, resids)
+
+  df1 <- terra::spatSample(rss1, sampdens) |> subset(!is.na(t0))
+
+
+  gm2 <- glm(f.glm2,
+             family='gaussian',
+             data=df1)
+
+  pred <- terra::predict(rss1, gm2) ; names(pred) <- 'pred'
+  return(pred)}
 
 
 
