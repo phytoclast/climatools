@@ -736,12 +736,21 @@ makexyrast <- function(x, rotations=0){
 #'
 #' @examples
 refit <- function(x, elev=NULL, cropto=NULL, cropfrom=NULL, rotations=0, sampdens = 1500, altlayer = NULL){
+  require(terra)
+
+  t0 <- x[[1]]
   #If cropping extent provided
   if(!is.null(cropto)){
-    t0 <- crop(x, cropto);
+    t0 <- crop(x[[1]], cropto);
   }
+
+  #determine units of layer and rescale focal analyses so that they are proportional to resolution
+  u <- terra::linearUnits(t0)
+  u <- ifelse(u == 0, 10000000/90, u)
+  rs <- (terra::res(t0)*u)[1]
+
   #Standardize name for extracting to a data frame to be used by formula
-  names(t0) <- 't0'
+  # names(t0) <- "t0"
 
   #dummy values for having no data for these layers
   erel <- NULL
@@ -754,83 +763,100 @@ refit <- function(x, elev=NULL, cropto=NULL, cropfrom=NULL, rotations=0, sampden
   if(!is.null(cropfrom)){
     t00 <- crop(x, cropfrom)
     t00 <- ifel(t00>0,NA,NA)
-    t0 <- merge(t00,t0, na.rm=FALSE); names(t0) <- 't0'
+    t0 <- terra::merge(t00,t0, na.rm=FALSE)
   }
 
   #If elevation data is used, create auxiliary layer for relative elevation which captures local inversions.
   if(!is.null(elev)){
+    # names(elev) <- 'elev'
     #get elevation data to match extent and resolution of input data
-    e0 <- project(elev, t0) |> crop(cropto)
-    #determine units of layer and rescale focal analyses so that they are proportional to resolution
-    u <- terra::linearUnits(t0)
-    u <- ifelse(u == 0, 10000000/90, u)
-    rs <- (res(e0)*u)[1]
+    e0 <- project(elev, t0) |> crop(ext(t0))
+    # names(e0) <- 'elev'
     #generate relative elevation model
     emd <- focalmed(e0, rs*10)
     erel <- e0-emd
     erel <- ifel(erel > 0,erel,0)^0.5 - ifel(-erel > 0,-erel,0)^0.5; names(erel)<-'erel'
     rss <- c(t0, e0, erel, xy0)
+    df0 <- terra::spatSample(c(t0, e0, erel, xy0), size=sampdens, xy=FALSE, values=TRUE)
     wt1 <- 1; wt2 <- 1
   }else{
     #Use only xy data instead
     rss <- c(t0, xy0)
+    df0 <- terra::spatSample(c(t0, xy0), size=sampdens, xy=FALSE, values=TRUE)
   }
   if(!is.null(altlayer)){
-    altlayer <- project(altlayer, t0) |> crop(cropto)
-    names(altlayer) <- 'altlayer'
+    altlayer <- project(altlayer, t0) |> crop(ext(t0))
+    # names(altlayer) <- 'altlayer'
     wt3 <- 1
     rss <- c(rss, altlayer)
+    df0 <- terra::spatSample(c(t0, e0, erel, xy0, altlayer), size=sampdens, xy=FALSE, values=TRUE)
   }
 
+  #Standardize name for extracting to a data frame to be used by formula
+  # names(t0) <- "t0"
+
   #Define formulas for general linear and random forest models.
-  depvar <- "t0"
+  depvar <- names(t0)
   covars1 <- c(names(xy0)[1:2],names(elev),names(erel),names(altlayer))
   covars2 <- c(names(xy0),names(elev),names(erel),names(altlayer))
   wts <- c(c(1:((rotations+1)*2))*0+1/(rotations+1), wt1,wt2,wt3)
   covars3 <- c(covars1,'resids')
 
   #Sample rasters to train models (omitting missing data)
-  df0 <- terra::spatSample(rss, sampdens) |> subset(!is.na(t0))
+  # df0 <- terra::spatSample(c(t0, e0, erel, xy0), size=sampdens, xy=TRUE, values=TRUE)
+  df0 <- df0[!is.na(df0[,depvar]),]
 
   #data points converted to spatial features to test coverage
   #dfsp <- sf::st_as_sf(df0, coords = c(x='lon', y='lat'), crs=sf::st_crs(t1)); plot(vect(dfsp))
 
-  f.glm <- as.formula(paste(paste(depvar,paste(paste(covars1, collapse = " + ", sep = ""),""), sep = " ~ ")
+  f.glm <- stats::as.formula(paste(paste(depvar,paste(paste(covars1, collapse = " + ", sep = ""),""), sep = " ~ ")
   ))
 
-  f.rf <- as.formula(paste(paste("resids",paste(paste(covars2, collapse = " + ", sep = ""),""), sep = " ~ ")
+# environment(f.glm) <- environment()
+
+  f.rf <- stats::as.formula(paste(paste("resids",paste(paste(covars2, collapse = " + ", sep = ""),""), sep = " ~ ")
   ))
 
-  f.glm2 <- as.formula(paste(paste(depvar,paste(paste(covars3, collapse = " + ", sep = ""),""), sep = " ~ ")
+  f.glm2 <- stats::as.formula(paste(paste(depvar,paste(paste(covars3, collapse = " + ", sep = ""),""), sep = " ~ ")
   ))
 
   #Run initial model to get linear trends
-  gm <- glm(f.glm,
+  gm <- stats::glm(f.glm,
             family='gaussian',
             data=df0)
 
-  df0 <- df0 |> mutate(pred = predict(gm, df0), resids = t0-pred)
-  #Create additional layer with residuals using random forest model.
-  rf <- ranger(f.rf,
+    df0$pred <- predict(gm, df0)
+    df0$resids <- df0[,depvar]-df0$pred
+
+  # #Create additional layer with residuals using random forest model.
+  rf <- ranger::ranger(f.rf,
                split.select.weights=wts,
                #num.trees = 1500,
                data=df0)
   resids <- terra::predict(rss, rf)
   resids <- focalmed(resids, rs*3); names(resids) <- 'resids'
-
-
   rss1 <- c(rss, resids)
 
-  df1 <- terra::spatSample(rss1, sampdens) |> subset(!is.na(t0))
-
+if(is.null(elev) & is.null(altlayer)){
+  df1 <- terra::spatSample(c(t0, xy0,resids), sampdens)
+}else if(is.null(altlayer)){
+  df1 <- terra::spatSample(c(t0, e0, erel, xy0,resids), sampdens)
+}else{
+  df1 <- terra::spatSample(c(t0, e0, erel, xy0, altlayer,resids), sampdens)
+}
+  df1 <- df1[!is.na(df1[,depvar]),]
 
   gm2 <- glm(f.glm2,
              family='gaussian',
              data=df1)
 
   pred <- terra::predict(rss1, gm2) ; names(pred) <- 'pred'
-  return(pred)}
+  return(pred)
 
+  #nameing within a raster enclosed within a package function doesn't always work for spatSample
+  #spatSample embedded within a package function only works directly with raster objects and can only concatenate within the function.
+
+  }
 
 
 
