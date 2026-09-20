@@ -27,7 +27,7 @@ refit(
 
 \item{sampdens}{sample density for extracting points to train models.}
 
-\item{altlayer}{optional alternative covariate layer (e.g. water body influence layer)}
+\item{altlayer}{optional alternative covariate layer(s) (can be multiple rasters combined, e.g. water body influence layer, aspects)}
 }
 \value{
 Re-fitted climatic model.

@@ -729,7 +729,7 @@ makexyrast <- function(x, rotations=0){
 #' @param cropfrom spatial extent of problematic area to be removed from model (xmin, xmax, ymin, ymax)
 #' @param rotations Optional number of rotation of XY coordinates used for smoother random forest model of linear model residuals.
 #' @param sampdens sample density for extracting points to train models.
-#' @param altlayer optional alternative covariate layer (e.g. water body influence layer)
+#' @param altlayer optional alternative covariate layer(s) (can be multiple rasters combined, e.g. water body influence layer, aspects)
 #'
 #' @returns Re-fitted climatic model.
 #' @export
@@ -787,7 +787,7 @@ refit <- function(x, elev=NULL, cropto=NULL, cropfrom=NULL, rotations=0, sampden
   if(!is.null(altlayer)){
     altlayer <- project(altlayer, t0) |> crop(ext(t0))
     # names(altlayer) <- 'altlayer'
-    wt3 <- 1
+    wt3 <- (1:length(names(altlayer)))*0+1
     rss <- c(rss, altlayer)
     df0 <- terra::spatSample(c(t0, e0, erel, xy0, altlayer), size=sampdens, xy=FALSE, values=TRUE)
   }
