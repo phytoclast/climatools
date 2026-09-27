@@ -17,9 +17,9 @@ toclimrast(
 )
 }
 \arguments{
-\item{pts}{data frame of 3 columns; first two: xy coordinates (longitude and latitude decimal degrees); third column is climate attribute like temperature.}
+\item{pts}{data frame of 3 or 4 columns; first two: xy coordinates (longitude and latitude decimal degrees); third column is climate attribute like temperature; fourth column if provided is substitute values for first covariate (e.g. station elevation being more precise than gridded elevation).}
 
-\item{altlayer}{terra raster layer (multiple layers).}
+\item{altlayer}{terra raster layer (multiple layers) representing covariates. Elevation is recomended as first covariate if station elevation provided as fourth column in point data.}
 
 \item{cropto}{Optional crop extent c(xmin, xmax, ymin, ymax).}
 

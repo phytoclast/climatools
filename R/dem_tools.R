@@ -872,8 +872,8 @@ if(is.null(elev) & is.null(altlayer)){
 
 #' Make climate raster from point data
 #'
-#' @param pts data frame of 3 columns; first two: xy coordinates (longitude and latitude decimal degrees); third column is climate attribute like temperature.
-#' @param altlayer terra raster layer (multiple layers).
+#' @param pts data frame of 3 or 4 columns; first two: xy coordinates (longitude and latitude decimal degrees); third column is climate attribute like temperature; fourth column if provided is substitute values for first covariate (e.g. station elevation being more precise than gridded elevation).
+#' @param altlayer terra raster layer (multiple layers) representing covariates. Elevation is recomended as first covariate if station elevation provided as fourth column in point data.
 #' @param cropto Optional crop extent c(xmin, xmax, ymin, ymax).
 #' @param covrange Minimum range in first covariate before building submodel coefficients.
 #' @param minrow Minimum number of data points before building submodel coefficients.
@@ -893,9 +893,13 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
   cropbuffer=0}
   #ensure that input has only 3 columns
   pts <- as.data.frame(pts)
-  pts <- pts[,1:3]
-  names(pts) <- c('x','y','z')
-
+  if(ncol(pts)>3){
+    pts <- pts[,1:4]
+    names(pts) <- c('x','y','z','original')
+  }else{
+    pts <- pts[,1:3]
+    names(pts) <- c('x','y','z')
+  }
   #crop raster to new extent with buffer
   cropto0 <- cropto + c(-cropbuffer,cropbuffer,-cropbuffer,cropbuffer)
   #crop point data extent and convert to terra spatial vector.
@@ -918,6 +922,10 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
   vts <- project(vts,altlayer)
   vtsgrd <- terra::extract(grdall,vts)
   pts <- cbind(pts,vtsgrd)
+  #if original station elevation provided, transfer to first covariate
+  if('original' %in% colnames(pts)){
+    firstcov <- names(grd)[1]
+    pts[,firstcov] <- pts[,'original']}
 
   #build formulas
   depvar <- names(pts)[3]
