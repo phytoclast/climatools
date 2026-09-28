@@ -872,8 +872,8 @@ if(is.null(elev) & is.null(altlayer)){
 
 #' Make climate raster from point data
 #'
-#' @param pts data frame of 3 or 4 columns; first two: xy coordinates (longitude and latitude decimal degrees); third column is climate attribute like temperature; fourth column if provided is substitute values for first covariate (e.g. station elevation being more precise than gridded elevation).
-#' @param altlayer terra raster layer (multiple layers) representing covariates. Elevation is recomended as first covariate if station elevation provided as fourth column in point data.
+#' @param pts Data frame of 3 or 4 columns; first two: xy coordinates (longitude and latitude decimal degrees); third column is climate attribute like temperature; fourth column if provided is substitute values for first covariate (e.g. station elevation being more precise than gridded elevation).
+#' @param altlayer Terra raster layer (multiple layers) representing covariates. Elevation is recomended as first covariate if station elevation provided as fourth column in point data.
 #' @param cropto Optional crop extent c(xmin, xmax, ymin, ymax).
 #' @param covrange Minimum range in first covariate before building submodel coefficients.
 #' @param minrow Minimum number of data points before building submodel coefficients.
@@ -1017,8 +1017,17 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
   gm2 <- stats::glm(f.glm2,
                     family='gaussian',
                     data=pts2)
-  summary(gm2)
-  1-gm2$deviance/gm2$null.deviance
+  # summary(gm2)
+  # 1-gm2$deviance/gm2$null.deviance
+
+  #reduce magnitude of xy dependent variables in proportion of xy range in data relative to crop range
+  reductionfactor <- pmin(1,(max(pts$x)-min(pts$x))/(cropto0[2]-cropto0[1]),(max(pts$y)-min(pts$y))/(cropto0[4]-cropto0[3]))
+  gm2$coefficients[2] <- gm2$coefficients[2]*reductionfactor
+  gm2$coefficients[nc] <- gm2$coefficients[nc]*reductionfactor
+  gm2$coefficients[nc+1] <- gm2$coefficients[nc+1]*reductionfactor
+  gm2$coefficients[nc*2-1] <- gm2$coefficients[nc*2-1]*reductionfactor
+  gm2$coefficients[nc*2] <- gm2$coefficients[nc*2]*reductionfactor
+
   #use model to generate prediction layer
   pred <- terra::predict(grdall2, gm2)
   #use model to generate residuals in points
