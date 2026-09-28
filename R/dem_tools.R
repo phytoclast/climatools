@@ -872,6 +872,10 @@ if(is.null(elev) & is.null(altlayer)){
 
 #' Make climate raster from point data
 #'
+#' This function generates a climatic raster from point data. The user provides covariate rasters and a data frame consisting of xy coordinates and either temperature or precipitation data.   The lapse rate of temperature with elevation and the direction of rain shadows vary over large geographic extent. Therefore, this function first establishes local linear regression coefficients by subdividing the analysis area into smaller segments or tiles. These coefficients are then rasterized and incorporated as interaction terms in a global linear model. Residuals are rendered (via random forest or interpolation) and smoothed and then added to the model in the final step.
+#'
+#' Zero limited precipitation and daily temperature range data should be transformed to avoid modeling negative values. Covariates are extracted from the raster to the points. As an option, a fourth variable can be added to the point data to allow for actual station elevation to be used in building the model instead of the low resolution raster. Raster output will reflect the diminished elevation range of the covariate raster (but this can be amplified using the enhanceRast function). Using actual elevation is probably less critical for precipitation as precipitation is mainly related to elevation in context of uplift caused by its topographic neighborhood.
+#'
 #' @param pts Data frame of 3 or 4 columns; first two: xy coordinates (longitude and latitude decimal degrees); third column is climate attribute like temperature; fourth column if provided is substitute values for first covariate (e.g. station elevation being more precise than gridded elevation).
 #' @param altlayer Terra raster layer (multiple layers) representing covariates. Elevation is recomended as first covariate if station elevation provided as fourth column in point data.
 #' @param cropto Optional crop extent c(xmin, xmax, ymin, ymax).
@@ -885,7 +889,22 @@ if(is.null(elev) & is.null(altlayer)){
 #' @returns Climate raster matching cropped extent.
 #' @export
 #'
-#' @examples
+#' @examples #load multilayer raster of 1km or 4km resolution (can be in decimal degrees units).
+#' @examples altlayer <- rast('filepath')
+#' @examples #include only layers relevent to model, like elevation, relative elevation, a focal mean water bodies with a neighborhood of 50 km, and SAGA GIS derived wind effects analysis to identify rain shadows for 8 wind directions.Ensure that elevation is listed first to constrain point data by the range in this variable.
+#' @examples altlayer <- altlayer[[c('elev', 'relelev', 'waterbody50', 'wind000', 'wind045', 'wind090', 'wind135', 'wind180', 'wind225', 'wind270','wind315')]]
+#' @examples #load point observations of climate data
+#' @examples climatedata <- read.csv('filepath2')
+#' @examples #create a 3 column data set identifying rainfall for July as climate attribute to model.
+#' @examples pts <- as.data.frame(x=climatedata$lon, y=climatedata$lat, z=climatedata$p07)
+#' @examples #Temperature is modeled without transformation, but precipitation should be log transformed before modeling, because variability in precipitation is proportional to total amount. Add positive value to monthly precipitation to avoid log zero error (this can be reversed after modeling, but may create negative values which should be set to zero).
+#' @examples pts$z <- log10(pts$z + 1)
+#' @examples #Establish cropped extent to CONUS.
+#' @examples cropto <- c(-130,-60,25,50)
+#' @examples #Run model with a parameter ensuring that coefficients for a tile are only estimated when neighborhood expanded to enough data points to include sufficient elevation range of 500 meters (this constraint applies only to the first covariate, which is elevation). If planning to incorporate into multiple layered raster, provide appropriate layer name.
+#' @examples p07 <- toclimrast(pts, altlayer, cropto, covrange = 500); names(p07) <- 'p07'
+#' @examples plot(p07)
+
 toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5, segy=5,
                        cropbuffer=5, randforest = TRUE){
   #crop full extent if null
@@ -1048,7 +1067,7 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
   }else{
     xyz <- pts2[,c('x','y','resid')]
     gs <- gstat::gstat(formula=resid~1, locations=~x+y, data=xyz, nmax=32, set=list(idp = 2))
-    resid <- interpolate(grdall.1, gs, debug.level=0)[[1]]
+    resid <- generics::interpolate(grdall.1, gs, debug.level=0)[[1]]
   }
 
   #add residual layer to linear model prediction layer
