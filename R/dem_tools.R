@@ -1011,7 +1011,10 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
   #create formula with covariates and coefficients
   covarc1 <- names(grdall.0)[2:nc]
   intcp <- names(grdall.0)[1]
-  f.glm2 <- stats::as.formula(paste(depvar,paste(intcp, paste(covars1,"*",covarc1, collapse = " + ", sep = ""), sep = " + "), sep = " ~ "))
+
+  #formula changed to only have interaction and not coefficient as its own covariate
+  # f.glm2 <- stats::as.formula(paste(depvar,paste(intcp, paste(covars1,"*",covarc1, collapse = " + ", sep = ""), sep = " + "), sep = " ~ "))
+  f.glm2 <- stats::as.formula(paste(depvar,paste(intcp, paste(covars1,"+",covars1,":",covarc1, collapse = " + ", sep = ""), sep = " + "), sep = " ~ "))
 
   #linear model with new formula
   gm2 <- stats::glm(f.glm2,
