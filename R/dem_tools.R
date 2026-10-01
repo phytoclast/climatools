@@ -735,7 +735,38 @@ makexyrast <- function(x, rotations=0){
 #' @export
 #'
 #' @examples
-refit <- function(x, elev=NULL, cropto=NULL, cropfrom=NULL, rotations=0, sampdens = 1500, altlayer = NULL){
+#' library(climatools)
+#' library(terra)
+#' #load in raw data to create temperature raster
+#' climatedata <- read.csv(system.file("extdata", "pts.t.csv", package="climatools"))
+#' altlayer <- rast(system.file("extdata", "altlayer.tif", package="climatools") )
+#' #July temperature and include station elevation
+#' pts <- data.frame(x=climatedata$lon, y=climatedata$lat, z=climatedata$t07, elev=climatedata$elev)
+#' #crop to northern Great Plains
+#' cropto <- c(-110,-88, 40, 50)
+#'
+#' #How the layer should look
+#' t07 <- toclimrast(pts, altlayer[[1:2]], cropto, covrange = 500, randforest = F)
+#' plot(t07, col=map.pal('bcyr'))
+#'
+#' #Artificially move a data point too far north, creating an anomaly.
+#' pts[1342,]$y <- pts[1342,]$y+14
+#' points(vect(pts[1342,], geom=c("x", "y"),crs=crs('epsg:4326')))
+#' t07a <- toclimrast(pts, altlayer[[1:2]], cropto, covrange = 500, randforest = F)
+#' plot(t07a, col=map.pal('bcyr'))
+#' points(vect(pts[1342,], geom=c("x", "y"),crs=crs('epsg:4326')))
+#'
+#' #remove the anomaly
+#' cropto <- c(-105,-95,43,49)
+#' cropout <- c(-102,-97,45,48)
+#' t07aout <- refitrast(t07a, altlayer$elev, cropto, cropout, rotations=3)
+#'
+#' #Splice to patch anomalous layer
+#' t07spliced <- spliceraster(t07aout, t07a)
+#' plot(t07spliced, col=map.pal('bcyr'))
+#' points(vect(pts[1342,], geom=c("x", "y"),crs=crs('epsg:4326')))
+
+refitrast <- function(x, elev=NULL, cropto=NULL, cropfrom=NULL, rotations=0, sampdens = 1500, altlayer = NULL){
   require(terra)
 
   t0 <- x[[1]]
