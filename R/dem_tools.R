@@ -1068,7 +1068,7 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
   }else{
     xyz <- pts2[,c('x','y','resid')]
     gs <- gstat::gstat(formula=resid~1, locations=~x+y, data=xyz, nmax=32, set=list(idp = 2))
-    resid <- generics::interpolate(grdall.1, gs, debug.level=0)[[1]]
+    resid <- interpolate(grdall.1, gs, debug.level=0)[[1]]
   }
 
   #add residual layer to linear model prediction layer
