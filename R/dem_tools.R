@@ -890,22 +890,51 @@ if(is.null(elev) & is.null(altlayer)){
 #' @returns Climate raster matching cropped extent.
 #' @export
 #'
-#' @examples #load multilayer raster of 1km or 4km resolution (can be in decimal degrees units).
-#' @examples altlayer <- rast('filepath')
-#' @examples #include only layers relevent to model, like elevation, relative elevation, a focal mean water bodies with a neighborhood of 50 km, and SAGA GIS derived wind effects analysis to identify rain shadows for 8 wind directions.Ensure that elevation is listed first to constrain point data by the range in this variable.
-#' @examples altlayer <- altlayer[[c('elev', 'relelev', 'waterbody50', 'wind000', 'wind045', 'wind090', 'wind135', 'wind180', 'wind225', 'wind270','wind315')]]
-#' @examples #load point observations of climate data
-#' @examples climatedata <- read.csv('filepath2')
-#' @examples #create a 3 column data set identifying rainfall for July as climate attribute to model.
-#' @examples pts <- as.data.frame(x=climatedata$lon, y=climatedata$lat, z=climatedata$p07)
-#' @examples #Temperature is modeled without transformation, but precipitation should be log transformed before modeling, because variability in precipitation is proportional to total amount. Add positive value to monthly precipitation to avoid log zero error (this can be reversed after modeling, but may create negative values which should be set to zero).
-#' @examples pts$z <- log10(pts$z + 1)
-#' @examples #Establish cropped extent to CONUS.
-#' @examples cropto <- c(-130,-60,25,50)
-#' @examples #Run model with a parameter ensuring that coefficients for a tile are only estimated when neighborhood expanded to enough data points to include sufficient elevation range of 500 meters (this constraint applies only to the first covariate, which is elevation). If planning to incorporate into multiple layered raster, provide appropriate layer name.
-#' @examples p07 <- toclimrast(pts, altlayer, cropto, covrange = 500); names(p07) <- 'p07'
-#' @examples plot(p07)
+#' @examples
+#' #load multilayer raster of 1km or 4km resolution (can be in decimal degrees units). This layer includes elevation, proximity to water, and rain shadows for west and south winds.
+#' altlayer <- rast(system.file("extdata", "altlayer.tif", package="climatools") )
 
+#'  #include only layers relevent to model, like elevation, relative elevation, a focal mean water bodies with a neighborhood of 50 km, and SAGA GIS derived wind effects analysis to identify rain shadows for 8 wind directions.Ensure that elevation is listed first to constrain point data by the range in this variable.
+#'  #load point observations of climate data (precipitation)
+#'  climatedata <- read.csv(system.file("extdata", "pts.p.csv", package="climatools"))
+#'  #create a 3 column data set identifying rainfall for July as climate attribute to model.
+#'  pts <- data.frame(x=climatedata$lon, y=climatedata$lat, z=climatedata$p07)
+#'  #Temperature is modeled without transformation, but precipitation should be log transformed before modeling, because variability in precipitation is proportional to total amount. Add positive value to monthly precipitation to avoid log zero error (this can be reversed after modeling, but may create negative values which should be set to zero).
+#'  pts$z <- log10(pts$z + 1)
+#'  #Establish cropped extent for northwest US.
+#'  cropto <- c(-126,-105,35,50)
+#'  #Run model with a parameter ensuring that coefficients for a tile are only estimated when neighborhood expanded to enough data points to include sufficient elevation range of 500 meters (this constraint applies only to the first covariate, which is elevation). If planning to incorporate into multiple layered raster, provide appropriate layer name.
+#'  p07 <- toclimrast(pts, altlayer, cropto, covrange = 500, segx = 10, segy = 10); names(p07) <- 'p07'
+#'  plot(p07, col=rev(map.pal('bcyr')))
+#'  #Convert back to millimeters and show points
+#'  p07mm <- 10^p07-1; p07mm <- ifel(p07mm<0,0,p07mm)
+#'  plot(p07mm, breaks=c(0,5,10,20,50,100,200,400), col=rev(map.pal('bcyr')))
+#'  vts <- vect(pts, geom=c("x", "y"),crs=crs('epsg:4326'))
+#'  points(vts)
+#'
+#'  #Temperatures
+#'  climatedata <- read.csv(system.file("extdata", "pts.t.csv", package="climatools"))
+#'  #Use actual station elevation as fourth column to calculate lapse rates instead of raster layer.
+#'  pts <- data.frame(x=climatedata$lon, y=climatedata$lat, z=climatedata$t07, elev=climatedata$elev)
+#'  #Crop to the Great Lakes
+#'  cropto <- c(-95,-75, 40, 50)
+#'  #When using raster to predict temperatures we do not need rain shadows, constrain covariates to elevation and proximity to water.
+#'  t07 <- toclimrast(pts, altlayer[[1:2]], cropto, covrange = 200); names(t07) <- 't07'
+#'  plot(t07, col=map.pal('bcyr'))
+#'  #plot descrete intervals in Celsius.
+#'  plot(t07, breaks=c(12:25), col=map.pal('bcyr'))
+#'  vts <- vect(pts, geom=c("x", "y"),crs=crs('epsg:4326'))
+#'  points(vts)
+#'  #January temperature
+#'  pts <- data.frame(x=climatedata$lon, y=climatedata$lat, z=climatedata$t01, elev=climatedata$elev)
+#'  t01 <- toclimrast(pts, altlayer[[1:2]], cropto, covrange = 200); names(t01) <- 't01'
+#'  #plot continuous
+#'  plot(t01, col=map.pal('bcyr'))
+#'  #Adding residuals via interpolation instead of random forest.
+#'  t01a <- toclimrast(pts, altlayer[[1:2]], cropto, covrange = 200, randforest = FALSE); names(t01a) <- 't01'
+#'  plot(t01a, col=map.pal('bcyr'))
+#'  #add points to plot
+#'  points(vts)
 toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5, segy=5,
                        cropbuffer=5, randforest = TRUE){
   #crop full extent if null
