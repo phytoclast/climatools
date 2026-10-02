@@ -917,11 +917,15 @@ if(is.null(elev) & is.null(altlayer)){
 #' @param segy Number of segments in y axis for building submodel coefficients.
 #' @param cropbuffer Buffer around the crop extent to incorporate points into model outside cropped area (units of raster projection).
 #' @param randforest Use random forest model if true (requires ranger package) to generate coefficients and residuals layers. Alternatively, coefficients and residuals layers are interpolated solely using xy coordinate using gstats package.
+#' @param smoothresiduals Residuals by default (TRUE) are generated at a lower resolution and smoothed to remove blocky appearance. Can turn off (FALSE) for lower resolution rasters.
+#' @param refit Alternative to smooth residuals by resampling residuals raster with another random forest model for a less blocky appearance (more time intensive).
 #'
 #' @returns Climate raster matching cropped extent.
 #' @export
 #'
 #' @examples
+#' library(terra)
+#' library(climatools)
 #' #load multilayer raster of 1km or 4km resolution (can be in decimal degrees units). This layer includes elevation, proximity to water, and rain shadows for west and south winds.
 #' altlayer <- rast(system.file("extdata", "altlayer.tif", package="climatools") )
 
@@ -966,8 +970,9 @@ if(is.null(elev) & is.null(altlayer)){
 #'  plot(t01a, col=map.pal('bcyr'))
 #'  #add points to plot
 #'  points(vts)
+
 toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5, segy=5,
-                       cropbuffer=5, randforest = TRUE){
+                       cropbuffer=5, randforest = TRUE, smoothresiduals = TRUE, refit=FALSE){
   #crop full extent if null
   if(is.null(cropto)){cropto <- terra::ext(altlayer)
   cropbuffer=0}
@@ -1124,15 +1129,23 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
                           # split.select.weights=wts,
                           #num.trees = 1500,
                           data=pts2[!is.na(pts2$resid),])
-    resid <- terra::predict(grdall.1, rf2)
+    if(smoothresiduals){resid <- terra::predict(grdall.1, rf2)
+    }else{
+      resid <- terra::predict(grdall, rf2)
+    }
   }else{
     xyz <- pts2[,c('x','y','resid')]
     gs <- gstat::gstat(formula=resid~1, locations=~x+y, data=xyz, nmax=32, set=list(idp = 2))
-    resid <- interpolate(grdall.1, gs, debug.level=0)[[1]]
-  }
+    if(smoothresiduals){
+      resid <- interpolate(grdall.1, gs, debug.level=0)[[1]]
+    }else{
+      resid <- interpolate(grdall, gs, debug.level=0)[[1]]
 
+    }
+  }
   #add residual layer to linear model prediction layer
-  resid <- resid |> climatools::focalmed(50000)  |> project(grdall)
+  if(smoothresiduals){resid <- resid |> climatools::focalmed(50000)  |> project(grdall)}
+  if(refit){resid <- climatools::refitrast(resid, grdall[[1]], sampdens =pmin(ncell(grdall),50000), rotations=10)}
   model <- terra::crop(resid+pred, cropto)
   return(model)
 }

@@ -13,7 +13,9 @@ toclimrast(
   segx = 5,
   segy = 5,
   cropbuffer = 5,
-  randforest = TRUE
+  randforest = TRUE,
+  smoothresiduals = TRUE,
+  refit = FALSE
 )
 }
 \arguments{
@@ -34,6 +36,10 @@ toclimrast(
 \item{cropbuffer}{Buffer around the crop extent to incorporate points into model outside cropped area (units of raster projection).}
 
 \item{randforest}{Use random forest model if true (requires ranger package) to generate coefficients and residuals layers. Alternatively, coefficients and residuals layers are interpolated solely using xy coordinate using gstats package.}
+
+\item{smoothresiduals}{Residuals by default (TRUE) are generated at a lower resolution and smoothed to remove blocky appearance. Can turn off (FALSE) for lower resolution rasters.}
+
+\item{refit}{Alternative to smooth residuals by resampling residuals raster with another random forest model for a less blocky appearance (more time intensive).}
 }
 \value{
 Climate raster matching cropped extent.
@@ -46,6 +52,8 @@ A Linear model  was used to build the main model because it can extrapolate wher
 Zero limited precipitation and daily temperature range data should be transformed to avoid modeling negative values. Covariates are extracted from the raster to the points. As an option, a fourth variable can be added to the point data to allow for actual station elevation to be used in building the model instead of the low resolution raster. Raster output will reflect the diminished elevation range of the covariate raster (but this can be amplified using the enhanceRast function). Using actual elevation is probably less critical for precipitation as precipitation is mainly related to elevation in context of uplift caused by its topographic neighborhood.
 }
 \examples{
+library(terra)
+library(climatools)
 #load multilayer raster of 1km or 4km resolution (can be in decimal degrees units). This layer includes elevation, proximity to water, and rain shadows for west and south winds.
 altlayer <- rast(system.file("extdata", "altlayer.tif", package="climatools") )
  #include only layers relevent to model, like elevation, relative elevation, a focal mean water bodies with a neighborhood of 50 km, and SAGA GIS derived wind effects analysis to identify rain shadows for 8 wind directions.Ensure that elevation is listed first to constrain point data by the range in this variable.
