@@ -788,7 +788,7 @@ refitrast <- function(x, elev=NULL, cropto=NULL, cropfrom=NULL, rotations=0, sam
   wt1 <- NULL; wt2 <- NULL; wt3 <- NULL
 
   #Create alternative rotated XY coordinates to make a smoother random forest model.
-  xy0 <- makexyrast(t0,rotations)
+  xy0 <- makexyrast(ifel(is.na(t0),0,1),rotations)
 
   #Omit problematic data to patch with model using less problematic data from adjacent area.
   if(!is.null(cropfrom)){
@@ -863,7 +863,7 @@ refitrast <- function(x, elev=NULL, cropto=NULL, cropfrom=NULL, rotations=0, sam
   rf <- ranger::ranger(f.rf,
                split.select.weights=wts,
                #num.trees = 1500,
-               data=df0)
+               data=df0[!is.na(df0$resids),])
   resids <- terra::predict(rss, rf)
   resids <- focalmed(resids, rs*3); names(resids) <- 'resids'
   rss1 <- c(rss, resids)
