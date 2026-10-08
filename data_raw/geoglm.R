@@ -1,4 +1,5 @@
-
+library(terra)
+library(climatools)
 altlayer <- rast(system.file("extdata", "altlayer.tif", package="climatools") )
 pts.p <- read.csv(system.file("extdata", "pts.p.csv", package="climatools"))
 pts.t <- read.csv(system.file("extdata", "pts.t.csv", package="climatools"))
@@ -22,7 +23,7 @@ vts <- vect(pts[pts$pos==1,],geom=c("lon", "lat"),crs=crs('epsg:4326'))
 plot(t01);points(vts)
 
 pts <- pts[,c('lon','lat','pos')]
-altlayer=climrast; cropto=NULL; covrange=0; minrow=50; segx=10; segy=10;
+altlayer=grd; cropto=NULL; covrange=0; minrow=50; segx=10; segy=10;
 cropbuffer=5; randforest = TRUE; smoothresiduals = TRUE; refit=FALSE
 
 geoglm <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5, segy=5,
@@ -70,8 +71,8 @@ geoglm <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5, se
   depvar <- names(pts)[3]
   covars1 <- c(names(grd),names(xy0)[1:2])
   covars2 <- c(names(grd),names(xy0))
-  f.glm <- stats::as.formula(paste(paste(depvar,paste(paste("poly(",covars1,",2)", collapse = " + ", sep = ""),""), sep = " ~ ")
-  ))
+  # f.glm <- stats::as.formula(paste(paste(depvar,paste(paste("poly(",covars1,",2)", collapse = " + ", sep = ""),""), sep = " ~ ")
+  # ))
 
   #prepare regression loops
   exfactors <- c(0,0.5,1,2,5,10)
@@ -107,6 +108,12 @@ geoglm <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5, se
             erange0 <- max(pts.i$z)-min(pts.i$z)
             if(erange0 >= 0.1){
               #model segment of points and feed coefficients into points dataset
+
+              cov.unique <- apply(pts.i[,covars1], MARGIN=2, FUN=function(x){length(unique(x))})
+              usecovs <- names(cov.unique[cov.unique > 3])
+
+              f.glm <- stats::as.formula(paste(paste(depvar,paste(paste("poly(",usecovs,",2)", collapse = " + ", sep = ""),""), sep = " ~ ")
+              ))
               gm <- stats::glm(f.glm,
                                family='binomial',
                                data=pts.i)
