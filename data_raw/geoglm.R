@@ -16,8 +16,8 @@ t07 <- toclimrast(pts, altlayer, covrange = 500, segx = 10, segy = 10)
 climrast <- c(p01,p07,t01,t07);names(climrast) <- c('p01','p07','t01','t07')
 plot(climrast)
 grd <- c(altlayer,climrast)
-pts <- pts.t |> mutate(pos = ifelse(lon > -110 & lon < -100 & lat > 30 & lat < 45 &
-                                      elev > 1000 & elev < 1500, 1,0))
+pts <- pts.t |> mutate(pos = ifelse((lon > -110 & lon < -100 & lat > 30 & lat < 45 &
+                                      elev > 1000 & elev < 1500) | (lat < 40 & elev <100), 1,0))
 
 vts <- vect(pts[pts$pos==1,],geom=c("lon", "lat"),crs=crs('epsg:4326'))
 plot(t01);points(vts)
@@ -105,22 +105,22 @@ geoglm <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5, se
           #move on if segment is has too few rows to build model
           if(nrow(pts.i) > minrow){
             #move on (expand extent) if segment points do not have sufficient range in first variable (e.g. elevation) to build accurate model
-            erange0 <- max(pts.i$z)-min(pts.i$z)
-            if(erange0 >= 0.1){
+            erange0 <- nrow(pts[pts.i$z %in% 1,])
+            if(erange0 >= 10){
               #model segment of points and feed coefficients into points dataset
 
               cov.unique <- apply(pts.i[,covars1], MARGIN=2, FUN=function(x){length(unique(x))})
-              usecovs <- names(cov.unique[cov.unique > 3])
+              usecovs1 <- names(cov.unique[cov.unique >= 2])
+              usecovs2 <- names(cov.unique[cov.unique > 3])
 
-              f.glm <- stats::as.formula(paste(paste(depvar,paste(paste("poly(",usecovs,",2)", collapse = " + ", sep = ""),""), sep = " ~ ")
+              f.glm <- stats::as.formula(paste(paste(depvar,paste(paste(usecovs1,"+","I(",usecovs2,"^2)", collapse = " + ", sep = ""),""), sep = " ~ ")
               ))
               gm <- stats::glm(f.glm,
                                family='binomial',
                                data=pts.i)
               summary(gm)
               cofs <- list(gm$coefficients)
-              pts <- pts |> mutate(coeffs0 = ifelse(inner %in% 1, cofs,coeffs0),
-                                   erange = ifelse(inner %in% 1, erange0,erange))
+              pts <- pts |> mutate(coeffs0 = ifelse(inner %in% 1, cofs,coeffs0))
               success <- TRUE}
           }}}
     }}
@@ -128,7 +128,24 @@ geoglm <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5, se
 
 
   #extract coefficients from points and convert to rasters using either randomforest model or interpolation
-  cflist <-t(as.data.frame(pts$coeffs0))
+
+ allcn <- c("(Intercept)", covars1, paste0("I(",covars1,"^2)"))
+ allcndf <- data.frame(coffs=0,rownams=allcn)
+ cflist <- matrix(nrow = nrow(pts), ncol = length(covars1)*2+1)
+ cflist <- as.data.frame(cflist)
+ colnames(cflist) <- allcn
+ for(i.cv in 1:nrow(pts)){
+  l <- pts$coeffs0[i.cv]
+  df <- as.data.frame(l)
+  colnames(df) <- 'coffs'
+  df$rownams <- rownames(df)
+  df <- rbind(df,allcndf)
+  df <- aggregate(coffs ~ rownams, data=df, FUN=sum)
+  dfrn <- df$rownams
+  df <- t(df[,2])
+  colnames(df) <- dfrn
+  df <- df[,allcn,drop = FALSE]
+  cflist[i.cv,] <- df}
   nc <- ncol(cflist)
   grdall.0 <- rast(resolution=res(grdall.1), crs=crs(grdall.1), extent=ext(grdall.1), nlyrs=nc)
   for(i in 1:nc){
@@ -138,7 +155,7 @@ geoglm <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5, se
       ))
       rf <- ranger::ranger(f.rf,
                            # split.select.weights=wts,
-                           #num.trees = 1500,
+                           num.trees = 100,
                            data=pts[!is.na(pts$coeffs),])
 
       cofffs <- terra::predict(grdall.1, rf)
@@ -157,15 +174,13 @@ geoglm <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5, se
   pts2 <- pts |> cbind(extract(grdall.0,vts))
   grdall2 <- c(grdall, grdall.0)
   #create formula with covariates and coefficients
-  ii= 1:nc
-  odds <- (ii)/2!=floor((ii)/2)
-  cofodds <- ii[odds][-1]
-  cofevens <- ii[!odds]
-  covarc2 <- names(grdall.0)[cofodds]
-  covarc1 <- names(grdall.0)[cofevens]
+  # ii= 1:nc
+  # odds <- (ii)/2!=floor((ii)/2)
+  # cofodds <- ii[odds][-1]
+  # cofevens <- ii[!odds]
+  covarc2 <- names(grdall.0)[((nc-1)/2+2):nc]
+  covarc1 <- names(grdall.0)[2:((nc-1)/2+1)]
   intcp <- names(grdall.0)[1]
-
-
 
 
 
@@ -182,7 +197,7 @@ geoglm <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5, se
                     family='binomial',
                     data=pts2)
   # summary(gm2)
-  # 1-gm2$deviance/gm2$null.deviance
+   1-gm2$deviance/gm2$null.deviance
 
    #use model to generate prediction layer
   pred <- terra::predict(grdall2, gm2, type='response')
@@ -195,7 +210,7 @@ rf <- ranger::ranger(f.rf,
                      #num.trees = 1500,
                      data=pts2)
 pred <- terra::predict(grdall2, rf)
-plot(pred>.5, col=map.pal('bcyr'));points(vts[vts$z==1])
-
+plot(pred, col=map.pal('bcyr'));points(vts[vts$z==1])
+1-rf$prediction.error
   return(pred)
 }
