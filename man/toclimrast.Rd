@@ -15,7 +15,8 @@ toclimrast(
   cropbuffer = 5,
   randforest = TRUE,
   smoothresiduals = TRUE,
-  refit = FALSE
+  refit = FALSE,
+  meta = FALSE
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ toclimrast(
 \item{smoothresiduals}{Residuals by default (TRUE) are generated at a lower resolution and smoothed to remove blocky appearance. Can turn off (FALSE) for lower resolution rasters.}
 
 \item{refit}{Alternative to smooth residuals by resampling residuals raster with another random forest model for a less blocky appearance (more time intensive).}
+
+\item{meta}{Return aic and R2 values of glm model.}
 }
 \value{
 Climate raster matching cropped extent.

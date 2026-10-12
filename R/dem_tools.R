@@ -919,7 +919,7 @@ if(is.null(elev) & is.null(altlayer)){
 #' @param randforest Use random forest model if true (requires ranger package) to generate coefficients and residuals layers. Alternatively, coefficients and residuals layers are interpolated solely using xy coordinate using gstats package.
 #' @param smoothresiduals Residuals by default (TRUE) are generated at a lower resolution and smoothed to remove blocky appearance. Can turn off (FALSE) for lower resolution rasters.
 #' @param refit Alternative to smooth residuals by resampling residuals raster with another random forest model for a less blocky appearance (more time intensive).
-#'
+#' @param meta Return aic and R2 values of glm model.
 #' @returns Climate raster matching cropped extent.
 #' @export
 #'
@@ -928,7 +928,6 @@ if(is.null(elev) & is.null(altlayer)){
 #' library(climatools)
 #' #load multilayer raster of 1km or 4km resolution (can be in decimal degrees units). This layer includes elevation, proximity to water, and rain shadows for west and south winds.
 #' altlayer <- rast(system.file("extdata", "altlayer.tif", package="climatools") )
-
 #'  #include only layers relevent to model, like elevation, relative elevation, a focal mean water bodies with a neighborhood of 50 km, and SAGA GIS derived wind effects analysis to identify rain shadows for 8 wind directions.Ensure that elevation is listed first to constrain point data by the range in this variable.
 #'  #load point observations of climate data (precipitation)
 #'  climatedata <- read.csv(system.file("extdata", "pts.p.csv", package="climatools"))
@@ -972,7 +971,7 @@ if(is.null(elev) & is.null(altlayer)){
 #'  points(vts)
 
 toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5, segy=5,
-                       cropbuffer=5, randforest = TRUE, smoothresiduals = TRUE, refit=FALSE){
+                       cropbuffer=5, randforest = TRUE, smoothresiduals = TRUE, refit=FALSE, meta=FALSE){
   #crop full extent if null
   if(is.null(cropto)){cropto <- terra::ext(altlayer)
   cropbuffer=0}
@@ -1020,7 +1019,7 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
   ))
 
   #prepare regression loops
-  exfactors <- c(0,0.5,1,2,5,10)
+  exfactors <- c(0,0.1,0.2,0.5,1,1.5,2,3,5,10)
   spanx <- (cropto[2]-cropto[1])/segx
   spany <- (cropto[4]-cropto[3])/segy
   pts$inner <- NA
@@ -1101,6 +1100,10 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
   # f.glm2 <- stats::as.formula(paste(depvar,paste(intcp, paste(covars1,"*",covarc1, collapse = " + ", sep = ""), sep = " + "), sep = " ~ "))
   f.glm2 <- stats::as.formula(paste(depvar,paste(intcp, paste(covars1,"+",covars1,":",covarc1, collapse = " + ", sep = ""), sep = " + "), sep = " ~ "))
 
+  #null model with simple formula
+  gm1 <- stats::glm(f.glm,
+                    family='gaussian',
+                    data=pts2)
   #linear model with new formula
   gm2 <- stats::glm(f.glm2,
                     family='gaussian',
@@ -1110,16 +1113,24 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
 
   #reduce magnitude of xy dependent variables in proportion of xy range in data relative to crop range
   reductionfactor <- pmin(1,(max(pts$x)-min(pts$x))/(cropto0[2]-cropto0[1]),(max(pts$y)-min(pts$y))/(cropto0[4]-cropto0[3]))
-  gm2$coefficients[2] <- gm2$coefficients[2]*reductionfactor
-  gm2$coefficients[nc] <- gm2$coefficients[nc]*reductionfactor
-  gm2$coefficients[nc+1] <- gm2$coefficients[nc+1]*reductionfactor
-  gm2$coefficients[nc*2-1] <- gm2$coefficients[nc*2-1]*reductionfactor
-  gm2$coefficients[nc*2] <- gm2$coefficients[nc*2]*reductionfactor
-
+  #Use the model with a better fit
+  if(gm1$aic > gm2$aic){
+    gm <- gm2
+    gm$coefficients[2] <- gm$coefficients[2]*reductionfactor
+    gm$coefficients[nc] <- gm$coefficients[nc]*reductionfactor
+    gm$coefficients[nc+1] <- gm$coefficients[nc+1]*reductionfactor
+    gm$coefficients[nc*2-1] <- gm$coefficients[nc*2-1]*reductionfactor
+    gm$coefficients[nc*2] <- gm$coefficients[nc*2]*reductionfactor
+  }else{
+    gm <- gm1
+    gm$coefficients[nc-1] <- gm$coefficients[nc-1]*reductionfactor
+    gm$coefficients[nc] <- gm$coefficients[nc]*reductionfactor
+  }
+  #gm <- gm0
   #use model to generate prediction layer
-  pred <- terra::predict(grdall2, gm2)
+  pred <- terra::predict(grdall2, gm)
   #use model to generate residuals in points
-  pts2$pred <- predict(gm2,pts2)
+  pts2$pred <- predict(gm,pts2)
   pts2$resid <- pts2$z-pts2$pred
   #build formula to generate residual raster with either randomforest model or interolation
   if(randforest){
@@ -1147,7 +1158,10 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
   if(smoothresiduals){resid <- resid |> climatools::focalmed(50000)  |> project(grdall)}
   if(refit){resid <- climatools::refitrast(resid, grdall[[1]], sampdens =pmin(ncell(grdall),50000), rotations=10)}
   model <- terra::crop(resid+pred, cropto)
-  return(model)
+  if(meta){
+    return(list(model=model, aic=gm$aic, r2=1-gm$deviance/gm$null.deviance, aic1=gm1$aic, aic2=gm2$aic))
+  }else{
+  return(model)}
 }
 
 
