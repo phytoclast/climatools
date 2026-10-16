@@ -9,19 +9,36 @@ p07 <- toclimrast(pts, altlayer, cropto, covrange = 500, segx = 10, segy = 10); 
 plot(p07, col=rev(map.pal('bcyr')))
 r1 <- 10^p07-1
 
-r2 <- refitrast(p07mm, altlayer$elev, rotations=3)
-
+r2 <- refitrast(r1, altlayer$elev, rotations=3)
 
 
 
 plot(r1-r2)
+w=9
+r1max <- focal(r1, w=w, fun = 'max', na.rm=TRUE)
+r1min <- focal(r1, w=w, fun = 'min', na.rm=TRUE)
+r1med <- focal(r1, w=w, fun = 'median', na.rm=TRUE)
+r2max <- focal(r2, w=w, fun = 'max', na.rm=TRUE)
+r2min <- focal(r2, w=w, fun = 'min', na.rm=TRUE)
+r2med <- focal(r2, w=w, fun = 'median', na.rm=TRUE)
 
-r1max <- focal(r1, w=3, fun = 'max')
-r1min <- focal(r1, w=3, fun = 'min')
-r1med <- focal(r1, w=3, fun = 'median')
-r2max <- focal(r2, w=3, fun = 'max')
-r2min <- focal(r2, w=3, fun = 'min')
-r2med <- focal(r2, w=3, fun = 'median')
+r1top <- (r1-r1med)/(r1max-r1med+0.001); r1top <- ifel(r1top > 0,r1top,0)
+r2top <- (r2-r2med)/(r2max-r2med+0.001); r2top <- ifel(r2top > 0,r2top,0)
+r1bot <- (r1-r1med)/(r1min-r1med+0.001); r1bot <- ifel(r1bot > 0,r1bot,0)
+r2bot <- (r2-r2med)/(r2min-r2med+0.001); r2bot <- ifel(r2bot > 0,r2bot,0)
+r1rel <- r1top+r1bot
+r2rel <- r2top+r2bot
+
+rnew <- (r1max-r1med)*r2top+(r1min-r1med)*r2bot+r1med
+plot(rnew-r1)
+plot(r1-r2)
+plot(r2)
+
+rnew <- (r2max-r2med+0.001)*r2top+(r2min-r2med+0.001)*r2bot+r2med
+plot(r2 - rnew)
+
+
+
 r3 <- (r1med - r2med) + r2
 r1top <- r1max-r1med; r1top <- ifel(r1top > 0,r1top,0)
 r2top <- r2max-r2med; r2top <- ifel(r2top > 0,r2top,0)

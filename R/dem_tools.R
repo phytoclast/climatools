@@ -1165,7 +1165,36 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
 }
 
 
+#' Map distribution of values from one raster onto another raster.
+#' Function modifies the maximum, minimum, and median values of a raster to match a second raster of the same resolution and extent.
+#'
+#' @param h Raster with target spatial distribution.
+#' @param v Raster with target distribution of values.
+#' @param w Neighborhood width in terms of pixels.
+#'
+#' @returns Raster with the maximum, minimum, and median values of second raster, but the spatial distribution of the first raster.
+#' @export
+#'
+#' @examples
+#' rnew <- mapvalues(r2, r1)
+mapvalues <- function(h, v, w=5){
+r2 <- h; r1 <- v
+r1max <- focal(r1, w=w, fun = 'max', na.rm=TRUE)
+r1min <- focal(r1, w=w, fun = 'min', na.rm=TRUE)
+r1med <- focal(r1, w=w, fun = 'median', na.rm=TRUE)
+r2max <- focal(r2, w=w, fun = 'max', na.rm=TRUE)
+r2min <- focal(r2, w=w, fun = 'min', na.rm=TRUE)
+r2med <- focal(r2, w=w, fun = 'median', na.rm=TRUE)
 
+r1top <- (r1-r1med)/(r1max-r1med+0.001); r1top <- ifel(r1top > 0,r1top,0)
+r2top <- (r2-r2med)/(r2max-r2med+0.001); r2top <- ifel(r2top > 0,r2top,0)
+r1bot <- (r1-r1med)/(r1min-r1med+0.001); r1bot <- ifel(r1bot > 0,r1bot,0)
+r2bot <- (r2-r2med)/(r2min-r2med+0.001); r2bot <- ifel(r2bot > 0,r2bot,0)
+r1rel <- r1top+r1bot
+r2rel <- r2top+r2bot
+
+rnew <- (r1max-r1med)*r2top+(r1min-r1med)*r2bot+r1med
+return(rnew)}
 
 
 
