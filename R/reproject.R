@@ -315,13 +315,13 @@ reproject <- function(dem, lat=NA, lon=NA, rs = NA,  h = NA, w = NA, prj=NA, met
   # hfactor <- ifelse(!isprojected[length(st_crs(dem))], 111111.1,
   #                   ifelse(ishfeet[length(st_crs(dem))], 0.3048,
   #                          ifelse(ishusfeet[length(st_crs(dem))], 0.304800609601219, 1)))
-  hfactor <- ifelse(terra::linearUnits(dem) == 0, 111111.1, terra::linearUnits(dem))
+  hfactor <- ifelse(terra::linearUnits(dem) == 0, 40007863/360, terra::linearUnits(dem))
   r0 = mean(res(dem))*hfactor
 
   #Set resolution based on assumed resolution in meters in units of output
   x <- rast()
   crs(x) <- wkt.new
-  hfactor2 <- ifelse(terra::linearUnits(x) == 0, 111111.1, terra::linearUnits(x))
+  hfactor2 <- ifelse(terra::linearUnits(x) == 0, 40007863/360, terra::linearUnits(x))
   r = r0/hfactor2
 
   #find extent after projection
