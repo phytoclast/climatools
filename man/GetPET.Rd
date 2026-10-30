@@ -9,13 +9,13 @@ GetPET(mon, lat, th, tl, p)
 \arguments{
 \item{mon}{Month of the year number (1-12)}
 
-\item{th}{Mean daily high temperature (degrees Celsius)}
+\item{th}{Mean daily high temperature (degrees Celsius), single value or SpatRaster.}
 
-\item{tl}{Mean daily low temperature (degrees Celsius)}
+\item{tl}{Mean daily low temperature (degrees Celsius), single value or SpatRaster.}
 
-\item{p}{Mean monthly precipitation (mm)}
+\item{p}{Mean monthly precipitation (mm), single value or SpatRaster.}
 
-\item{Lat}{Latitude (-90 - 90)}
+\item{Lat}{Latitude (-90 - 90) if temperature and precipitation input is not SpatRaster.}
 }
 \value{
 Potential evapotranspiration (mm/month) adjusted for growing season.

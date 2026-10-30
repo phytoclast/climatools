@@ -210,11 +210,11 @@ GetPETdaily <- function(Ra, th, tl, p){
 
 #' Monthly potential evapotranspiration
 #'
-#' @param Lat Latitude (-90 - 90)
+#' @param Lat Latitude (-90 - 90) if temperature and precipitation input is not SpatRaster.
 #' @param mon Month of the year number (1-12)
-#' @param th Mean daily high temperature (degrees Celsius)
-#' @param tl Mean daily low temperature (degrees Celsius)
-#' @param p Mean monthly precipitation (mm)
+#' @param th Mean daily high temperature (degrees Celsius), single value or SpatRaster.
+#' @param tl Mean daily low temperature (degrees Celsius), single value or SpatRaster.
+#' @param p Mean monthly precipitation (mm), single value or SpatRaster.
 #'
 #' @return Potential evapotranspiration (mm/month) adjusted for growing season.
 #' This is the product of GetTransGrow() and GetPETDaily() functions multiplied by a "crop" coefficient of 0.85 and number of days per month, which yields average results of similar magnitude within the United States as the older Thornthwaite method where it (the Thornthwaite method) was originally calibrated.
@@ -222,9 +222,18 @@ GetPETdaily <- function(Ra, th, tl, p){
 #'
 #' @examples GetPET(mon = 6, lat = 43, th=25, tl=15, p=100)
 GetPET <- function(mon, lat, th, tl, p){
+  if(class(th) %in% "SpatRaster"){
+    e <- GetPET.rast(mon, th, tl, p)
+  }else{
+    e <- GetPET.df(mon, th, tl, p)
+  }
+  return(e)}
+
+GetPET.df <- function(mon, lat, th, tl, p){
   Ra=GetSolarRad(GetDayNumber(mon),lat)
   e =  0.85*GetTransGrow(th, tl)*GetPETdaily(Ra, th, tl, p)*GetNumberDay(mon) #0.85829 is crop coefficient to make comparable to Thornthwaite. Multiplied by growing season to zero out transpiration portion of evapotranspiration in freezing weather. Per day rate need to be multiplied by days per month to get monthly rate.
   return(e)}
+
 
 #' Thornthwaite 12 monthly potential evapotranspiration
 #'

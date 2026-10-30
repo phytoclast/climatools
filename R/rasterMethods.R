@@ -117,9 +117,9 @@ meanT.rast <- function(block, th.jan='th01', tl.jan='tl01'){
 #' @examples
 GrowTemp.rast <- function(block, t.jan='t01'){
   t.ind = which(names(block) %in% t.jan)
-  t.val <- block[,,t.ind:(t.ind+11),drop=FALSE]
+  t.val <- block[[t.ind:(t.ind+11)]]
   t.val <- ifel(t.val>0,t.val,0)
-  t.val <- max(mean(t.val[,,c(11,12,1,2,3,4),drop=FALSE]),mean(t.val[,,c(5,6,7,8,9,10),drop=FALSE]))
+  t.val <- max(mean(t.val[[c(11,12,1,2,3,4)]]),mean(t.val[[c(5,6,7,8,9,10)]]))
   names(t.val) <- 'Tg'
   return(t.val)
   }
@@ -166,9 +166,7 @@ AET.rast <- function(block, jan.p='p01',jan.e='e01'){
   e.ind = which(names(block) %in% jan.e)
   p <- block[,,p.ind:(p.ind+11),drop=FALSE]
   e <- block[,,e.ind:(e.ind+11),drop=FALSE]
-  a <- e
-  for(i in 1:12){
-  a[[i]] <- min(e[[i]],p[[i]])}
+  a <- min(e,p)
   x <- terra::app(a, fun='sum')
   names(x) <- 'a'
   return(x)
