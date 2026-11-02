@@ -5,7 +5,7 @@
 #focal neighborhood circle smoother than terra::focalMat() function
 focalCircle <- function(x, r){
   u <- linearUnits(x)
-  u <- ifelse(u == 0, 10000000/90,u)
+  u <- ifelse(u == 0, 40007863/360,u)
   rs <- res(x)[1]*u
   n = floor(r/rs)*2+1
   mx <- matrix(0, nrow = n, ncol = n)
@@ -50,7 +50,7 @@ focalmax <- function(x, r, p=c('low', 'medium', 'high','exact')){
   #establish aggregating factor when radius is too large
   #p is for precision options
   u <- linearUnits(x)
-  u <- ifelse(u == 0, 10000000/90,u)
+  u <- ifelse(u == 0, 40007863/360,u)
   rs <- res(x)[1]*u
   p=p[1]
   if(p == 'low'){
@@ -110,7 +110,7 @@ focalmin <- function(x, r, p=c('low', 'medium', 'high','exact')){
   #establish aggregating factor when radius is too large
   #p is for precision options
   u <- linearUnits(x)
-  u <- ifelse(u == 0, 10000000/90,u)
+  u <- ifelse(u == 0, 40007863/360,u)
   rs <- res(x)[1]*u
   p=p[1]
   if(p == 'low'){
@@ -172,7 +172,7 @@ focalmed <- function(x, r, p=c('low', 'medium', 'high','exact')){
   #establish aggregating factor when radius is too large
   #p is for precision options
   u <- linearUnits(x)
-  u <- ifelse(u == 0, 10000000/90,u)
+  u <- ifelse(u == 0, 40007863/360,u)
   rs <- res(x)[1]*u
   p=p[1]
   if(p == 'low'){
@@ -420,8 +420,8 @@ AmplifiedReduction <- function(hires, fact = 5){
 
 #' Restore maximum and minimum values of a resampled raster
 #'
-#' @param x Resampled or reprojected raster (lost resolution).
-#' @param y Original raster (high resolution).
+#' @param x Original raster (high resolution).
+#' @param y Resampled or reprojected raster (lost resolution).
 #' @param s Optional point simple feature vector (sf) with locations of known high points, to further enhance accuracy of elevation extremes that may have been smoothed out in DEM resampling.
 #' @param e Optional name of the column corresponding to elevation in the simple feature vector.
 #'
@@ -455,8 +455,8 @@ AmplifiedReduction <- function(hires, fact = 5){
 #' #New high point is equal to supplemental point data.
 #' minmax(denali1)
 RestoreMaxMin <- function(x,y,s=NA,e=NA){#experimental version that incorporates point data and maintains neighborhood relative to original resolution
-  hfactor1 <- ifelse(terra::linearUnits(x) == 0, 111111.1, terra::linearUnits(x))
-  hfactor2 <- ifelse(terra::linearUnits(y) == 0, 111111.1, terra::linearUnits(y))
+  hfactor1 <- ifelse(terra::linearUnits(x) == 0, 40007863/360, terra::linearUnits(x))
+  hfactor2 <- ifelse(terra::linearUnits(y) == 0, 40007863/360, terra::linearUnits(y))
   rs <- pmax(res(x)[1]*hfactor1, res(y)[1]*hfactor2)
   #dumb raster
   y.rast <- rast(xmin=ext(y)[1]-rs, xmax=ext(y)[2]+rs,
@@ -565,7 +565,7 @@ toraster <- function(x){
 
 makeWedge <- function(x, r, asp){
   u <- linearUnits(x)
-  u <- ifelse(u == 0, 10000000/90,u)
+  u <- ifelse(u == 0, 40007863/360,u)
   rs <- res(x)[1]*u
   size <- floor(r/rs)*2+1
   center <- floor(size/2)+1
@@ -602,7 +602,7 @@ shadowMax <- function(x, r, asp=270, p=c('low', 'medium', 'high','exact')){
   #establish aggregating factor when radius is too large
   #p is for precision options
   u <- linearUnits(x)
-  u <- ifelse(u == 0, 10000000/90,u)
+  u <- ifelse(u == 0, 40007863/360,u)
   rs <- res(x)[1]*u
   p=p[1]
   if(p == 'low'){
@@ -777,7 +777,7 @@ refitrast <- function(x, elev=NULL, cropto=NULL, cropfrom=NULL, rotations=0, sam
 
   #determine units of layer and rescale focal analyses so that they are proportional to resolution
   u <- terra::linearUnits(t0)
-  u <- ifelse(u == 0, 10000000/90, u)
+  u <- ifelse(u == 0, 40007863/360, u)
   rs <- (terra::res(t0)*u)[1]
 
   #Standardize name for extracting to a data frame to be used by formula
@@ -999,7 +999,7 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
   grdall.1 <- aggregate(grdall,fact=3,fun="mean")
   #get raster units to ensure that focal analyses neighborhoods are consistent
   u <- terra::linearUnits(grd)
-  u <- ifelse(u == 0, 10000000/90, u)
+  u <- ifelse(u == 0, 40007863/360, u)
   rs <- (terra::res(grd)*u)[1]
 
   #extract rasters to points
