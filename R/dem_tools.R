@@ -83,7 +83,7 @@ focalmax <- function(x, r, p=c('low', 'medium', 'high','exact')){
     x1.max <- focal(x1, fm.na, fun='max', na.rm=T)}
   #restore resolution in result
   if(fc > 1){
-    x1.max <- project(x1.max, x)
+    x1.max <- project(x1.max, x, method='mean', use_gdal=TRUE)
   }
   return(x1.max)}
 
@@ -143,7 +143,7 @@ focalmin <- function(x, r, p=c('low', 'medium', 'high','exact')){
     x1.min <- focal(x1, fm.na, fun='min', na.rm=T)}
   #restore resolution in result
   if(fc > 1){
-    x1.min <- project(x1.min, x)
+    x1.min <- project(x1.min, x, method='mean', use_gdal=TRUE)
   }
   return(x1.min)}
 
@@ -205,7 +205,7 @@ focalmed <- function(x, r, p=c('low', 'medium', 'high','exact')){
     x1.mean <- focal(x1, fm.na, fun='mean', na.rm=T)}
   #restore resolution in result
   if(fc > 1){
-    x1.mean <- project(x1.mean, x)
+    x1.mean <- project(x1.mean, x, method='mean', use_gdal=TRUE)
   }
   return(x1.mean)}
 
@@ -353,7 +353,7 @@ enhanceRast <- function(t1,e1,e2){
   #filter out bogus elevations
   e1[e1 > 9000] <- NA; e1[e1 < -500] <- NA
   #ensure grids match extent and resolution
-  e1 <- project(e1, t1)
+  e1 <- project(e1, t1, method='mean', use_gdal=TRUE)
   #ensure that grid is numeric not factor
   e1 <- e1+0
 
@@ -374,9 +374,9 @@ enhanceRast <- function(t1,e1,e2){
   wts.sum <- aggregate(wts, fact=10, fun='sum', na.rm=T)
   rate.5km <- rate.sum/(wts.sum+0.001)
   rate.5km <- focal(rate.5km, na.rm=T, fun="median")
-  t1.90 <- project(t1, e2)
-  e1.90 <- project(e1, e2)
-  rate.90 <- project(rate.5km, e2)
+  t1.90 <- project(t1, e2, method='mean', use_gdal=TRUE)
+  e1.90 <- project(e1, e2, method='mean', use_gdal=TRUE)
+  rate.90 <- project(rate.5km, e2, method='mean', use_gdal=TRUE)
   #apply lapse rate to high resolution DEM
   new.90 <- t1.90 + (e2 - e1.90)*rate.90
   return(new.90)}
@@ -476,10 +476,10 @@ RestoreMaxMin <- function(x,y,s=NA,e=NA){#experimental version that incorporates
   supermax <- focalmax(xmax, r=rs*3, p='medium')
   supermin <- focalmin(xmin, r=rs*3, p='medium')
   #bring layers to target projection
-  supermax <- project(supermax, y, method='bilinear')
-  supermin <- project(supermin, y, method='bilinear')
-  xmax <- project(xmax, y, method='bilinear')
-  xmin <- project(xmin, y, method='bilinear')
+  supermax <- project(supermax, y, method='mean', use_gdal=TRUE)
+  supermin <- project(supermin, y, method='mean', use_gdal=TRUE)
+  xmax <- project(xmax, y, method='mean', use_gdal=TRUE)
+  xmin <- project(xmin, y, method='mean', use_gdal=TRUE)
 
 
   #wider neighborhood of target raster to avoid edge artifacts when using neighborhood of original raster
@@ -801,7 +801,7 @@ refitrast <- function(x, elev=NULL, cropto=NULL, cropfrom=NULL, rotations=0, sam
   if(!is.null(elev)){
     # names(elev) <- 'elev'
     #get elevation data to match extent and resolution of input data
-    e0 <- project(elev, t0) |> crop(ext(t0))
+    e0 <- project(elev, t0, method='mean', use_gdal=TRUE) |> crop(ext(t0))
     # names(e0) <- 'elev'
     #generate relative elevation model
     emd <- focalmed(e0, rs*10)
@@ -816,7 +816,7 @@ refitrast <- function(x, elev=NULL, cropto=NULL, cropfrom=NULL, rotations=0, sam
     df0 <- terra::spatSample(c(t0, xy0), size=sampdens, xy=FALSE, values=TRUE)
   }
   if(!is.null(altlayer)){
-    altlayer <- project(altlayer, t0) |> crop(ext(t0))
+    altlayer <- project(altlayer, t0, method='mean', use_gdal=TRUE) |> crop(ext(t0))
     # names(altlayer) <- 'altlayer'
     wt3 <- (1:length(names(altlayer)))*0+1
     rss <- c(rss, altlayer)
@@ -1003,7 +1003,7 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
   rs <- (terra::res(grd)*u)[1]
 
   #extract rasters to points
-  vts <- project(vts,altlayer)
+  vts <- project(vts,altlayer, method='mean', use_gdal=TRUE)
   vtsgrd <- terra::extract(grdall,vts)
   pts <- cbind(pts,vtsgrd)
   #if original station elevation provided, transfer to first covariate
@@ -1087,7 +1087,7 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
     names(cofffs)  <- paste0("coef.",i)
     grdall.0[[i]] <- cofffs
   }
-  grdall.0 <- project(grdall.0, grdall)
+  grdall.0 <- project(grdall.0, grdall, method='mean', use_gdal=TRUE)
 
   #extract coefficients to points
   pts2 <- pts |> cbind(extract(grdall.0,vts))
@@ -1155,7 +1155,7 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
     }
   }
   #add residual layer to linear model prediction layer
-  if(smoothresiduals){resid <- resid |> climatools::focalmed(50000)  |> project(grdall)}
+  if(smoothresiduals){resid <- resid |> climatools::focalmed(50000)  |> project(grdall, method='mean', use_gdal=TRUE)}
   if(refit){resid <- climatools::refitrast(resid, grdall[[1]], sampdens =pmin(ncell(grdall),50000), rotations=10)}
   model <- terra::crop(resid+pred, cropto)
   if(meta){
