@@ -1003,7 +1003,7 @@ toclimrast <- function(pts, altlayer, cropto=NULL, covrange=0, minrow=50, segx=5
   rs <- (terra::res(grd)*u)[1]
 
   #extract rasters to points
-  vts <- project(vts,altlayer, method='mean', use_gdal=TRUE)
+  vts <- project(vts,altlayer)
   vtsgrd <- terra::extract(grdall,vts)
   pts <- cbind(pts,vtsgrd)
   #if original station elevation provided, transfer to first covariate
