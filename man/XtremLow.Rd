@@ -2,28 +2,37 @@
 % Please edit documentation in R/XtremLow.R
 \name{XtremLow}
 \alias{XtremLow}
-\title{Estimate extreme annual low temperature}
+\title{Estimate extreme annual low temperature
+Function estimates the mean annual coldest temperature of the year as it is correlated to coldest mean daily low temperature, and a combination of either the warmest and coldest months, or latitude, longitude, and elevation if known.}
 \usage{
-XtremLow(Tcl, Lat, Lon, Elev)
+XtremLow(Tcl, Tc = NULL, Tw = NULL, Lat = NULL, Lon = NULL, Elev = NULL)
 }
 \arguments{
-\item{Tcl}{Mean daily low temperature of coldest month (degrees Celsius)}
+\item{Tcl}{Mean daily low temperature of coldest month (degrees Celsius) -- required}
 
-\item{Lat}{Latitude (-90 - 90)}
+\item{Tc}{Mean temperature of the coldest month (degrees Celsius) -- optional}
 
-\item{Lon}{Longitude (-180 - 180)}
+\item{Tw}{Mean temperature of the warmest month (degrees Celsius) -- optional}
 
-\item{Elev}{Elevation above sea level (m).}
+\item{Lat}{Latitude (-90 - 90) -- optional}
+
+\item{Lon}{Longitude (-180 - 180) -- optional}
+
+\item{Elev}{Elevation above sea level (m). -- optional}
 }
 \value{
 Extreme annual low temperature (degrees Celsius) as used for plant hardiness zones.
 Estimated with a linear regression against previously published hardiness zone maps (Magarey, Borchert, & Schlegel, 2008; Daly et al., 2012) and gridded mean daily low temperature layers (Hijmans and Cameron, 2005).
+Error is about 2.1 degrees C for the coordinates method, 3.2 degrees for the mean monthly temperature method,and 3.4 degrees for just the coldest mean daily low.
+Simply subtracting a constant 9.6 degrees from mean daily low of coldest month has 4.8 degree error.
 }
 \description{
 Estimate extreme annual low temperature
+Function estimates the mean annual coldest temperature of the year as it is correlated to coldest mean daily low temperature, and a combination of either the warmest and coldest months, or latitude, longitude, and elevation if known.
 }
 \examples{
-XtremLow(15, 24, -82, 0)
+XtremLow(Tcl = 15, Lat = 24, Lon = -82, Elev = 0)
+XtremLow(Tcl = 15, Tc = 20, Tw = 24)
 }
 \references{
 Daly, C., Widrlechner, M.P., Halbleib, M.D., Smith, J.I. and Gibson, W.P., 2012. Development of a new USDA plant hardiness zone map for the United States. Journal of Applied Meteorology and Climatology, 51(2), pp.242-264.

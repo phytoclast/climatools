@@ -223,26 +223,44 @@ AET.rast.max <- function(block, jan.a='a01', nmonth = 3){
 }
 
 #' Raster method for extreme annual low temperature.
+#' Function estimates the mean annual coldest temperature of the year as it is correlated to coldest mean daily low temperature, and a combination of either the warmest and coldest months, or latitude, longitude, and elevation if known.
 #'
-#' @param Tcl Raster of Mean daily low temperature for coldest month.
+#'
+#' @param Tcl Raster of Mean daily low temperature for coldest month (required).
 #' @param Tc Raster of Mean temperature for coldest month (optional).
 #' @param Tw Raster of Mean temperature for warmest month (optional).
+#' @param addResids Add generalized residuals raster?
 #'
-#' @returns Estimated mean annual extreme low temperature based on analysis other data sets.
+#' @returns Extreme annual low temperature (degrees Celsius) as used for plant hardiness zones.
+#' Estimated with a linear regression against previously published hardiness zone maps (Magarey, Borchert, & Schlegel, 2008; Daly et al., 2012) and gridded mean daily low temperature layers (Hijmans and Cameron, 2005).
+#' Errors are about 3.2 degrees when inputs include warmest and coldest mean monthly temperatures (with coldest month daily low temperature), and 3.4 degrees if only the coldest mean daily low temperature is used.
+#' Simply subtracting a constant 9.6 degrees from mean daily low of coldest month has 4.8 degree error.Error is reduced to about 2.1 degrees C when generalized residuals are added.
 #' @export
 #'
 #' @examples
-XtremLow.rast <- function(Tcl, Tc=NULL, Tw=NULL){
+XtremLow.rast <- function(Tcl, Tc=NULL, Tw=NULL, addResids=FALSE){
   require(terra)
-  xyr <- rast(nrows=180, ncols=360, nlyrs=1, crs=crs('EPSG:4326'), extent=ext(-180,180,-90,90), vals=1)
-  tintercept <- climatools::tintercept
-  tintercept <- rasterize(tintercept[,c('x','y')], xyr, values=tintercept$lyr1)
-  tintercept <- tintercept |> project(Tcl)
-  if(!is.null(Tc)&!is.null(Tw)){
-    Tclx0 <- -4.368e-02+-1.636e-03*Tc+1.378e-03*Tw+-4.368e-02+-6.210e-03*Tcl+1.043e+00*tintercept}else{
-      Tclx0 <- -5.796e-02+-7.238e-03*Tcl+1.080e+00*tintercept}
-  Tclx0 <- 10^Tclx0
-  Tclx <- Tcl - Tclx0
+  interast <- system.file("extdata", 'interast.tif', package = "climatools")
+  interast <- interast |> project(Tcl)
+  if(!is.null(Tc) & !is.null(Tw)){
+    if(addResids){
+      Tclx <- -12.23716 +
+        Tcl * 0.53050 +
+        Tc * 0.67559 +
+        Tw * -0.06138 +
+        interast
+      Tclx <- min(Tcl-1,Tclx)
+    }else{
+      Tclx <- -12.23716 +
+        Tcl * 0.53050 +
+        Tc * 0.67559 +
+        Tw * -0.06138
+    }
+
+  }else{
+    Tclx <- -10.031868+
+      Tcl * 1.210591
+  }
   names(Tclx) <- 'Tclx'
   return(Tclx)}
 

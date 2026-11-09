@@ -1,21 +1,29 @@
 #' @title Estimate extreme annual low temperature
+#' Function estimates the mean annual coldest temperature of the year as it is correlated to coldest mean daily low temperature, and a combination of either the warmest and coldest months, or latitude, longitude, and elevation if known.
 #'
-#' @param Tcl Mean daily low temperature of coldest month (degrees Celsius)
-#' @param Lat Latitude (-90 - 90)
-#' @param Lon Longitude (-180 - 180)
-#' @param Elev Elevation above sea level (m).
+#' @param Tcl Mean daily low temperature of coldest month (degrees Celsius) -- required
+#' @param Tc Mean temperature of the coldest month (degrees Celsius) -- optional
+#' @param Tw Mean temperature of the warmest month (degrees Celsius) -- optional
+#' @param Lat Latitude (-90 - 90) -- optional
+#' @param Lon Longitude (-180 - 180) -- optional
+#' @param Elev Elevation above sea level (m). -- optional
 #'
 #' @return Extreme annual low temperature (degrees Celsius) as used for plant hardiness zones.
 #' Estimated with a linear regression against previously published hardiness zone maps (Magarey, Borchert, & Schlegel, 2008; Daly et al., 2012) and gridded mean daily low temperature layers (Hijmans and Cameron, 2005).
+#' Error is about 2.1 degrees C for the coordinates method, 3.2 degrees for the mean monthly temperature method,and 3.4 degrees for just the coldest mean daily low.
+#' Simply subtracting a constant 9.6 degrees from mean daily low of coldest month has 4.8 degree error.
+
 #' @references Daly, C., Widrlechner, M.P., Halbleib, M.D., Smith, J.I. and Gibson, W.P., 2012. Development of a new USDA plant hardiness zone map for the United States. Journal of Applied Meteorology and Climatology, 51(2), pp.242-264.
 #' @references Hijmans, R.J., S.E. Cameron, J.L. Parra, P.G. Jones and A. Jarvis, 2005. Very high resolution interpolated climate surfaces for global land areas. International Journal of Climatology 25: 1965-1978. (http://www.worldclim.org/version1)
 #' @references Magarey, R.D., Borchert, D.M. and Schlegel, J.W., 2008. Global plant hardiness zones for phytosanitary risk analysis. Scientia Agricola, 65(SPE), pp.54-59.
 #'
 #' @export
 #'
-#' @examples XtremLow(15, 24, -82, 0)
-XtremLow <- function(Tcl, Lat, Lon, Elev){
-  Tcl <- min(Tcl)
+#' @examples XtremLow(Tcl = 15, Lat = 24, Lon = -82, Elev = 0)
+#' XtremLow(Tcl = 15, Tc = 20, Tw = 24)
+XtremLow <- function(Tcl, Tc=NULL, Tw=NULL,Lat=NULL, Lon=NULL, Elev=NULL){
+  if(!is.null(Lat) & !is.null(Lon) & !is.null(Elev)){
+
   pacificsouth <- 1/((((Lat - -22.7)/13)^2 + ((Lon - -82.3)/14)^2)^2+1)
   amazon2 <- 1/((((Lat - -10.2)/5)^2 + ((Lon - -59.9)/10)^2)^2+1)
   amazon1 <- 1/((((Lat - -2.8)/14)^2 + ((Lon - -61.3)/19)^2)^2+1)
@@ -68,7 +76,27 @@ XtremLow <- function(Tcl, Lat, Lon, Elev){
     washington *	3.597	+
     colorado *	1.458	+
     hawaii *	6.673
-  return(Tclx)}
+  }else if(!is.null(Tc) & !is.null(Tw)){
+    Tclx <- -12.23716 +
+      Tcl * 0.53050 +
+      Tc * 0.67559 +
+      Tw * -0.06138
+  }else{
+    Tclx <- -10.031868+
+      Tcl * 1.210591
+  }
+  return(Tclx)
+}
+
+
+
+
+
+
+
+
+
+
 
 
 #' @title Growing season temperature

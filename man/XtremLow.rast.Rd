@@ -2,20 +2,27 @@
 % Please edit documentation in R/rasterMethods.R
 \name{XtremLow.rast}
 \alias{XtremLow.rast}
-\title{Raster method for extreme annual low temperature.}
+\title{Raster method for extreme annual low temperature.
+Function estimates the mean annual coldest temperature of the year as it is correlated to coldest mean daily low temperature, and a combination of either the warmest and coldest months, or latitude, longitude, and elevation if known.}
 \usage{
-XtremLow.rast(Tcl, Tc = NULL, Tw = NULL)
+XtremLow.rast(Tcl, Tc = NULL, Tw = NULL, addResids = FALSE)
 }
 \arguments{
-\item{Tcl}{Raster of Mean daily low temperature for coldest month.}
+\item{Tcl}{Raster of Mean daily low temperature for coldest month (required).}
 
 \item{Tc}{Raster of Mean temperature for coldest month (optional).}
 
 \item{Tw}{Raster of Mean temperature for warmest month (optional).}
+
+\item{addResids}{Add generalized residuals raster?}
 }
 \value{
-Estimated mean annual extreme low temperature based on analysis other data sets.
+Extreme annual low temperature (degrees Celsius) as used for plant hardiness zones.
+Estimated with a linear regression against previously published hardiness zone maps (Magarey, Borchert, & Schlegel, 2008; Daly et al., 2012) and gridded mean daily low temperature layers (Hijmans and Cameron, 2005).
+Errors are about 3.2 degrees when inputs include warmest and coldest mean monthly temperatures (with coldest month daily low temperature), and 3.4 degrees if only the coldest mean daily low temperature is used.
+Simply subtracting a constant 9.6 degrees from mean daily low of coldest month has 4.8 degree error.Error is reduced to about 2.1 degrees C when generalized residuals are added.
 }
 \description{
 Raster method for extreme annual low temperature.
+Function estimates the mean annual coldest temperature of the year as it is correlated to coldest mean daily low temperature, and a combination of either the warmest and coldest months, or latitude, longitude, and elevation if known.
 }
