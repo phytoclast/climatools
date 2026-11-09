@@ -10,9 +10,32 @@
 #'
 #' @examples generateTemp(-5,21)
 generateTemp <- function(t01,t07){
-  mon=c(1,2,3,4,5,6,7,8,9,10,11,12)
-  t=round((t01-t07)/2*cos((mon-1)/12*2*3.141592)+(t01+t07)/2,1)
-  return(t)}
+  #set of 12 month numbers
+  mon=1:12
+  if(length(Tc)>1){
+    #set of 12 month numbers with leading zeros
+    mmon <- sprintf("%02d", mon)
+    #matrix to fill the calculations
+    mat <- matrix(nrow = length(t01), ncol = 12)
+
+    #function to do the work for each cell
+    func <- function(i, j) {
+      round((t01[i]-t07[i])/2*cos((mon[j]-1)/12*2*3.141592)+(t01[i]+t07[i])/2,1)
+    }
+    # Grid of row (i) and column (j) indices
+    indices <- expand.grid(i = 1:nrow(mat), j = 1:ncol(mat))
+
+    # Vectorize or use mapply across the index pairs
+    res_vector <- mapply(func, indices$i, indices$j)
+
+    # Reshape back into a matrix
+    T.results <- matrix(res_vector, nrow = nrow(mat), ncol = ncol(mat))
+    T.results <- as.data.frame(T.results)
+    colnames(T.results) <- paste0('t',mmon)
+  }else{
+    T.results=round((t01-t07)/2*cos((mon-1)/12*2*3.141592)+(t01+t07)/2,1)
+  }
+  return(T.results)}
 
 #this generates a generalized precipitation curve from a mean, maximum, minimum,  precipitation, and maximum and minimum months.
 #' Generate precipitation monthly time series

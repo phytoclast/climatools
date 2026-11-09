@@ -233,6 +233,24 @@ if(v_return %in% 't'){ctab$r = ctab$t}else if(v_return %in% 'b'){
   return(extr)
 }
 
+#potential for fucture function updates
+# Tw <- (0:40)
+# Tc <- -40:30
+#
+# climin <- data.frame(Tw=Tw) |> merge(data.frame(Tc=Tc)) |> subset(Tw >= Tc)
+#
+# climt <- generateTemp0(climin$Tc, climin$Tw)
+# climbt <- sapply(climt, function(x){ifelse(x > 0,x,0)})
+# climt$Tg <- pmax(apply(climbt[,c(1,2,3,4,11,12)],MARGIN=1,FUN='mean'), apply(climbt[,c(5,6,7,8,9,10)],MARGIN=1,FUN='mean'))
+# climt$Tw <- apply(climt[,1:12], 1, 'max')
+# climt$Tc <- apply(climt[,1:12], 1, 'min')
+# climt$Tcl <- climt$Tc - 5
+# climt$Tclx <- XtremLow(climt$Tcl,climt$Tc,climt$Tw)
+
+
+
+
+
 
 
 # t1 <- climatools::generateTemp(-20,12)
