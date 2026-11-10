@@ -2,7 +2,8 @@
 % Please edit documentation in R/XtremLow.R
 \name{XtremLow}
 \alias{XtremLow}
-\title{Estimate extreme annual low temperature
+\title{Estimate extreme annual low temperature.
+
 Function estimates the mean annual coldest temperature of the year as it is correlated to coldest mean daily low temperature, and a combination of either the warmest and coldest months, or latitude, longitude, and elevation if known.}
 \usage{
 XtremLow(Tcl, Tc = NULL, Tw = NULL, Lat = NULL, Lon = NULL, Elev = NULL)
@@ -22,12 +23,14 @@ XtremLow(Tcl, Tc = NULL, Tw = NULL, Lat = NULL, Lon = NULL, Elev = NULL)
 }
 \value{
 Extreme annual low temperature (degrees Celsius) as used for plant hardiness zones.
+
 Estimated with a linear regression against previously published hardiness zone maps (Magarey, Borchert, & Schlegel, 2008; Daly et al., 2012) and gridded mean daily low temperature layers (Hijmans and Cameron, 2005).
 Error is about 2.1 degrees C for the coordinates method, 3.2 degrees for the mean monthly temperature method,and 3.4 degrees for just the coldest mean daily low.
 Simply subtracting a constant 9.6 degrees from mean daily low of coldest month has 4.8 degree error.
 }
 \description{
-Estimate extreme annual low temperature
+Estimate extreme annual low temperature.
+
 Function estimates the mean annual coldest temperature of the year as it is correlated to coldest mean daily low temperature, and a combination of either the warmest and coldest months, or latitude, longitude, and elevation if known.
 }
 \examples{
