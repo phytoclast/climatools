@@ -12,7 +12,7 @@
 generateTemp <- function(t01,t07){
   #set of 12 month numbers
   mon=1:12
-  if(length(Tc)>1){
+  if(length(t01)>1){
     #set of 12 month numbers with leading zeros
     mmon <- sprintf("%02d", mon)
     #matrix to fill the calculations
