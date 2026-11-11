@@ -225,7 +225,7 @@ GetPET <- function(mon, lat, th, tl, p){
   if(class(th) %in% "SpatRaster"){
     e <- GetPET.rast(mon, th, tl, p)
   }else{
-    e <- GetPET.df(mon, th, tl, p)
+    e <- GetPET.df(mon, lat, th, tl, p)
   }
   return(e)}
 
